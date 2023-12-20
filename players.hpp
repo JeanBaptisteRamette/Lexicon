@@ -31,5 +31,7 @@ size_t GetCurrentPlayerId(const PlayerList& players);
 Player& GetPlayerById(const PlayerList& players, size_t playerId);
 Player& GetCurrentPlayer(const PlayerList& players);
 
+void NextPlayer(PlayerList& players);
+
 
 #endif //IUT_PROJET2_PLAYERS_HPP

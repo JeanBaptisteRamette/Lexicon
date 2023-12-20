@@ -11,6 +11,7 @@ void ApplyScorePenalty(Player& player, unsigned int increment)
 
 PlayerList PlayerListCreate(size_t playerCount)
 {
+    assert(playerCount >= MIN_PLAYER_COUNT);
     assert(playerCount <= MAX_PLAYER_COUNT);
 
     PlayerList players {
@@ -57,3 +58,14 @@ Player& GetCurrentPlayer(const PlayerList& players)
 {
     return GetPlayerById(players, GetCurrentPlayerId(players));
 }
+
+void NextPlayer(PlayerList& players)
+{
+    if (players.currentPlayerId == players.playerCount - 1)
+        players.currentPlayerId = 0;
+    else
+        ++players.currentPlayerId;
+}
+
+
+

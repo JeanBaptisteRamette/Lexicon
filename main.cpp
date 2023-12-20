@@ -86,6 +86,8 @@ int main(int argc, const char* argv[])
                 DisplayInvalidCommand();
                 break;
         }
+
+        NextPlayer(players);
     }
 
     WordListDestroy(dictionary);
