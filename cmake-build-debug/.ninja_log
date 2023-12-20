@@ -1,0 +1,9 @@
+# ninja log v5
+17	478	7245469849628985	CMakeFiles/IUT_Projet2.dir/cardlist.cpp.obj	cdb9f19cfc0448b0
+8	84	7245276050877963	CMakeFiles/IUT_Projet2.dir/players.cpp.obj	c4a86aab33183a0
+11	1061	7248026339153321	CMakeFiles/IUT_Projet2.dir/gamelogic.cpp.obj	c619955e1260b18
+14	498	7245372257933817	CMakeFiles/IUT_Projet2.dir/cardstack.cpp.obj	ad9bb28163b3567e
+0	586	7248026470572564	CMakeFiles/IUT_Projet2.dir/main.cpp.obj	e23806472eed35d8
+25	502	7248000554253560	CMakeFiles/IUT_Projet2.dir/wordlist.cpp.obj	ccd8582cb2c55073
+12	946	7248000558697230	CMakeFiles/IUT_Projet2.dir/gameinterface.cpp.obj	d7074d400dfb4ab7
+589	718	7248026471622896	IUT_Projet2.exe	83369ff03c4ddcb8
