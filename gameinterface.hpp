@@ -14,6 +14,7 @@ void DisplayInvalidCommand();
 void DisplayInvalidWord();
 void DisplayGameState(const PlayerList& players, const CardStack& exposedCards, const WordList& placedWords);
 void DisplayScores(const PlayerList& players);
+void DisplayGameOver();
 
 Command GetPlayerCommand();
 

@@ -14,6 +14,7 @@ struct Player
 
 void ApplyScorePenalty(Player& player, unsigned int increment);
 unsigned int GetTotalScore(const Player& player);
+bool IsPlayerOut(const Player& player);
 bool HasPlayerWonRound(const Player& player);
 
 struct PlayerList

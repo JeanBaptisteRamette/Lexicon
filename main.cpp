@@ -90,7 +90,12 @@ int main(int argc, const char* argv[])
         if (HasPlayerWonRound(currentPlayer))
         {
             DisplayScores(players);
-            break;
+
+            if (IsGameOver(players))
+            {
+                DisplayGameOver();
+                break;
+            }
         }
 
         RotateCurrentPlayer(players);

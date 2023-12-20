@@ -42,6 +42,21 @@ void ShuffleCards(CardList& cards)
     }
 }
 
+bool IsGameOver(const PlayerList& players)
+{
+    size_t n = 0;
+
+    for (size_t i = 0; i < ListSize(players); ++i)
+    {
+        const Player& player = GetPlayerById(players, i);
+
+        if (!IsPlayerOut(player))
+            ++n;
+    }
+
+    return n <= 1;
+}
+
 WordList ReadDictionary()
 {
     WordList dictionary = WordListCreate(DICTIONARY_WORD_COUNT);

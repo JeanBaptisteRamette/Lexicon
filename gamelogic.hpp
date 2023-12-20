@@ -12,6 +12,8 @@ CardList CreateGameCards();
 void ShuffleCards(CardList& cards);
 void DistributeCards(PlayerList& players, CardList& cards);
 
+bool IsGameOver(const PlayerList& players);
+
 WordList ReadDictionary();
 
 void CommandTalon(Player& player, CardStack& exposedCards, CardStack& talonCards);

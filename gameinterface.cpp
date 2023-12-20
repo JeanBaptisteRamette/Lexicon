@@ -95,6 +95,11 @@ CardList ReadCards()
     return CardListFromBuffer(input, strlen(input));
 }
 
+void DisplayGameOver()
+{
+    std::cout << "La partie est finie" << std::endl;
+}
+
 
 
 
