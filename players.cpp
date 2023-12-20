@@ -3,6 +3,12 @@
 #include "definitions.hpp"
 
 
+void ApplyScorePenalty(Player& player, unsigned int increment)
+{
+    player.score += increment;
+}
+
+
 PlayerList PlayerListCreate(size_t playerCount)
 {
     assert(playerCount <= MAX_PLAYER_COUNT);

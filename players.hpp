@@ -9,8 +9,10 @@
 struct Player
 {
     CardList cards;
-    unsigned int points;
+    unsigned int score;
 };
+
+void ApplyScorePenalty(Player& player, unsigned int increment);
 
 
 struct PlayerList

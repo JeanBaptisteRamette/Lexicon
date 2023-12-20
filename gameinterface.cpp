@@ -11,12 +11,17 @@ bool IsCardValid(Card card)
 
 void DisplayValidCommands()
 {
-    std::cout << "(Commandes valides : TEPRC)\n\n";
+    std::cout << "(Commandes valides : TEPRC)" << std::endl;
 }
 
 void DisplayInvalidCommand()
 {
-    std::cout << "Coup invalide, recommencez\n";
+    std::cout << "Coup invalide, recommencez" << std::endl;
+}
+
+void DisplayInvalidWord()
+{
+    std::cout << "Mot invalide, vous passez votre tour" << std::endl;
 }
 
 void DisplayGameState(const PlayerList& players, const CardStack& exposedCards, const WordList& placedWords)
@@ -32,7 +37,7 @@ void DisplayGameState(const PlayerList& players, const CardStack& exposedCards, 
         std::cout << card;
     }
 
-    std::cout << '\n';
+    std::cout << std::endl;
 
     for (size_t i = 0; i < ListSize(placedWords); ++i)
     {
@@ -43,7 +48,7 @@ void DisplayGameState(const PlayerList& players, const CardStack& exposedCards, 
         for (size_t j = 0; j < ListSize(word); ++j)
             std::cout << CardAt(word, j);
 
-        std::cout << '\n';
+        std::cout << std::endl;
     }
 }
 

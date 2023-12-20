@@ -8,8 +8,10 @@
 #include "wordlist.hpp"
 
 
-#include <algorithm>
+// #include <algorithm>
 
+
+// TODO: Que faire si le joueur n'a pas les cartes pour placer son mot ?
 
 int main(int argc, const char* argv[])
 {

@@ -14,7 +14,9 @@ enum
     DICTIONARY_WORD_COUNT = 369085,
     DICTIONARY_MAX_WORD_SIZE = 15,
 
-    MAX_PLAYER_COUNT = 4
+    MAX_PLAYER_COUNT = 4,
+
+    INVALID_WORD_PENALTY = 3
 };
 
 typedef char Card;

@@ -176,6 +176,8 @@ void CommandPlace(Player& player, WordList& placedWords, const WordList& diction
     // Vérifier que le mot peut être formé par le joueur et que le mot existe
     if (!HasCards(player, word) || !IsWordValid(dictionary, word))
     {
+        ApplyScorePenalty(player, INVALID_WORD_PENALTY);
+        DisplayInvalidWord();
         CardListDestroy(word);
         return;
     }
@@ -229,7 +231,11 @@ void CommandReplace(Player& player, WordList& placedWords, const WordList& dicti
         }
     }
     else
+    {
+        ApplyScorePenalty(player, INVALID_WORD_PENALTY);
+        DisplayInvalidWord();
         CardListDestroy(newWord);
+    }
 
     CardListDestroy(replacedCards);
     CardListDestroy(replacerCards);
