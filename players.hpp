@@ -9,11 +9,12 @@
 struct Player
 {
     CardList cards;
-    unsigned int score;
+    unsigned int penalty;
 };
 
 void ApplyScorePenalty(Player& player, unsigned int increment);
-
+unsigned int GetTotalScore(const Player& player);
+bool HasPlayerWonRound(const Player& player);
 
 struct PlayerList
 {
@@ -31,7 +32,7 @@ size_t GetCurrentPlayerId(const PlayerList& players);
 Player& GetPlayerById(const PlayerList& players, size_t playerId);
 Player& GetCurrentPlayer(const PlayerList& players);
 
-bool NextPlayer(PlayerList& players);
+void RotateCurrentPlayer(PlayerList& players);
 
 
 #endif //IUT_PROJET2_PLAYERS_HPP

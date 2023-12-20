@@ -17,11 +17,14 @@ enum
     MIN_PLAYER_COUNT = 2,
     MAX_PLAYER_COUNT = 4,
 
-    INVALID_WORD_PENALTY = 3
+    INVALID_WORD_PENALTY = 3,
+
+    MAXIMUM_QUALIFIED_SCORE = 100
 };
 
 typedef char Card;
 typedef char Command;
+
 
 enum Commands
 {

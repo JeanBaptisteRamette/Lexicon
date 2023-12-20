@@ -60,8 +60,7 @@ void DisplayScores(const PlayerList& players)
     for (size_t i = 0; i < ListSize(players); ++i)
     {
         const Player& player = GetPlayerById(players, i);
-
-        std::cout << "Joueur " << i + 1 << " : " << player.score << "points" << std::endl;
+        std::cout << "Joueur " << i + 1 << " : " << GetTotalScore(player) << "points" << std::endl;
     }
 }
 

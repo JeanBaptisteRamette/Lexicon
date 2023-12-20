@@ -87,21 +87,21 @@ int main(int argc, const char* argv[])
                 break;
         }
 
-        const bool turnFinished = NextPlayer(players);
-
-        if (turnFinished)
+        if (HasPlayerWonRound(currentPlayer))
         {
             DisplayScores(players);
             break;
         }
+
+        RotateCurrentPlayer(players);
     }
 
     WordListDestroy(dictionary);
+    WordListDestroy(placedWords);
     PlayerListDestroy(players);
     CardListDestroy(gameCards);
     CardStackDestroy(talonCards);
     CardStackDestroy(exposedCards);
-    WordListDestroy(placedWords);
 
     return EXIT_SUCCESS;
 }

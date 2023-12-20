@@ -5,7 +5,26 @@
 
 void ApplyScorePenalty(Player& player, unsigned int increment)
 {
-    player.score += increment;
+    player.penalty += increment;
+}
+
+unsigned int GetTotalScore(const Player& player)
+{
+    unsigned int scores[CARDS_COUNT_VALUES] = {
+            10, 2, 8, 6, 10, 2, 4, 8, 10,
+            6, 8, 8, 8, 8, 8, 8, 4, 8,
+            8, 8, 8, 8, 8, 2, 4, 2
+    };
+
+    unsigned int score = 0;
+
+    for (size_t i = 0; i < ListSize(player.cards); ++i)
+    {
+        const Card card = CardAt(player.cards, i);
+        score += scores[card - 'A'];
+    }
+
+    return score + player.penalty;
 }
 
 
@@ -59,18 +78,25 @@ Player& GetCurrentPlayer(const PlayerList& players)
     return GetPlayerById(players, GetCurrentPlayerId(players));
 }
 
-bool NextPlayer(PlayerList& players)
+bool HasPlayerWonRound(const Player& player)
 {
-    const Player& currentPlayer = GetCurrentPlayer(players);
+    return ListSize(player.cards) == 0;
+}
 
-    const bool ret = ListSize(currentPlayer.cards) == 0;
+bool IsPlayerOut(const Player& player)
+{
+    return GetTotalScore(player) > MAXIMUM_QUALIFIED_SCORE;
+}
 
-    if (players.currentPlayerId == players.playerCount - 1)
-        players.currentPlayerId = 0;
-    else
-        ++players.currentPlayerId;
-
-    return ret;
+void RotateCurrentPlayer(PlayerList& players)
+{
+    do
+    {
+        if (players.currentPlayerId == players.playerCount - 1)
+            players.currentPlayerId = 0;
+        else
+            ++players.currentPlayerId;
+    } while (IsPlayerOut(GetCurrentPlayer(players)));
 }
 
 

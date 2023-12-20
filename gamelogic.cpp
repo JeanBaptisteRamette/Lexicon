@@ -7,14 +7,13 @@
 #include "definitions.hpp"
 #include "gameinterface.hpp"
 
-#include <string.h>
 
 CardList CreateGameCards()
 {
-    // Allouer le gameCards de carte
+    // Allouer le paquet de carte
     CardList gameCards = CardListCreate(CARDS_COUNT_GAME);
 
-    unsigned int cards_quantity[CARDS_COUNT_VALUES] = {
+    unsigned int quantities[CARDS_COUNT_VALUES] = {
             2, 2, 2, 2, 5, 1, 2, 2, 4,
             1, 1, 2, 1, 3, 2, 1, 1, 3,
             3, 3, 3, 1, 1, 1, 1, 1
@@ -22,7 +21,7 @@ CardList CreateGameCards()
 
     // Remplir le paquet de carte
     for (Card card = 'A'; card <= 'Z'; ++card)
-        while (cards_quantity[card - 'A']--)
+        while (quantities[card - 'A']--)
             CardListAppend(gameCards, card);
 
     return gameCards;
