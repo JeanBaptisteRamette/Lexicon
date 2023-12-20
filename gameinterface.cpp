@@ -52,6 +52,19 @@ void DisplayGameState(const PlayerList& players, const CardStack& exposedCards, 
     }
 }
 
+void DisplayScores(const PlayerList& players)
+{
+    std::cout << "Le tour est fini" << std::endl;
+    std::cout << "* Scores" << std::endl;
+
+    for (size_t i = 0; i < ListSize(players); ++i)
+    {
+        const Player& player = GetPlayerById(players, i);
+
+        std::cout << "Joueur " << i + 1 << " : " << player.score << "points" << std::endl;
+    }
+}
+
 Command GetPlayerCommand()
 {
     Command c;

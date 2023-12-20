@@ -87,7 +87,13 @@ int main(int argc, const char* argv[])
                 break;
         }
 
-        NextPlayer(players);
+        const bool turnFinished = NextPlayer(players);
+
+        if (turnFinished)
+        {
+            DisplayScores(players);
+            break;
+        }
     }
 
     WordListDestroy(dictionary);

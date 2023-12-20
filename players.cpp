@@ -59,12 +59,18 @@ Player& GetCurrentPlayer(const PlayerList& players)
     return GetPlayerById(players, GetCurrentPlayerId(players));
 }
 
-void NextPlayer(PlayerList& players)
+bool NextPlayer(PlayerList& players)
 {
+    const Player& currentPlayer = GetCurrentPlayer(players);
+
+    const bool ret = ListSize(currentPlayer.cards) == 0;
+
     if (players.currentPlayerId == players.playerCount - 1)
         players.currentPlayerId = 0;
     else
         ++players.currentPlayerId;
+
+    return ret;
 }
 
 

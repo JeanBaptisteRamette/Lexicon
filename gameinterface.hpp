@@ -13,6 +13,7 @@ void DisplayValidCommands();
 void DisplayInvalidCommand();
 void DisplayInvalidWord();
 void DisplayGameState(const PlayerList& players, const CardStack& exposedCards, const WordList& placedWords);
+void DisplayScores(const PlayerList& players);
 
 Command GetPlayerCommand();
 
