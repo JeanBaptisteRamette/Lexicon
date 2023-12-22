@@ -13,6 +13,7 @@ void ShuffleCards(CardList& cards);
 void DistributeCards(PlayerList& players, CardList& cards);
 
 bool IsGameOver(const PlayerList& players);
+void UpdateLosers(PlayerList& players);
 
 WordList ReadDictionary();
 

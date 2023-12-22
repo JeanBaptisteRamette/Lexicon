@@ -44,6 +44,7 @@ PlayerList PlayerListCreate(size_t playerCount)
     {
         players.players[i].cards = CardListCreate(CARDS_COUNT_PLAYER);
         players.players[i].penalty = 0;
+        players.players[i].lost = false;
     }
 
     return players;
@@ -86,11 +87,6 @@ bool HasPlayerWonRound(const Player& player)
     return ListSize(player.cards) == 0;
 }
 
-bool IsPlayerOut(const Player& player)
-{
-    return GetTotalScore(player) > MAXIMUM_QUALIFIED_SCORE;
-}
-
 void RotateCurrentPlayer(PlayerList& players)
 {
     do
@@ -99,7 +95,7 @@ void RotateCurrentPlayer(PlayerList& players)
             players.currentPlayerId = 0;
         else
             ++players.currentPlayerId;
-    } while (IsPlayerOut(GetCurrentPlayer(players)));
+    } while (GetCurrentPlayer(players).lost);
 }
 
 

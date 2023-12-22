@@ -10,11 +10,11 @@ struct Player
 {
     CardList cards;
     unsigned int penalty;
+    bool lost;
 };
 
 void ApplyScorePenalty(Player& player, unsigned int increment);
 unsigned int GetTotalScore(const Player& player);
-bool IsPlayerOut(const Player& player);
 bool HasPlayerWonRound(const Player& player);
 
 struct PlayerList

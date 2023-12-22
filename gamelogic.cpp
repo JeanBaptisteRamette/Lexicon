@@ -50,11 +50,22 @@ bool IsGameOver(const PlayerList& players)
     {
         const Player& player = GetPlayerById(players, i);
 
-        if (!IsPlayerOut(player))
+        if (!player.lost)
             ++n;
     }
 
     return n <= 1;
+}
+
+void UpdateLosers(PlayerList& players)
+{
+    for (size_t i = 0; i < ListSize(players); ++i)
+    {
+        Player& player = GetPlayerById(players, i);
+
+        if (GetTotalScore(player) > MAXIMUM_QUALIFIED_SCORE)
+            player.lost = true;
+    }
 }
 
 WordList ReadDictionary()

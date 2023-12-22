@@ -124,6 +124,7 @@ int main(int argc, const char* argv[])
         if (HasPlayerWonRound(currentPlayer))
         {
             DisplayScores(players);
+            UpdateLosers(players);
 
             if (IsGameOver(players))
             {
