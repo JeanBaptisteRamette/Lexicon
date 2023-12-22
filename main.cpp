@@ -1,4 +1,5 @@
 #include <iostream>
+#include <charconv>
 #include "gameinterface.hpp"
 #include "definitions.hpp"
 #include "gamelogic.hpp"
@@ -11,15 +12,57 @@
 // #include <algorithm>
 
 
-// TODO: Que faire si le joueur n'a pas les cartes pour placer son mot ?
+// TODO: - Que faire si le joueur n'a pas les cartes pour placer son mot ?
+//       - Les coups doivent être saisis sur une seule ligne de texte
+//       - Les cartes des joueurs éliminés sont distribués aux joueurs restants
+//       - Lorsqu’il n’y a plus de carte dans le talon, la pile des cartes exposées est reprise, battue et remise sur la table dans la position originale
+//       - Faire en sorte que les cartes du joueurs soient triées pour des algorithmes plus rapides
+//       - Réarranger le contenu des fichiers
+//       - Vérifier la dé-allocation de la mémoire dynamique
+//       - Documentation du code
+//       - Préconditions
+//       - Nombre de joueurs en arguments de ligne de commande
+//       - Renommage des structures, fonctions, et variables
+//       - Tests unitaires
+//       - Implémenter la commande 'C' compléter
+//       - Placer la boucle principale dans gamelogic.cpp
+//       - IsEmpty function for containers
+//
+//
 
-int main(int argc, const char* argv[])
+
+unsigned int ReadPlayerCount(int argc, const char* argv[])
 {
     if (argc != 2)
     {
-        std::cerr << "Nombre de players manquant\n";
-        return EXIT_FAILURE;
+        std::cerr << "Nombre de joueurs manquant" << std::endl;
+        return 0;
     }
+
+    ++argv;
+
+    const char* beg = *argv;
+    const char* end = *argv + strlen(*argv);
+
+    unsigned int playerCount;
+    const std::from_chars_result result = std::from_chars(beg, end, playerCount);
+
+    if (result.ec != std::errc() || playerCount < MIN_PLAYER_COUNT || playerCount > MAX_PLAYER_COUNT)
+    {
+        std::cerr << "Nombre de joueurs invalide" << std::endl;
+        return 0;
+    }
+
+    return playerCount;
+}
+
+
+int main(int argc, const char* argv[])
+{
+    const unsigned int playerCount = ReadPlayerCount(argc, argv);
+
+    if (!playerCount)
+        return EXIT_FAILURE;
 
     /*
      * TODO: Make players' cards sorted for faster algorithm
@@ -31,20 +74,20 @@ int main(int argc, const char* argv[])
      * std::cout << std::boolalpha << std::ranges::includes(v1, v3) << std::endl;
      */
 
-    PlayerList players = PlayerListCreate(4);
+    PlayerList players = PlayerListCreate(playerCount);
     CardList gameCards = CreateGameCards();
 
     DistributeCards(players, gameCards);
 
     // TODO: Prendre l'ownership plutôt que de copier
     CardStack talonCards = CardStackFromCardList(gameCards);
-    CardStack exposedCards = CardStackCreate(1);
+    CardStack exposedCards = CardStackCreate();
 
     CardStackPush(exposedCards, CardStackPop(talonCards));
 
     DisplayValidCommands();
 
-    WordList placedWords = WordListCreate(0);
+    WordList placedWords = WordListCreate();
     WordList dictionary = ReadDictionary();
 
     if (ListSize(dictionary) == 0)

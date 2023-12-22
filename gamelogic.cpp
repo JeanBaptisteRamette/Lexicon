@@ -255,7 +255,10 @@ void CommandReplace(Player& player, WordList& placedWords, const WordList& dicti
     CardListDestroy(replacerCards);
 }
 
-void CommandComplete(Player& player, WordList& placedWords, const WordList& dictionary) {}
+void CommandComplete(Player& player, WordList& placedWords, const WordList& dictionary)
+{
+
+}
 
 
 

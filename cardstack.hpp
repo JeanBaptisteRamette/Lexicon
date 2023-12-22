@@ -11,7 +11,7 @@ struct CardStack
 
 
 CardStack CardStackFromCardList(const CardList& cardList);
-CardStack CardStackCreate(size_t initialCapacity);
+CardStack CardStackCreate(size_t initialCapacity = 0);
 void CardStackDestroy(CardStack& cardStack);
 
 Card CardStackPeek(const CardStack& cardStack);

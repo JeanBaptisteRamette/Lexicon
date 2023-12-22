@@ -16,7 +16,7 @@ struct WordList
 };
 
 
-WordList WordListCreate(size_t initialCapacity);
+WordList WordListCreate(size_t initialCapacity = 0);
 void WordListDestroy(WordList& wordList);
 size_t ListSize(const WordList& wordList);
 CardList& WordAt(const WordList& wordList, size_t index);
