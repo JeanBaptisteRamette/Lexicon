@@ -9,7 +9,7 @@
 #include "wordlist.hpp"
 
 
-// #include <algorithm>
+#include <algorithm>
 
 
 // TODO: - Que faire si le joueur n'a pas les cartes pour placer son mot ?
@@ -64,16 +64,6 @@ int main(int argc, const char* argv[])
     if (!playerCount)
         return EXIT_FAILURE;
 
-    /*
-     * TODO: Make players' cards sorted for faster algorithm
-     * const auto v1 = {'a', 'b', 'c', 'f', 'h', 'x'};
-     * const auto v2 = {'a', 'b', 'c'};
-     * const auto v3 = {'a', 'c'};
-
-     * std::cout << std::boolalpha << std::ranges::includes(v1, v2) << std::endl;
-     * std::cout << std::boolalpha << std::ranges::includes(v1, v3) << std::endl;
-     */
-
     PlayerList players = PlayerListCreate(playerCount);
     CardList gameCards = CreateGameCards();
 
@@ -90,7 +80,7 @@ int main(int argc, const char* argv[])
     WordList placedWords = WordListCreate();
     WordList dictionary = ReadDictionary();
 
-    if (ListSize(dictionary) == 0)
+    if (ListSize(dictionary) != DICTIONARY_WORD_COUNT)
     {
         std::cerr << "Erreur lors de la lecture du dictionnaire de mots" << std::endl;
         return EXIT_FAILURE;
@@ -104,24 +94,25 @@ int main(int argc, const char* argv[])
 
         Player& currentPlayer = GetCurrentPlayer(players);
 
-        switch (command) {
-            case TALON:
+        switch (command)
+        {
+            case Commands::TALON:
                 CommandTalon(currentPlayer, exposedCards, talonCards);
                 break;
 
-            case EXPOSED:
+            case Commands::EXPOSED:
                 CommandExposed(currentPlayer, exposedCards);
                 break;
 
-            case PLACE:
+            case Commands::PLACE:
                 CommandPlace(currentPlayer, placedWords, dictionary);
                 break;
 
-            case REPLACE:
+            case Commands::REPLACE:
                 CommandReplace(currentPlayer, placedWords, dictionary);
                 break;
 
-            case COMPLETE:
+            case Commands::COMPLETE:
                 CommandComplete(currentPlayer, placedWords, dictionary);
                 break;
 

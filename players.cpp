@@ -41,7 +41,10 @@ PlayerList PlayerListCreate(size_t playerCount)
 
     // Créer une liste de carte vide pour chaque joueur
     for (size_t i = 0; i < playerCount; ++i)
+    {
         players.players[i].cards = CardListCreate(CARDS_COUNT_PLAYER);
+        players.players[i].penalty = 0;
+    }
 
     return players;
 }

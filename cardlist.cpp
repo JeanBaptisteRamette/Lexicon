@@ -3,6 +3,7 @@
 #include "cardlist.hpp"
 
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 
 CardList CardListCreate(size_t initialCapacity)
 {
@@ -76,17 +77,10 @@ bool CardListIndexOf(const CardList& cardList, Card card, size_t& index)
 
 void CardListRemove(CardList& cardList, Card card)
 {
-    for (size_t i = 0; i < ListSize(cardList); ++i)
-    {
-        if (CardAt(cardList, i) == card)
-        {
-            for (size_t j = i; j < ListSize(cardList) - 1; ++j)
-                cardList.cards[j] = cardList.cards[j + 1];
+    size_t index;
 
-            CardListRemoveLast(cardList);
-            return;
-        }
-    }
+    if (CardListIndexOf(cardList, card, index))
+        CardListRemoveAt(cardList, index);
 }
 
 size_t ListSize(const CardList& cardList)
@@ -141,6 +135,29 @@ void CardListAppend(CardList& cardList, Card card)
     // Ajouter la carte à la fin du tableau
     ++cardList.count;
     SetCardAt(cardList, cardList.count - 1, card);
+}
+
+void CardListRemoveAt(CardList& cardList, size_t index)
+{
+    assert(index < ListSize(cardList));
+
+    for (; index < ListSize(cardList) - 1; ++index)
+        cardList.cards[index] = cardList.cards[index + 1];
+
+    CardListRemoveLast(cardList);
+}
+
+CardList CardListDifference(const CardList& lhs, const CardList& rhs)
+{
+    CardList diff = CardListCopy(lhs);
+
+    for (size_t i = 0; i < ListSize(rhs); ++i)
+    {
+        const Card c = CardAt(rhs, i);
+        CardListRemove(diff, c);
+    }
+
+    return diff;
 }
 
 int CardListCompare(const CardList& lhs, const CardList& rhs)

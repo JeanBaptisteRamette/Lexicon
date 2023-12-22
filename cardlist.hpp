@@ -30,8 +30,9 @@ Card CardAt(const CardList& cardList, size_t index);
 void SetCardAt(CardList& cardList, size_t index, Card card);
 void CardListAppend(CardList& cardList, Card card);
 void CardListRemove(CardList& cardList, Card card);
+void CardListRemoveAt(CardList& cardList, size_t index);
 Card CardListRemoveLast(CardList& cardList);
-
+CardList CardListDifference(const CardList& a, const CardList& b);
 int CardListCompare(const CardList& left, const CardList& right);
 
 

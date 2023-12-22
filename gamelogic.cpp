@@ -255,9 +255,58 @@ void CommandReplace(Player& player, WordList& placedWords, const WordList& dicti
     CardListDestroy(replacerCards);
 }
 
+bool IsOrderedSublist(const CardList& a, const CardList& b)
+{
+    // assert(!IsEmpty(b));
+
+    size_t j = 0;
+
+    for (size_t i = 0; i < ListSize(a); ++i)
+    {
+        while (CardAt(b, j) != CardAt(a, i))
+        {
+            ++j;
+
+            if (j >= ListSize(b))
+                return false;
+        }
+    }
+
+    return true;
+}
+
 void CommandComplete(Player& player, WordList& placedWords, const WordList& dictionary)
 {
+    const size_t wordIndex = ReadWordNumber() - 1;
 
+    if (wordIndex >= ListSize(placedWords))
+        return;
+
+    CardList& oldWord = WordAt(placedWords, wordIndex);
+    CardList  newWord = ReadCards();
+
+    // oldWord: DOS
+    // newWord: ADOSSER
+
+    if (IsOrderedSublist(oldWord, newWord))
+    {
+        CardList diff = CardListDifference(newWord, oldWord);
+
+        // Vérifier que le mot peut être placé par le joueur
+        if (HasCards(player, diff))
+        {
+            SetWordAt(placedWords, wordIndex, newWord);
+
+            // Supprimer les cartes utilisées par le joueur de sa main
+            for (size_t i = 0; i < ListSize(diff); ++i)
+            {
+                const Card c = CardAt(diff, i);
+                CardListRemove(player.cards, c);
+            }
+        }
+
+        CardListDestroy(diff);
+    }
 }
 
 
