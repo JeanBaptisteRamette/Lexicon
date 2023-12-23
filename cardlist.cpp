@@ -82,6 +82,11 @@ void CardListRemove(CardList& cardList, Card card)
         CardListRemoveAt(cardList, index);
 }
 
+bool IsEmpty(const CardList& cardList)
+{
+    return ListSize(cardList) == 0;
+}
+
 size_t ListSize(const CardList& cardList)
 {
     return cardList.count;
@@ -103,7 +108,7 @@ void SetCardAt(CardList& cardList, size_t index, Card card)
 
 Card CardListRemoveLast(CardList& cardList)
 {
-    assert(ListSize(cardList) > 0);
+    assert(!IsEmpty(cardList));
 
     const Card backCard = CardAt(cardList, ListSize(cardList) - 1);
 

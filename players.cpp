@@ -84,7 +84,7 @@ Player& GetCurrentPlayer(const PlayerList& players)
 
 bool HasPlayerWonRound(const Player& currentPlayer)
 {
-    return ListSize(currentPlayer.cards) == 0;
+    return IsEmpty(currentPlayer.cards);
 }
 
 void RotateCurrentPlayer(PlayerList& players)

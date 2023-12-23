@@ -50,6 +50,7 @@ void CardListDestroy(CardList& cardList);
 
 bool CardListContains(const CardList& cardList, Card card);
 bool CardListIndexOf(const CardList& cardList, Card card, size_t& index);
+bool IsEmpty(const CardList& cardList);
 size_t ListSize(const CardList& cardList);
 Card CardAt(const CardList& cardList, size_t index);
 void SetCardAt(CardList& cardList, size_t index, Card card);

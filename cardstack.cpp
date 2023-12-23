@@ -27,7 +27,7 @@ void CardStackDestroy(CardStack& cardStack)
 
 Card CardStackPeek(const CardStack& cardStack)
 {
-    assert(ListSize(cardStack.list) > 0);
+    assert(!IsEmpty(cardStack.list));
 
     return CardAt(cardStack.list, ListSize(cardStack.list) - 1);
 }
@@ -39,7 +39,7 @@ void CardStackPush(CardStack& cardStack, Card card)
 
 Card CardStackPop(CardStack& cardStack)
 {
-    assert(ListSize(cardStack.list) > 0);
+    assert(!IsEmpty(cardStack.list));
 
     return CardListRemoveLast(cardStack.list);
 }

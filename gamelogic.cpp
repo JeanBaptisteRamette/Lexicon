@@ -265,7 +265,7 @@ void CommandReplace(const Command& cmd, Player& player, WordList& placedWords, c
 
 bool IsOrderedSublist(const CardList& a, const CardList& b)
 {
-    // assert(!IsEmpty(b));
+    assert(!IsEmpty(b));
 
     size_t j = 0;
 

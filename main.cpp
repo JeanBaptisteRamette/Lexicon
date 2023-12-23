@@ -10,14 +10,11 @@
 
 
 // TODO: - Que faire si le joueur n'a pas les cartes pour placer son mot ?
-//       - Les coups doivent être saisis sur une seule ligne de texte
 //       - Les cartes des joueurs éliminés sont distribués aux joueurs restants
 //       - Lorsqu’il n’y a plus de carte dans le talon, la pile des cartes exposées est reprise, battue et remise sur la table dans la position originale
 //       - Réarranger le contenu des fichiers
 //       - Vérifier la dé-allocation de la mémoire dynamique
-//       - Documentation du code
 //       - Préconditions
-//       - Nombre de joueurs en arguments de ligne de commande
 //       - Renommage des structures, fonctions, et variables
 //       - Tests unitaires
 //       - Placer la boucle principale dans gamelogic.cpp
