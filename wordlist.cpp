@@ -15,7 +15,6 @@ WordList WordListCreate(size_t initialCapacity)
 
 void WordListDestroy(WordList& wordList)
 {
-    // TODO: ListSize or capacity ?
     for (size_t i = 0; i < ListSize(wordList); ++i)
     {
         CardList& word = WordAt(wordList, i);
@@ -37,7 +36,7 @@ CardList& WordAt(const WordList& wordList, size_t index)
     return wordList.words[index];
 }
 
-void SetWordAt(WordList& wordList, size_t index, CardList word)
+void SetWordAt(WordList& wordList, size_t index, const CardList& word)
 {
     assert(index < ListSize(wordList));
 
@@ -46,7 +45,7 @@ void SetWordAt(WordList& wordList, size_t index, CardList word)
     wordList.words[index] = word;
 }
 
-void WordListAppend(WordList& wordList, CardList word)
+void WordListAppend(WordList& wordList, const CardList& word)
 {
     // Vérifier s'il est nécessaire de réallouer
     if (wordList.count >= wordList.capacity)

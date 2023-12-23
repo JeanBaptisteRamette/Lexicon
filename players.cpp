@@ -82,9 +82,9 @@ Player& GetCurrentPlayer(const PlayerList& players)
     return GetPlayerById(players, GetCurrentPlayerId(players));
 }
 
-bool HasPlayerWonRound(const Player& player)
+bool HasPlayerWonRound(const Player& currentPlayer)
 {
-    return ListSize(player.cards) == 0;
+    return ListSize(currentPlayer.cards) == 0;
 }
 
 void RotateCurrentPlayer(PlayerList& players)

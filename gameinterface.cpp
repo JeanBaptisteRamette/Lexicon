@@ -1,7 +1,9 @@
 #include <iostream>
-#include <cassert>
+#include <sstream>
 #include <iomanip>
+#include <cassert>
 #include "gameinterface.hpp"
+
 
 bool IsCardValid(Card card)
 {
@@ -60,52 +62,53 @@ void DisplayScores(const PlayerList& players)
     for (size_t i = 0; i < ListSize(players); ++i)
     {
         const Player& player = GetPlayerById(players, i);
-        std::cout << "Joueur " << i + 1 << " : " << GetTotalScore(player) << "points" << std::endl;
+        std::cout << "Joueur " << i + 1 << " : " << GetTotalScore(player) << " points" << std::endl;
     }
 }
 
-Command GetPlayerCommand()
+bool ReadPlayerCommand(Command& cmd)
 {
-    Command c;
-    std::cin >> c;
-    return c;
-}
+    char input[MAX_COMMAND_LENGTH];
 
-size_t ReadWordNumber()
-{
-    size_t index;
-    std::cin >> index;
-    return index;
-}
+    std::cin >> std::ws;
+    std::cin.getline(input, MAX_COMMAND_LENGTH);
+    std::istringstream stream(input);
 
-Card ReadCard()
-{
-    char c;
-    std::cin >> c;
-    return c;
-}
+    stream >> cmd.name;
 
-CardList ReadCards()
-{
-    Card input[CARDS_COUNT_PLAYER + 1];
+    if (stream.peek() != ' ')
+        return false;
 
-    std::cin >> std::setw(CARDS_COUNT_PLAYER + 1);
-    std::cin >> input;
+    if (cmd.name == Commands::REPLACE || cmd.name == Commands::COMPLETE)
+    {
+        stream >> cmd.wordIndex;
 
-    return CardListFromBuffer(input, strlen(input));
+        if (stream.peek() != ' ')
+            return false;
+
+        --cmd.wordIndex;
+    }
+
+    if (cmd.name == Commands::TALON || cmd.name == Commands::EXPOSED)
+    {
+        stream >> cmd.card;
+        stream >> std::ws;
+
+        return stream.eof();
+    } else
+    {
+        char cards[MAX_COMMAND_WORD_LENGTH];
+        stream >> std::setw(MAX_COMMAND_WORD_LENGTH);
+        stream >> cards;
+
+        cmd.cards = CardListFromBuffer(cards, strlen(cards));
+    }
+
+    return true;
 }
 
 void DisplayGameOver()
 {
     std::cout << "La partie est finie" << std::endl;
 }
-
-
-
-
-
-
-
-
-
 

@@ -7,15 +7,18 @@
 
 enum
 {
-    CARDS_COUNT_VALUES = 26,     // Nombre de cards différentes dans un paquet du jeu
+    MIN_PLAYER_COUNT = 2,
+    MAX_PLAYER_COUNT = 4,
+
+    CARDS_COUNT_VALUES = 26,    // Nombre de cards différentes dans un paquet du jeu
     CARDS_COUNT_GAME = 51,      // Nombre de cards totales dans un paquet du jeu
     CARDS_COUNT_PLAYER = 10,    // Nombre de cards distribuées à un joueur
 
     DICTIONARY_WORD_COUNT = 369085,
     DICTIONARY_MAX_WORD_SIZE = 15,
 
-    MIN_PLAYER_COUNT = 2,
-    MAX_PLAYER_COUNT = 4,
+    MAX_COMMAND_LENGTH = 32,
+    MAX_COMMAND_WORD_LENGTH = DICTIONARY_MAX_WORD_SIZE,
 
     INVALID_WORD_PENALTY = 3,
 
@@ -23,7 +26,6 @@ enum
 };
 
 typedef char Card;
-typedef char Command;
 
 
 enum Commands

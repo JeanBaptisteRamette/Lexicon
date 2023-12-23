@@ -19,10 +19,35 @@ struct CardList
 };
 
 
-CardList CardListCreate(size_t initialCapacity);
+/*!
+ * @brief Créer une liste de carte
+ * @param[in] initialCapacity capacité initiale de la liste, 0 par défaut
+ *            l'ajout d'élément pourra être fait si la capacité est nulle.
+ * @return La liste de cartes vide
+ */
+CardList CardListCreate(size_t initialCapacity = 0);
+
+/*!
+ * @brief Copie les éléments d'une liste de carte
+ * @param[in] copied liste de carte à copier
+ * @return Une copie de la liste
+ */
 CardList CardListCopy(const CardList& copied);
+
+/*!
+ * @brief Créer une liste de carte à partir d'un buffer
+ * @param[in] buffer Pointeur vers le début du buffer
+ * @param[in] bufferLength Nombre d'éléments du buffer à copier
+ * @return CardList de taille bufferLength et contenant les éléments du buffer copiés
+ */
 CardList CardListFromBuffer(const char* buffer, size_t bufferLength);
+
+/*!
+ * @brief
+ * @param[in] cardList
+ */
 void CardListDestroy(CardList& cardList);
+
 bool CardListContains(const CardList& cardList, Card card);
 bool CardListIndexOf(const CardList& cardList, Card card, size_t& index);
 size_t ListSize(const CardList& cardList);

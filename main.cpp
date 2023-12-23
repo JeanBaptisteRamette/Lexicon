@@ -9,14 +9,10 @@
 #include "wordlist.hpp"
 
 
-#include <algorithm>
-
-
 // TODO: - Que faire si le joueur n'a pas les cartes pour placer son mot ?
 //       - Les coups doivent être saisis sur une seule ligne de texte
 //       - Les cartes des joueurs éliminés sont distribués aux joueurs restants
 //       - Lorsqu’il n’y a plus de carte dans le talon, la pile des cartes exposées est reprise, battue et remise sur la table dans la position originale
-//       - Faire en sorte que les cartes du joueurs soient triées pour des algorithmes plus rapides
 //       - Réarranger le contenu des fichiers
 //       - Vérifier la dé-allocation de la mémoire dynamique
 //       - Documentation du code
@@ -24,13 +20,13 @@
 //       - Nombre de joueurs en arguments de ligne de commande
 //       - Renommage des structures, fonctions, et variables
 //       - Tests unitaires
-//       - Implémenter la commande 'C' compléter
 //       - Placer la boucle principale dans gamelogic.cpp
 //       - IsEmpty function for containers
 //
 //
 
 
+// TODO: Move in gameinterface.cpp
 unsigned int ReadPlayerCount(int argc, const char* argv[])
 {
     if (argc != 2)
@@ -90,35 +86,41 @@ int main(int argc, const char* argv[])
     {
         DisplayGameState(players, exposedCards, placedWords);
 
-        const Command command = GetPlayerCommand();
+        Command cmd {};
+
+        if (!ReadPlayerCommand(cmd))
+        {
+            DisplayInvalidCommand();
+            continue;
+        }
 
         Player& currentPlayer = GetCurrentPlayer(players);
 
-        switch (command)
+        switch (cmd.name)
         {
             case Commands::TALON:
-                CommandTalon(currentPlayer, exposedCards, talonCards);
+                CommandTalon(cmd, currentPlayer, exposedCards, talonCards);
                 break;
 
             case Commands::EXPOSED:
-                CommandExposed(currentPlayer, exposedCards);
+                CommandExposed(cmd, currentPlayer, exposedCards);
                 break;
 
             case Commands::PLACE:
-                CommandPlace(currentPlayer, placedWords, dictionary);
+                CommandPlace(cmd, currentPlayer, placedWords, dictionary);
                 break;
 
             case Commands::REPLACE:
-                CommandReplace(currentPlayer, placedWords, dictionary);
+                CommandReplace(cmd, currentPlayer, placedWords, dictionary);
                 break;
 
             case Commands::COMPLETE:
-                CommandComplete(currentPlayer, placedWords, dictionary);
+                CommandComplete(cmd, currentPlayer, placedWords, dictionary);
                 break;
 
             default:
                 DisplayInvalidCommand();
-                break;
+                continue;
         }
 
         if (HasPlayerWonRound(currentPlayer))

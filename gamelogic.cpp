@@ -44,17 +44,17 @@ void ShuffleCards(CardList& cards)
 
 bool IsGameOver(const PlayerList& players)
 {
-    size_t n = 0;
+    size_t activePlayerCount = 0;
 
     for (size_t i = 0; i < ListSize(players); ++i)
     {
         const Player& player = GetPlayerById(players, i);
 
         if (!player.lost)
-            ++n;
+            ++activePlayerCount;
     }
 
-    return n <= 1;
+    return activePlayerCount < MIN_PLAYER_COUNT;
 }
 
 void UpdateLosers(PlayerList& players)
@@ -115,9 +115,9 @@ void DistributeCards(PlayerList& players, CardList& cards)
     }
 }
 
-void CommandTalon(Player& player, CardStack& exposedCards, CardStack& talonCards)
+void CommandTalon(const Command& cmd, Player& player, CardStack& exposedCards, CardStack& talonCards)
 {
-    const Card card = ReadCard();
+    const Card card = cmd.card;
 
     if (!CardListContains(player.cards, card))
         return;
@@ -133,9 +133,9 @@ void CommandTalon(Player& player, CardStack& exposedCards, CardStack& talonCards
     CardListAppend(player.cards, popped);
 }
 
-void CommandExposed(Player& player, CardStack& exposedCards)
+void CommandExposed(const Command& cmd, Player& player, CardStack& exposedCards)
 {
-    const Card card = ReadCard();
+    const Card card = cmd.card;
 
     size_t index;
 
@@ -151,9 +151,6 @@ void CommandExposed(Player& player, CardStack& exposedCards)
 
 bool HasCards(const Player& player, const CardList& cards)
 {
-    // FIXME: player.cards must be sorted
-    //        cards        must be sorted
-
     int occurrences[CARDS_COUNT_VALUES] = { 0 };
 
     for (size_t i = 0; i < ListSize(player.cards); ++i)
@@ -194,9 +191,9 @@ bool IsWordValid(const WordList& dictionary, const CardList& word)
     return false;
 }
 
-void CommandPlace(Player& player, WordList& placedWords, const WordList& dictionary)
+void CommandPlace(const Command& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
 {
-    CardList word = ReadCards();
+    CardList word = cmd.cards;
 
     // Vérifier que le mot peut être formé par le joueur et que le mot existe
     if (!HasCards(player, word) || !IsWordValid(dictionary, word))
@@ -214,15 +211,15 @@ void CommandPlace(Player& player, WordList& placedWords, const WordList& diction
     WordListAppend(placedWords, word);
 }
 
-void CommandReplace(Player& player, WordList& placedWords, const WordList& dictionary)
+void CommandReplace(const Command& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
 {
-    const size_t wordIndex = ReadWordNumber() - 1;
+    const size_t wordIndex = cmd.wordIndex;
 
     if (wordIndex >= ListSize(placedWords))
         return;
 
     CardList& oldWord = WordAt(placedWords, wordIndex);
-    CardList  newWord = ReadCards();
+    CardList  newWord = cmd.cards;
 
     if (ListSize(oldWord) != ListSize(newWord))
     {
@@ -286,19 +283,17 @@ bool IsOrderedSublist(const CardList& a, const CardList& b)
     return true;
 }
 
-void CommandComplete(Player& player, WordList& placedWords, const WordList& dictionary)
+void CommandComplete(const Command& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
 {
-    const size_t wordIndex = ReadWordNumber() - 1;
+    const size_t wordIndex = cmd.wordIndex;
 
     if (wordIndex >= ListSize(placedWords))
         return;
 
     CardList& oldWord = WordAt(placedWords, wordIndex);
-    CardList  newWord = ReadCards();
+    CardList  newWord = cmd.cards;
 
-    // oldWord: DOS
-    // newWord: ADOSSER
-
+    // TODO: Improve deallocation of var newWord
     if (IsOrderedSublist(oldWord, newWord))
     {
         CardList diff = CardListDifference(newWord, oldWord);
@@ -314,10 +309,12 @@ void CommandComplete(Player& player, WordList& placedWords, const WordList& dict
                 const Card c = CardAt(diff, i);
                 CardListRemove(player.cards, c);
             }
-        }
+        } else
+            CardListDestroy(newWord);
 
         CardListDestroy(diff);
-    }
+    } else
+        CardListDestroy(newWord);
 }
 
 
