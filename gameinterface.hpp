@@ -7,15 +7,23 @@
 #include "wordlist.hpp"
 #include "cardlist.hpp"
 #include "cardstack.hpp"
+#include "gamedata.hpp"
 
-
-struct Command
+struct CommandParams
 {
     char name;
     size_t wordIndex;
     Card card;
     CardList cards;
 };
+
+/*!
+ * @brief Lis le nombre de joueurs, passé en ligne de commande
+ * @param[in] argc Le nombre d'argument du programme
+ * @param[in] argv Les arguments du programme
+ * @return Le nombre de joueurs voulue par l'utilisateur, 0 si invalide
+ */
+unsigned int ReadPlayerCount(int argc, const char* argv[]);
 
 /*!
  * @brief Affiche les commandes valides du jeu
@@ -35,11 +43,9 @@ void DisplayInvalidWord();
 /*!
  * @brief Affiche l'état du jeu, c'est à dire: le joueur actuel, la première carte exposée
  *        et les mots placés sur la table
- * @param[in] players La liste des joueurs
- * @param[in] exposedCards La pile des cartes exposées
- * @param[in] placedWords La liste des mots placés sur la table
+ * @param[in] game Les données du jeu
  */
-void DisplayGameState(const PlayerList& players, const CardStack& exposedCards, const WordList& placedWords);
+void DisplayGameState(const GameData& game);
 
 /*!
  * @brief Affiche les scores de chaque joueurs à la fin d'un tour
@@ -52,7 +58,7 @@ void DisplayScores(const PlayerList& players);
  */
 void DisplayGameOver();
 
-bool ReadPlayerCommand(Command& cmd);
+bool ReadPlayerCommand(CommandParams& cmd);
 
 
 #endif //IUT_PROJET2_GAMEINTERFACE_HPP

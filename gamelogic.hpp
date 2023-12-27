@@ -6,10 +6,18 @@
 #include "wordlist.hpp"
 #include "cardstack.hpp"
 #include "players.hpp"
+#include "gamedata.hpp"
 
+
+void ReuseExposedCards(CardStack& talonCards, CardStack& exposedCards);
+
+void GameRun(GameData& stack);
+
+bool ExecuteCommand(const CommandParams& cmd, GameData& game);
 
 /*!
- * @brief Créer le paquet de carte avant distribution selon les règles
+ * @brief Créer le paquet de carte contenant toutes les cartes du jeu
+ *        selon les règles
  * @return Le paquet de carte
  */
 CardList CreateGameCards();
@@ -42,9 +50,10 @@ void UpdateLosers(PlayerList& players);
 
 /*!
  * @brief Lit le dictionnaire de mot valides depuis le fichier "ods4.txt"
- * @return La liste de mot
+ * @param[in, out] dictionary La liste de mot qui va contenir les données du fichier
+ * @return true si le dictionnaire a pu être lu en entier, false sinon
  */
-WordList ReadDictionary();
+bool ReadDictionary(WordList& dictionary);
 
 /*!
  * @brief Implémente la commande 'T' du jeu
@@ -52,14 +61,14 @@ WordList ReadDictionary();
  * @param[in, out] exposedCards La pile des cartes exposées
  * @param[in, out] talonCards La pile des cartes invisibles
  */
-void CommandTalon(const Command& cmd, Player& player, CardStack& exposedCards, CardStack& talonCards);
+bool CommandTalon(const CommandParams& cmd, Player& player, CardStack& exposedCards, CardStack& talonCards);
 
 /*!
  * @brief Implémente la commande 'E' du jeu
  * @param[in, out] player Le joueur actuel
  * @param[in, out] exposedCards La pile des cartes exposées
  */
-void CommandExposed(const Command& cmd, Player& player, CardStack& exposedCards);
+bool CommandExposed(const CommandParams& cmd, Player& player, CardStack& exposedCards);
 
 /*!
  * @brief Implémente la commande 'P' du jeu
@@ -67,7 +76,7 @@ void CommandExposed(const Command& cmd, Player& player, CardStack& exposedCards)
  * @param[in, out] placedWords La liste des mots placés sur la table
  * @param[in] dictionary Le dictionnaire des mots valides
  */
-void CommandPlace(const Command& cmd, Player& player, WordList& placedWords, const WordList& dictionary);
+bool CommandPlace(const CommandParams& cmd, Player& player, WordList& placedWords, const WordList& dictionary);
 
 /*!
  * @brief Implémente la commande 'R' du jeu
@@ -75,7 +84,7 @@ void CommandPlace(const Command& cmd, Player& player, WordList& placedWords, con
  * @param[in, out] placedWords La liste des mots placés sur la table
  * @param[in] dictionary Le dictionnaire des mots valides
  */
-void CommandReplace(const Command& cmd, Player& player, WordList& placedWords, const WordList& dictionary);
+bool CommandReplace(const CommandParams& cmd, Player& player, WordList& placedWords, const WordList& dictionary);
 
 /*!
  * @brief Implémente la commande 'C' du jeu
@@ -83,6 +92,6 @@ void CommandReplace(const Command& cmd, Player& player, WordList& placedWords, c
  * @param[in, out] placedWords La liste des mots placés sur la table
  * @param[in] dictionary Le dictionnaire des mots valides
  */
-void CommandComplete(const Command& cmd, Player& player, WordList& placedWords, const WordList& dictionary);
+bool CommandComplete(const CommandParams& cmd, Player& player, WordList& placedWords, const WordList& dictionary);
 
 #endif //IUT_PROJET2_GAMELOGIC_HPP

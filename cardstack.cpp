@@ -2,20 +2,16 @@
 #include "cardstack.hpp"
 
 
-CardStack CardStackFromCardList(const CardList& cardList)
+void CardStackAssignList(CardStack& cardStack, const CardList& cardList)
 {
-    CardStack stack = {
-            .list = CardListCopy(cardList)
-    };
-
-    return stack;
+    cardStack.list = cardList;
 }
 
 CardStack CardStackCreate(size_t initialCapacity)
 {
-    CardStack stack;
-
-    stack.list = CardListCreate(initialCapacity);
+    CardStack stack {
+        .list = CardListCreate(initialCapacity)
+    };
 
     return stack;
 }
@@ -42,4 +38,9 @@ Card CardStackPop(CardStack& cardStack)
     assert(!IsEmpty(cardStack.list));
 
     return CardListRemoveLast(cardStack.list);
+}
+
+bool IsEmpty(const CardStack& cardStack)
+{
+    return IsEmpty(cardStack.list);
 }

@@ -2,6 +2,9 @@
 #define IUT_PROJET2_DEFINITIONS_HPP
 
 
+
+
+
 #define DICTIONARY_PATH "ods4.txt"
 
 
@@ -28,7 +31,7 @@ enum
 typedef char Card;
 
 
-enum Commands
+enum Command
 {
     TALON    = 'T',
     EXPOSED  = 'E',

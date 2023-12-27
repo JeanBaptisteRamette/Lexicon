@@ -11,11 +11,12 @@ struct CardStack
 
 
 /*!
- * @brief Créer une pile de carte en copiant les éléments d'une liste de carte
- * @param[in] cardList La liste de carte à copier dans la pile
- * @return La pile de carte
+ * @brief Créer une pile de carte en s'appropriant la mémoire occupée par les éléments d'une liste de carte
+ *        La ressource pointé par cardList est partagé avec la nouvelle pile
+ * @param[in, out] cardStack La pile de carte s'appropriant la ressource
+ * @param[in] cardList La liste de carte dont on s'approprie les éléments dans la pile
  */
-CardStack CardStackFromCardList(const CardList& cardList);
+void CardStackAssignList(CardStack& cardStack, const CardList& cardList);
 
 /*!
  * @brief Créer une pile de carte vide
@@ -50,5 +51,7 @@ void CardStackPush(CardStack& cardStack, Card card);
  * @return La carte dépilée
  */
 Card CardStackPop(CardStack& cardStack);
+
+bool IsEmpty(const CardStack& cardStack);
 
 #endif //IUT_PROJET2_CARDSTACK_HPP

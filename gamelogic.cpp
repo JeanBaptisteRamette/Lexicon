@@ -3,9 +3,79 @@
 #include <cstdlib>
 #include <iomanip>
 #include <ctime>
+#include <iostream>
 #include "gamelogic.hpp"
 #include "definitions.hpp"
 #include "gameinterface.hpp"
+
+
+bool ExecuteCommand(const CommandParams& cmd, GameData& game)
+{
+    Player& currentPlayer = GetCurrentPlayer(game.players);
+
+    switch (cmd.name)
+    {
+        case Command::TALON:
+            return CommandTalon(cmd, currentPlayer, game.exposedCards, game.talonCards);
+
+        case Command::EXPOSED:
+            return CommandExposed(cmd, currentPlayer, game.exposedCards);
+
+        case Command::PLACE:
+            return CommandPlace(cmd, currentPlayer, game.placedWords, game.dictionary);
+
+        case Command::REPLACE:
+            return CommandReplace(cmd, currentPlayer, game.placedWords, game.dictionary);
+
+        case Command::COMPLETE:
+            return CommandComplete(cmd, currentPlayer, game.placedWords, game.dictionary);
+
+        default:
+            return false;
+    }
+}
+
+void GameRun(GameData& game)
+{
+    DisplayValidCommands();
+
+    while (!IsGameOver(game.players))
+    {
+        DisplayGameState(game);
+
+        CommandParams cmd {};
+
+        if (!ReadPlayerCommand(cmd) || !ExecuteCommand(cmd, game))
+        {
+            DisplayInvalidCommand();
+            continue;
+        }
+
+        if (HasPlayerWonRound(GetCurrentPlayer(game.players)))
+        {
+            DisplayScores(game.players);
+            UpdateLosers(game.players);
+        }
+
+        if (IsEmpty(game.talonCards))
+        {
+            ReuseExposedCards(game.talonCards, game.exposedCards);
+        }
+
+        RotateCurrentPlayer(game.players);
+    }
+
+    DisplayGameOver();
+}
+
+
+void ReuseExposedCards(CardStack& talonCards, CardStack& exposedCards)
+{
+    ShuffleCards(exposedCards.list);
+
+    while (ListSize(exposedCards.list) != 1)
+        CardStackPush(talonCards, CardStackPop(exposedCards));
+}
 
 
 CardList CreateGameCards()
@@ -29,11 +99,14 @@ CardList CreateGameCards()
 
 void ShuffleCards(CardList& cards)
 {
+    if (IsEmpty(cards))
+        return;
+
     srand(time(nullptr));
 
-    for (size_t i = 0; i < ListSize(cards); ++i)
+    for (size_t i = ListSize(cards) - 1; i > 0; --i)
     {
-        const size_t j = rand() % ListSize(cards);
+        const size_t j = rand() % (i + 1);
 
         const Card c = CardAt(cards, i);
 
@@ -68,15 +141,15 @@ void UpdateLosers(PlayerList& players)
     }
 }
 
-WordList ReadDictionary()
+bool ReadDictionary(WordList& dictionary)
 {
-    WordList dictionary = WordListCreate(DICTIONARY_WORD_COUNT);
+    dictionary = WordListCreate(DICTIONARY_WORD_COUNT);
 
     // Le fichier est fermé automatiquement à la fin de la fonction
     std::ifstream inputFile(DICTIONARY_PATH);
 
     if (!inputFile)
-        return dictionary;
+        return false;
 
     char buffer[DICTIONARY_MAX_WORD_SIZE + 1];
 
@@ -95,7 +168,7 @@ WordList ReadDictionary()
 
     } while (inputFile);
 
-    return dictionary;
+    return ListSize(dictionary) == DICTIONARY_WORD_COUNT;
 }
 
 void DistributeCards(PlayerList& players, CardList& cards)
@@ -115,15 +188,16 @@ void DistributeCards(PlayerList& players, CardList& cards)
     }
 }
 
-void CommandTalon(const Command& cmd, Player& player, CardStack& exposedCards, CardStack& talonCards)
+bool CommandTalon(const CommandParams& cmd, Player& player, CardStack& exposedCards, CardStack& talonCards)
 {
     const Card card = cmd.card;
 
-    if (!CardListContains(player.cards, card))
-        return;
+    size_t index;
+    if (!CardListIndexOf(player.cards, card, index))
+        return false;
 
     // Supprimer la carte de la main du joueur
-    CardListRemove(player.cards, card);
+    CardListRemoveAt(player.cards, index);
 
     // La carte correspondante est placée au-dessus des cartes exposées
     CardStackPush(exposedCards, card);
@@ -131,22 +205,26 @@ void CommandTalon(const Command& cmd, Player& player, CardStack& exposedCards, C
     // La première carte du talon est ramassée par le joueur.
     const Card popped = CardStackPop(talonCards);
     CardListAppend(player.cards, popped);
+
+    return true;
 }
 
-void CommandExposed(const Command& cmd, Player& player, CardStack& exposedCards)
+bool CommandExposed(const CommandParams& cmd, Player& player, CardStack& exposedCards)
 {
     const Card card = cmd.card;
 
     size_t index;
 
     if (!CardListIndexOf(player.cards, card, index))
-        return;
+        return false;
 
     const Card popped = CardStackPop(exposedCards);
 
     SetCardAt(player.cards, index, popped);
 
     CardStackPush(exposedCards, card);
+
+    return true;
 }
 
 bool HasCards(const Player& player, const CardList& cards)
@@ -182,26 +260,35 @@ bool IsWordValid(const WordList& dictionary, const CardList& word)
 
         if (ret == 0)
             return true;
-        else if (ret == -1)
+        else if (ret == 1)
+            lowerBound = middle + 1;
+
+        // On utilise un type non-signé pour les indices donc faire attention à l'underflow si middle = 0
+        else if (ret == -1 && middle)
             upperBound = middle - 1;
         else
-            lowerBound = middle + 1;
+            return false;
     }
 
     return false;
 }
 
-void CommandPlace(const Command& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
+bool CommandPlace(const CommandParams& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
 {
     CardList word = cmd.cards;
 
-    // Vérifier que le mot peut être formé par le joueur et que le mot existe
-    if (!HasCards(player, word) || !IsWordValid(dictionary, word))
+    if (!HasCards(player, word))
+    {
+        CardListDestroy(word);
+        return false;
+    }
+
+    if (!IsWordValid(dictionary, word))
     {
         ApplyScorePenalty(player, INVALID_WORD_PENALTY);
         DisplayInvalidWord();
         CardListDestroy(word);
-        return;
+        return true;
     }
 
     // Supprimer les cartes utilisées de la main du joueur
@@ -209,14 +296,16 @@ void CommandPlace(const Command& cmd, Player& player, WordList& placedWords, con
         CardListRemove(player.cards, CardAt(word, i));
 
     WordListAppend(placedWords, word);
+
+    return true;
 }
 
-void CommandReplace(const Command& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
+bool CommandReplace(const CommandParams& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
 {
     const size_t wordIndex = cmd.wordIndex;
 
     if (wordIndex >= ListSize(placedWords))
-        return;
+        return false;
 
     CardList& oldWord = WordAt(placedWords, wordIndex);
     CardList  newWord = cmd.cards;
@@ -224,7 +313,7 @@ void CommandReplace(const Command& cmd, Player& player, WordList& placedWords, c
     if (ListSize(oldWord) != ListSize(newWord))
     {
         CardListDestroy(newWord);
-        return;
+        return false;
     }
 
     CardList replacedCards = CardListCreate(ListSize(oldWord));
@@ -242,25 +331,37 @@ void CommandReplace(const Command& cmd, Player& player, WordList& placedWords, c
         }
     }
 
-    if (HasCards(player, replacerCards) && IsWordValid(dictionary, newWord))
+    if (!HasCards(player, replacerCards))
     {
-        SetWordAt(placedWords, wordIndex, newWord);
-
-        for (size_t i = 0; i < ListSize(replacerCards); ++i)
-        {
-            CardListRemove(player.cards, CardAt(replacerCards, i));
-            CardListAppend(player.cards, CardAt(replacedCards, i));
-        }
+        CardListDestroy(newWord);
+        CardListDestroy(replacedCards);
+        CardListDestroy(replacerCards);
+        return false;
     }
-    else
+
+    if (!IsWordValid(dictionary, newWord))
     {
         ApplyScorePenalty(player, INVALID_WORD_PENALTY);
         DisplayInvalidWord();
+
         CardListDestroy(newWord);
+        CardListDestroy(replacedCards);
+        CardListDestroy(replacerCards);
+        return true;
+    }
+
+    SetWordAt(placedWords, wordIndex, newWord);
+
+    for (size_t i = 0; i < ListSize(replacerCards); ++i)
+    {
+        CardListRemove(player.cards, CardAt(replacerCards, i));
+        CardListAppend(player.cards, CardAt(replacedCards, i));
     }
 
     CardListDestroy(replacedCards);
     CardListDestroy(replacerCards);
+
+    return true;
 }
 
 bool IsOrderedSublist(const CardList& a, const CardList& b)
@@ -283,38 +384,49 @@ bool IsOrderedSublist(const CardList& a, const CardList& b)
     return true;
 }
 
-void CommandComplete(const Command& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
+bool CommandComplete(const CommandParams& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
 {
     const size_t wordIndex = cmd.wordIndex;
 
     if (wordIndex >= ListSize(placedWords))
-        return;
+        return false;
 
     CardList& oldWord = WordAt(placedWords, wordIndex);
     CardList  newWord = cmd.cards;
 
-    // TODO: Improve deallocation of var newWord
-    if (IsOrderedSublist(oldWord, newWord))
+    if (!IsOrderedSublist(oldWord, newWord))
     {
-        CardList diff = CardListDifference(newWord, oldWord);
-
-        // Vérifier que le mot peut être placé par le joueur
-        if (HasCards(player, diff))
-        {
-            SetWordAt(placedWords, wordIndex, newWord);
-
-            // Supprimer les cartes utilisées par le joueur de sa main
-            for (size_t i = 0; i < ListSize(diff); ++i)
-            {
-                const Card c = CardAt(diff, i);
-                CardListRemove(player.cards, c);
-            }
-        } else
-            CardListDestroy(newWord);
-
-        CardListDestroy(diff);
-    } else
         CardListDestroy(newWord);
+        return false;
+    }
+
+    CardList diff = CardListDifference(newWord, oldWord);
+
+    if (!HasCards(player, diff))
+    {
+        CardListDestroy(newWord);
+        CardListDestroy(diff);
+        return false;
+    }
+
+    if (IsWordValid(dictionary, newWord))
+    {
+        SetWordAt(placedWords, wordIndex, newWord);
+
+        for (size_t i = 0; i < ListSize(diff); ++i)
+        {
+            const Card c = CardAt(diff, i);
+            CardListRemove(player.cards, c);
+        }
+    }
+    else
+    {
+        ApplyScorePenalty(player, INVALID_WORD_PENALTY);
+        CardListDestroy(newWord);
+    }
+
+    CardListDestroy(diff);
+    return true;
 }
 
 

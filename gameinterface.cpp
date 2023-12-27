@@ -2,14 +2,34 @@
 #include <sstream>
 #include <iomanip>
 #include <cassert>
+#include <charconv>
 #include "gameinterface.hpp"
 
 
-bool IsCardValid(Card card)
+unsigned int ReadPlayerCount(int argc, const char* argv[])
 {
-    return card >= 'A' && card <= 'Z';
-}
+    if (argc != 2)
+    {
+        std::cerr << "Nombre de joueurs manquant" << std::endl;
+        return 0;
+    }
 
+    ++argv;
+
+    const char* beg = *argv;
+    const char* end = *argv + strlen(*argv);
+
+    unsigned int playerCount;
+    const std::from_chars_result result = std::from_chars(beg, end, playerCount);
+
+    if (result.ec != std::errc() || playerCount < MIN_PLAYER_COUNT || playerCount > MAX_PLAYER_COUNT)
+    {
+        std::cerr << "Nombre de joueurs invalide" << std::endl;
+        return 0;
+    }
+
+    return playerCount;
+}
 
 void DisplayValidCommands()
 {
@@ -26,13 +46,12 @@ void DisplayInvalidWord()
     std::cout << "Mot invalide, vous passez votre tour" << std::endl;
 }
 
-void DisplayGameState(const PlayerList& players, const CardStack& exposedCards, const WordList& placedWords)
+void DisplayGameState(const GameData& game)
 {
-    std::cout << "* Joueur " << GetCurrentPlayerId(players) + 1 << " (" << CardStackPeek(exposedCards) << ") ";
+    std::cout << "* Joueur " << GetCurrentPlayerId(game.players) + 1 << " (" << CardStackPeek(game.exposedCards) << ") ";
 
-    const Player& currentPlayer = GetCurrentPlayer(players);
+    const Player& currentPlayer = GetCurrentPlayer(game.players);
 
-    // TODO: Afficher les cartes du joueur dans l'ordre alphabétique
     for (size_t i = 0; i < ListSize(currentPlayer.cards); ++i)
     {
         const Card card = CardAt(currentPlayer.cards, i);
@@ -41,9 +60,9 @@ void DisplayGameState(const PlayerList& players, const CardStack& exposedCards, 
 
     std::cout << std::endl;
 
-    for (size_t i = 0; i < ListSize(placedWords); ++i)
+    for (size_t i = 0; i < ListSize(game.placedWords); ++i)
     {
-        const CardList& word = WordAt(placedWords, i);
+        const CardList& word = WordAt(game.placedWords, i);
 
         std::cout << i + 1 << " - ";
 
@@ -66,8 +85,11 @@ void DisplayScores(const PlayerList& players)
     }
 }
 
-bool ReadPlayerCommand(Command& cmd)
+bool ReadPlayerCommand(CommandParams& cmd)
 {
+    std::cout << "> ";
+
+
     char input[MAX_COMMAND_LENGTH];
 
     std::cin >> std::ws;
@@ -79,7 +101,7 @@ bool ReadPlayerCommand(Command& cmd)
     if (stream.peek() != ' ')
         return false;
 
-    if (cmd.name == Commands::REPLACE || cmd.name == Commands::COMPLETE)
+    if (cmd.name == Command::REPLACE || cmd.name == Command::COMPLETE)
     {
         stream >> cmd.wordIndex;
 
@@ -89,12 +111,9 @@ bool ReadPlayerCommand(Command& cmd)
         --cmd.wordIndex;
     }
 
-    if (cmd.name == Commands::TALON || cmd.name == Commands::EXPOSED)
+    if (cmd.name == Command::TALON || cmd.name == Command::EXPOSED)
     {
         stream >> cmd.card;
-        stream >> std::ws;
-
-        return stream.eof();
     } else
     {
         char cards[MAX_COMMAND_WORD_LENGTH];
@@ -104,7 +123,7 @@ bool ReadPlayerCommand(Command& cmd)
         cmd.cards = CardListFromBuffer(cards, strlen(cards));
     }
 
-    return true;
+    return (stream >> std::ws).eof();
 }
 
 void DisplayGameOver()

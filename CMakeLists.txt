@@ -22,4 +22,7 @@ add_executable(IUT_Projet2
         cardstack.hpp
 
         wordlist.cpp
-        wordlist.hpp)
+        wordlist.hpp
+
+        gamedata.cpp
+        gamedata.hpp)

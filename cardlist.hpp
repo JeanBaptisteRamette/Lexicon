@@ -43,7 +43,7 @@ CardList CardListCopy(const CardList& copied);
 CardList CardListFromBuffer(const char* buffer, size_t bufferLength);
 
 /*!
- * @brief
+ * @brief Détruit une liste de caractère allouée dynamiquement
  * @param[in] cardList
  */
 void CardListDestroy(CardList& cardList);

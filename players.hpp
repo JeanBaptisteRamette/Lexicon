@@ -2,7 +2,6 @@
 #define IUT_PROJET2_PLAYERS_HPP
 
 
-#include "definitions.hpp"
 #include "cardlist.hpp"
 
 
