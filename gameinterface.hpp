@@ -58,6 +58,11 @@ void DisplayScores(const PlayerList& players);
  */
 void DisplayGameOver();
 
+/*!
+ * @brief Lis une commande et ses paramètres, saisis par le joueur actuel
+ * @param[in, out] cmd La structure contenant le nom de la commande et ses paramètres
+ * @return true si la commande est correctement formée, false si elle doit être re-saisis
+ */
 bool ReadPlayerCommand(CommandParams& cmd);
 
 

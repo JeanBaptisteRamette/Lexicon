@@ -5,7 +5,6 @@
 
 
 // TODO: - Les cartes des joueurs éliminés sont distribués aux joueurs restants
-//       - Lorsqu’il n’y a plus de carte dans le talon, la pile des cartes exposées est reprise, battue et remise sur la table dans la position originale
 //       - Réarranger le contenu des fichiers
 //       - Vérifier la dé-allocation de la mémoire dynamique
 //       - Préconditions

@@ -80,7 +80,7 @@ void DisplayScores(const PlayerList& players)
 
     for (size_t i = 0; i < ListSize(players); ++i)
     {
-        const Player& player = GetPlayerById(players, i);
+        const Player& player = PlayerAt(players, i);
         std::cout << "Joueur " << i + 1 << " : " << GetTotalScore(player) << " points" << std::endl;
     }
 }
@@ -88,7 +88,6 @@ void DisplayScores(const PlayerList& players)
 bool ReadPlayerCommand(CommandParams& cmd)
 {
     std::cout << "> ";
-
 
     char input[MAX_COMMAND_LENGTH];
 

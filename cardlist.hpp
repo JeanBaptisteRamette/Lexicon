@@ -48,7 +48,6 @@ CardList CardListFromBuffer(const char* buffer, size_t bufferLength);
  */
 void CardListDestroy(CardList& cardList);
 
-bool CardListContains(const CardList& cardList, Card card);
 bool CardListIndexOf(const CardList& cardList, Card card, size_t& index);
 bool IsEmpty(const CardList& cardList);
 size_t ListSize(const CardList& cardList);
@@ -59,7 +58,14 @@ void CardListRemove(CardList& cardList, Card card);
 void CardListRemoveAt(CardList& cardList, size_t index);
 Card CardListRemoveLast(CardList& cardList);
 CardList CardListDifference(const CardList& a, const CardList& b);
-int CardListCompare(const CardList& left, const CardList& right);
+
+/*!
+ * @brief Compare le contenu de deux liste de cartes
+ * @param[in] lhs La liste de carte à gauche de l'expression ListeX == ListeY
+ * @param[in] rhs La liste de carte à droite de l'expression ListeX == ListeY
+ * @return 0 si le contenu est le même, -1 si lhs < rhs, 1 si lhs > rhs
+ */
+int CardListCompare(const CardList& lhs, const CardList& rhs);
 
 
 #endif //IUT_PROJET2_CONTENEURCARTES_HPP

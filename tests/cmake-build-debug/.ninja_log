@@ -1,0 +1,21 @@
+# ninja log v5
+880	1172	7255741988646224	IUT_Projet2_tests.exe	8cfe74d060d98e7d
+0	12	0	clean	2fe422b5759dbc5
+0	222	7255737394163721	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/cardlist.cpp.obj	2e8c9e01ed3086bd
+0	1035	7255724009877416	CMakeFiles/IUT_Projet2_tests.dir/tests_main.cpp.obj	83688330a5324548
+0	875	7255741986060681	CMakeFiles/IUT_Projet2_tests.dir/cardlisttests.cpp.obj	48837d5aa5eab15a
+28	842	7255957455661850	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/wordlist.cpp.obj	b2e0b81fcb959712
+40	843	7255957455671875	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/cardstack.cpp.obj	5e7df2657e86072
+18	845	7255957455651835	CMakeFiles/IUT_Projet2_tests.dir/TestsMain.cpp.obj	e9b60b2925c088e8
+1	1158	7255957459087737	CMakeFiles/IUT_Projet2_tests.dir/TestWordList.cpp.obj	bfa4c71aebc20cc3
+59	1160	7255957459087737	CMakeFiles/IUT_Projet2_tests.dir/TestCardStack.cpp.obj	59d27d215365e20e
+49	1185	7255957459432898	CMakeFiles/IUT_Projet2_tests.dir/TestCardList.cpp.obj	a950fa9610c6c760
+1189	1626	7255957462508841	IUT_Projet2_tests.exe	3903eba740bc8ef3
+1	704	7255958141953631	CMakeFiles/IUT_Projet2_tests.dir/TestWordList.cpp.obj	bfa4c71aebc20cc3
+706	868	7255958143368867	IUT_Projet2_tests.exe	3903eba740bc8ef3
+0	683	7255958400009286	CMakeFiles/IUT_Projet2_tests.dir/TestWordList.cpp.obj	bfa4c71aebc20cc3
+689	827	7255958401164631	IUT_Projet2_tests.exe	3903eba740bc8ef3
+1	715	7255959207568413	CMakeFiles/IUT_Projet2_tests.dir/TestCardStack.cpp.obj	59d27d215365e20e
+718	883	7255959208998892	IUT_Projet2_tests.exe	3903eba740bc8ef3
+1	691	7255959683346432	CMakeFiles/IUT_Projet2_tests.dir/TestCardStack.cpp.obj	59d27d215365e20e
+694	856	7255959684663099	IUT_Projet2_tests.exe	3903eba740bc8ef3

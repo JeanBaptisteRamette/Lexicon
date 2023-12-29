@@ -3,9 +3,9 @@
 #include "definitions.hpp"
 
 
-void ApplyScorePenalty(Player& player, unsigned int increment)
+void ApplyScorePenalty(Player& player)
 {
-    player.penalty += increment;
+    player.penalty += INVALID_WORD_PENALTY;
 }
 
 unsigned int GetTotalScore(const Player& player)
@@ -36,7 +36,7 @@ PlayerList PlayerListCreate(size_t playerCount)
     PlayerList players {
         .players = new Player[playerCount],
         .playerCount = playerCount,
-        .currentPlayerId = 0
+        .currentPlayerIndex = 0
     };
 
     // Créer une liste de carte vide pour chaque joueur
@@ -67,19 +67,19 @@ size_t ListSize(const PlayerList& players)
 
 size_t GetCurrentPlayerId(const PlayerList& players)
 {
-    return players.currentPlayerId;
+    return players.currentPlayerIndex + 1;
 }
 
-Player& GetPlayerById(const PlayerList& players, size_t playerId)
+Player& PlayerAt(const PlayerList& players, size_t index)
 {
-    assert(playerId < ListSize(players));
+    assert(index < ListSize(players));
 
-    return players.players[playerId];
+    return players.players[index];
 }
 
 Player& GetCurrentPlayer(const PlayerList& players)
 {
-    return GetPlayerById(players, GetCurrentPlayerId(players));
+    return PlayerAt(players, players.currentPlayerIndex);
 }
 
 bool HasPlayerWonRound(const Player& currentPlayer)
@@ -91,10 +91,10 @@ void RotateCurrentPlayer(PlayerList& players)
 {
     do
     {
-        if (players.currentPlayerId == players.playerCount - 1)
-            players.currentPlayerId = 0;
+        if (players.currentPlayerIndex == players.playerCount - 1)
+            players.currentPlayerIndex = 0;
         else
-            ++players.currentPlayerId;
+            ++players.currentPlayerIndex;
     } while (GetCurrentPlayer(players).lost);
 }
 

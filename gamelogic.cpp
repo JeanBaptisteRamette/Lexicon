@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <ctime>
-#include <iostream>
+#include <cstring>
 #include "gamelogic.hpp"
 #include "definitions.hpp"
 #include "gameinterface.hpp"
@@ -68,7 +68,6 @@ void GameRun(GameData& game)
     DisplayGameOver();
 }
 
-
 void ReuseExposedCards(CardStack& talonCards, CardStack& exposedCards)
 {
     ShuffleCards(exposedCards.list);
@@ -76,7 +75,6 @@ void ReuseExposedCards(CardStack& talonCards, CardStack& exposedCards)
     while (ListSize(exposedCards.list) != 1)
         CardStackPush(talonCards, CardStackPop(exposedCards));
 }
-
 
 CardList CreateGameCards()
 {
@@ -121,7 +119,7 @@ bool IsGameOver(const PlayerList& players)
 
     for (size_t i = 0; i < ListSize(players); ++i)
     {
-        const Player& player = GetPlayerById(players, i);
+        const Player& player = PlayerAt(players, i);
 
         if (!player.lost)
             ++activePlayerCount;
@@ -134,7 +132,7 @@ void UpdateLosers(PlayerList& players)
 {
     for (size_t i = 0; i < ListSize(players); ++i)
     {
-        Player& player = GetPlayerById(players, i);
+        Player& player = PlayerAt(players, i);
 
         if (GetTotalScore(player) > MAXIMUM_QUALIFIED_SCORE)
             player.lost = true;
@@ -178,7 +176,7 @@ void DistributeCards(PlayerList& players, CardList& cards)
 
     for (size_t i = 0; i < ListSize(players); ++i)
     {
-        Player& player = GetPlayerById(players, i);
+        Player& player = PlayerAt(players, i);
 
         for (size_t j = 0; j < CARDS_COUNT_PLAYER; ++j)
         {
@@ -188,9 +186,9 @@ void DistributeCards(PlayerList& players, CardList& cards)
     }
 }
 
-bool CommandTalon(const CommandParams& cmd, Player& player, CardStack& exposedCards, CardStack& talonCards)
+bool CommandTalon(const CommandParams& params, Player& player, CardStack& exposedCards, CardStack& talonCards)
 {
-    const Card card = cmd.card;
+    const Card card = params.card;
 
     size_t index;
     if (!CardListIndexOf(player.cards, card, index))
@@ -209,9 +207,9 @@ bool CommandTalon(const CommandParams& cmd, Player& player, CardStack& exposedCa
     return true;
 }
 
-bool CommandExposed(const CommandParams& cmd, Player& player, CardStack& exposedCards)
+bool CommandExposed(const CommandParams& params, Player& player, CardStack& exposedCards)
 {
-    const Card card = cmd.card;
+    const Card card = params.card;
 
     size_t index;
 
@@ -273,9 +271,9 @@ bool IsWordValid(const WordList& dictionary, const CardList& word)
     return false;
 }
 
-bool CommandPlace(const CommandParams& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
+bool CommandPlace(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary)
 {
-    CardList word = cmd.cards;
+    CardList word = params.cards;
 
     if (!HasCards(player, word))
     {
@@ -285,7 +283,7 @@ bool CommandPlace(const CommandParams& cmd, Player& player, WordList& placedWord
 
     if (!IsWordValid(dictionary, word))
     {
-        ApplyScorePenalty(player, INVALID_WORD_PENALTY);
+        ApplyScorePenalty(player);
         DisplayInvalidWord();
         CardListDestroy(word);
         return true;
@@ -300,15 +298,15 @@ bool CommandPlace(const CommandParams& cmd, Player& player, WordList& placedWord
     return true;
 }
 
-bool CommandReplace(const CommandParams& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
+bool CommandReplace(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary)
 {
-    const size_t wordIndex = cmd.wordIndex;
+    const size_t wordIndex = params.wordIndex;
 
     if (wordIndex >= ListSize(placedWords))
         return false;
 
     CardList& oldWord = WordAt(placedWords, wordIndex);
-    CardList  newWord = cmd.cards;
+    CardList  newWord = params.cards;
 
     if (ListSize(oldWord) != ListSize(newWord))
     {
@@ -341,7 +339,7 @@ bool CommandReplace(const CommandParams& cmd, Player& player, WordList& placedWo
 
     if (!IsWordValid(dictionary, newWord))
     {
-        ApplyScorePenalty(player, INVALID_WORD_PENALTY);
+        ApplyScorePenalty(player);
         DisplayInvalidWord();
 
         CardListDestroy(newWord);
@@ -384,15 +382,15 @@ bool IsOrderedSublist(const CardList& a, const CardList& b)
     return true;
 }
 
-bool CommandComplete(const CommandParams& cmd, Player& player, WordList& placedWords, const WordList& dictionary)
+bool CommandComplete(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary)
 {
-    const size_t wordIndex = cmd.wordIndex;
+    const size_t wordIndex = params.wordIndex;
 
     if (wordIndex >= ListSize(placedWords))
         return false;
 
     CardList& oldWord = WordAt(placedWords, wordIndex);
-    CardList  newWord = cmd.cards;
+    CardList  newWord = params.cards;
 
     if (!IsOrderedSublist(oldWord, newWord))
     {
@@ -421,7 +419,7 @@ bool CommandComplete(const CommandParams& cmd, Player& player, WordList& placedW
     }
     else
     {
-        ApplyScorePenalty(player, INVALID_WORD_PENALTY);
+        ApplyScorePenalty(player);
         CardListDestroy(newWord);
     }
 

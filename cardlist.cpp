@@ -17,6 +17,7 @@ CardList CardListCreate(size_t initialCapacity)
 
 CardList CardListCopy(const CardList& copied)
 {
+    /*
     const size_t count = ListSize(copied);
 
     Card* cards = new Card[count];
@@ -31,6 +32,12 @@ CardList CardListCopy(const CardList& copied)
     };
 
     return copy;
+     */
+
+    const char* buffer = copied.cards;
+    size_t bufferLength = ListSize(copied);
+
+    return CardListFromBuffer(buffer, bufferLength);
 }
 
 CardList CardListFromBuffer(const char* buffer, size_t bufferLength)
@@ -49,15 +56,6 @@ void CardListDestroy(CardList& cardList)
 
     cardList.capacity = 0;
     cardList.count = 0;
-}
-
-bool CardListContains(const CardList& cardList, Card card)
-{
-    for (size_t i = 0; i < ListSize(cardList); ++i)
-        if (CardAt(cardList, i) == card)
-            return true;
-
-    return false;
 }
 
 bool CardListIndexOf(const CardList& cardList, Card card, size_t& index)
