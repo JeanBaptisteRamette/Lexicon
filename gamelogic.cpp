@@ -70,16 +70,18 @@ void GameRun(GameData& game)
 
 void ReuseExposedCards(CardStack& talonCards, CardStack& exposedCards)
 {
+    assert(!IsEmpty(exposedCards));
+
     ShuffleCards(exposedCards.list);
 
     while (ListSize(exposedCards.list) != 1)
         CardStackPush(talonCards, CardStackPop(exposedCards));
 }
 
-CardList CreateGameCards()
+CardStack CreateGameCards()
 {
     // Allouer le paquet de carte
-    CardList gameCards = CardListCreate(CARDS_COUNT_GAME);
+    CardStack gameCards = CardStackCreate(CARDS_COUNT_GAME);
 
     unsigned int quantities[CARDS_COUNT_VALUES] = {
             2, 2, 2, 2, 5, 1, 2, 2, 4,
@@ -90,7 +92,7 @@ CardList CreateGameCards()
     // Remplir le paquet de carte
     for (Card card = 'A'; card <= 'Z'; ++card)
         while (quantities[card - 'A']--)
-            CardListAppend(gameCards, card);
+            CardStackPush(gameCards, card);
 
     return gameCards;
 }
@@ -156,11 +158,9 @@ bool ReadDictionary(WordList& dictionary)
         inputFile >> std::setw(DICTIONARY_MAX_WORD_SIZE + 1);
         inputFile >> buffer;
 
-        const size_t length = strlen(buffer);
-
-        if (length > 0)
+        if (buffer[0] != '\0')
         {
-            const CardList word = CardListFromBuffer(buffer, length);
+            const CardList word = CardListCopyString(buffer);
             WordListAppend(dictionary, word);
         }
 
@@ -169,10 +169,10 @@ bool ReadDictionary(WordList& dictionary)
     return ListSize(dictionary) == DICTIONARY_WORD_COUNT;
 }
 
-void DistributeCards(PlayerList& players, CardList& cards)
+void DistributeCards(PlayerList& players, CardStack& cards)
 {
     // Mélanger les cartes avant de les distribuer
-    ShuffleCards(cards);
+    ShuffleCards(cards.list);
 
     for (size_t i = 0; i < ListSize(players); ++i)
     {
@@ -180,7 +180,7 @@ void DistributeCards(PlayerList& players, CardList& cards)
 
         for (size_t j = 0; j < CARDS_COUNT_PLAYER; ++j)
         {
-            const Card card = CardListRemoveLast(cards);
+            const Card card = CardStackPop(cards);
             CardListAppend(player.cards, card);
         }
     }

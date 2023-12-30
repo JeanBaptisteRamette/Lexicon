@@ -17,31 +17,20 @@ CardList CardListCreate(size_t initialCapacity)
 
 CardList CardListCopy(const CardList& copied)
 {
-    /*
     const size_t count = ListSize(copied);
 
-    Card* cards = new Card[count];
+    CardList cards = CardListCreate(count);
 
     for (size_t i = 0; i < count; ++i)
-        cards[i] = CardAt(copied, i);
+        CardListAppend(cards, CardAt(copied, i));
 
-    CardList copy = {
-            .capacity = count,
-            .count = count,
-            .cards = cards
-    };
-
-    return copy;
-     */
-
-    const char* buffer = copied.cards;
-    size_t bufferLength = ListSize(copied);
-
-    return CardListFromBuffer(buffer, bufferLength);
+    return cards;
 }
 
-CardList CardListFromBuffer(const char* buffer, size_t bufferLength)
+CardList CardListCopyString(const char* buffer)
 {
+    const size_t bufferLength = buffer ? strlen(buffer) : 0;
+
     CardList cards = CardListCreate(bufferLength);
 
     for (size_t i = 0; i < bufferLength; ++i)
@@ -167,6 +156,7 @@ int CardListCompare(const CardList& lhs, const CardList& rhs)
     const size_t lhsLength = ListSize(lhs);
     const size_t rhsLength = ListSize(rhs);
 
+    // TODO: memcmp or strncmp ?
     const int ret = memcmp(lhs.cards, rhs.cards, MIN(lhsLength, rhsLength));
 
     if (ret != 0 || lhsLength == rhsLength)

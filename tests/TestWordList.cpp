@@ -1,25 +1,7 @@
-#include "../wordlist.hpp"
-#include "TestWordList.hpp"
 #include "Tests.hpp"
+#include "TestWordList.hpp"
+#include "AutoDestructors.hpp"
 
-
-struct WordListAuto
-{
-    WordList words;
-
-    WordListAuto(size_t cap = 0) : words(WordListCreate(cap)) {}
-    WordListAuto(WordList& other) : words(other) {}
-
-    ~WordListAuto()
-    {
-        WordListDestroy(words);
-    }
-
-    operator WordList&()
-    {
-        return words;
-    }
-};
 
 
 void TEST_WordList_Size()
@@ -52,8 +34,8 @@ void TEST_WordList_At()
 
         WordListAuto wl;
 
-        CardList a = CardListFromBuffer("valeur1", 7);
-        CardList b = CardListFromBuffer("valeur2", 7);
+        CardList a = CardListCopyString("valeur1");
+        CardList b = CardListCopyString("valeur2");
 
         WordListAppend(wl, a);
         WordListAppend(wl, b);
@@ -73,8 +55,8 @@ void TEST_WordList_SetAt()
 
         WordListAuto wl;
 
-        CardList a = CardListFromBuffer("valeur1", 7);
-        CardList b = CardListFromBuffer("valeur2", 7);
+        CardList a = CardListCopyString("valeur1");
+        CardList b = CardListCopyString("valeur2");
         CardList c = CardListCopy(b);
 
         WordListAppend(wl, a);

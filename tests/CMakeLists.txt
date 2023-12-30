@@ -15,6 +15,15 @@ add_executable(IUT_Projet2_tests
         ../cardstack.cpp
         ../cardstack.hpp
 
+        ../gamelogic.cpp
+        ../gamelogic.hpp
+
+        ../gameinterface.cpp
+        ../gameinterface.hpp
+
+        ../players.cpp
+        ../players.hpp
+
         TestCardList.cpp
         TestCardList.hpp
 
@@ -23,4 +32,9 @@ add_executable(IUT_Projet2_tests
 
         TestCardStack.cpp
         TestCardStack.hpp
+
+        TestGame.cpp
+        TestGame.hpp
+
+        AutoDestructors.hpp
         )

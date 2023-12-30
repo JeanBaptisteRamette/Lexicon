@@ -1,24 +1,6 @@
-#include "TestCardStack.hpp"
 #include "Tests.hpp"
-#include "../cardstack.hpp"
-
-
-struct CardStackAuto
-{
-    CardStack cards;
-
-    CardStackAuto(size_t cap = 0) : cards(CardStackCreate(cap)) {}
-
-    ~CardStackAuto()
-    {
-        CardStackDestroy(cards);
-    }
-
-    operator CardStack&()
-    {
-        return cards;
-    }
-};
+#include "TestCardStack.hpp"
+#include "AutoDestructors.hpp"
 
 
 void TEST_CardStack_AssignList()

@@ -64,5 +64,4 @@ void WordListAppend(WordList& wordList, const CardList& word);
 
 
 
-
 #endif //IUT_PROJET2_WORDLIST_HPP

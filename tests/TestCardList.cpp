@@ -1,25 +1,6 @@
 #include "Tests.hpp"
 #include "TestCardList.hpp"
-#include "../cardlist.hpp"
-
-
-struct CardListAuto
-{
-    CardList cards;
-
-    CardListAuto(size_t cap = 0) : cards(CardListCreate(cap)) {}
-    CardListAuto(CardList& other) : cards(other) {}
-
-    ~CardListAuto()
-    {
-        CardListDestroy(cards);
-    }
-
-    operator CardList&()
-    {
-        return cards;
-    }
-};
+#include "AutoDestructors.hpp"
 
 
 void TEST_CardList_Compare()
@@ -187,7 +168,7 @@ void TEST_CardList_FromBuffer()
     {
         TEST_CASE_ENTER("Buffer vide");
 
-        CardList other1 = CardListFromBuffer(nullptr, 0);
+        CardList other1 = CardListCopyString(nullptr);
         CardListAuto cl1(other1);
 
         TEST_CASE_ASSERT(IsEmpty(cl1));
@@ -197,7 +178,7 @@ void TEST_CardList_FromBuffer()
     {
         TEST_CASE_ENTER("Buffer non vide");
 
-        CardList other1 = CardListFromBuffer("AZOTE", 5);
+        CardList other1 = CardListCopyString("AZOTE");
         CardListAuto cl1(other1);
 
         TEST_CASE_ASSERT_FALSE(IsEmpty(cl1));
@@ -283,7 +264,7 @@ void TEST_CardList_Copy()
     {
         TEST_CASE_ENTER("Collection non-vide");
 
-        CardList tmp = CardListFromBuffer("ABCDEFGHIJ", 10);
+        CardList tmp = CardListCopyString("ABCDEFGHIJ");
         CardListAuto copied(tmp);
 
         tmp = CardListCopy(copied);
@@ -314,7 +295,7 @@ void TEST_CardList_IndexOf()
     {
         TEST_CASE_ENTER("Element existant");
 
-        CardList tmp = CardListFromBuffer("AKJLT", 5);
+        CardList tmp = CardListCopyString("AKJLT");
         CardListAuto cl(tmp);
         size_t index;
 
@@ -324,7 +305,7 @@ void TEST_CardList_IndexOf()
 
     {
         TEST_CASE_ENTER("Element inexistant");
-        CardList tmp = CardListFromBuffer("AKBLT", 5);
+        CardList tmp = CardListCopyString("AKBLT");
         CardListAuto cl(tmp);
         size_t index;
 
@@ -342,7 +323,7 @@ void TEST_CardList_At()
         TEST_CASE_ENTER("CardAt");
 
         const char* str = "DEHLDZEFKGAZ";
-        CardList tmp = CardListFromBuffer(str, 12);
+        CardList tmp = CardListCopyString(str);
         CardListAuto cl(tmp);
 
         for (size_t i = 0; i < ListSize(cl); ++i)
@@ -410,7 +391,7 @@ void TEST_CardList_Remove()
     {
         TEST_CASE_ENTER("Collection non vide element non existant");
 
-        CardList tmp = CardListFromBuffer("MALISTEDECARTE", 14);
+        CardList tmp = CardListCopyString("MALISTEDECARTE");
         CardListAuto cl(tmp);
 
         size_t size_before_removal = ListSize(cl);
@@ -423,7 +404,7 @@ void TEST_CardList_Remove()
     {
         TEST_CASE_ENTER("Collection non vide element existant une fois");
 
-        CardList tmp1 = CardListFromBuffer("MALISTEDECARTE", 14);
+        CardList tmp1 = CardListCopyString("MALISTEDECARTE");
         CardListAuto cl1(tmp1);
 
         size_t size_before_removal = ListSize(cl1);
@@ -432,7 +413,7 @@ void TEST_CardList_Remove()
 
         TEST_CASE_ASSERT(size_after_removal == size_before_removal - 1);
 
-        CardList tmp2 = CardListFromBuffer("MALISTEDEARTE", 13);
+        CardList tmp2 = CardListCopyString("MALISTEDEARTE");
         CardListAuto cl2(tmp2);
 
         TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == 0);
@@ -441,7 +422,7 @@ void TEST_CardList_Remove()
     {
         TEST_CASE_ENTER("Collection non vide element existant plusieurs fois");
 
-        CardList tmp1 = CardListFromBuffer("MALISTEDECARTE", 14);
+        CardList tmp1 = CardListCopyString("MALISTEDECARTE");
         CardListAuto cl(tmp1);
 
         CardListRemove(cl, 'E');
@@ -498,7 +479,7 @@ void TEST_CardList_RemoveLast()
 
     {
         TEST_CASE_ENTER("Suppression depuis l'arrière");
-        CardList tmp = CardListFromBuffer("TESTBUFFER", 10);
+        CardList tmp = CardListCopyString("TESTBUFFER");
         CardListAuto cl(tmp);
 
         TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'R');
@@ -536,8 +517,8 @@ void TEST_CardList_Difference()
     {
         TEST_CASE_ENTER("Listes egales");
 
-        CardList tmp1 = CardListFromBuffer("DIFFERENCES", 11);
-        CardList tmp2 = CardListFromBuffer("DIFFERENCES", 11);
+        CardList tmp1 = CardListCopyString("DIFFERENCES");
+        CardList tmp2 = CardListCopyString("DIFFERENCES");
         CardList diff = CardListDifference(tmp1, tmp2);
 
         CardListAuto cl1(tmp1);
@@ -550,8 +531,8 @@ void TEST_CardList_Difference()
     {
         TEST_CASE_ENTER("Listes differentes meme tailles");
 
-        CardList tmp1 = CardListFromBuffer("DITFERENSES", 11);
-        CardList tmp2 = CardListFromBuffer("DIFFRRYNCES", 11);
+        CardList tmp1 = CardListCopyString("DITFERENSES");
+        CardList tmp2 = CardListCopyString("DIFFRRYNCES");
         CardList diff1 = CardListDifference(tmp1, tmp2);
         CardList diff2 = CardListDifference(tmp2, tmp1);
 
@@ -580,8 +561,8 @@ void TEST_CardList_Difference()
     {
         TEST_CASE_ENTER("Listes differentes tailles differentes");
 
-        CardList tmp1 = CardListFromBuffer("DROITES", 7);
-        CardList tmp2 = CardListFromBuffer("DOS", 3);
+        CardList tmp1 = CardListCopyString("DROITES");
+        CardList tmp2 = CardListCopyString("DOS");
 
         CardList diff1 = CardListDifference(tmp1, tmp2);
         CardList diff2 = CardListDifference(tmp2, tmp1);

@@ -119,7 +119,7 @@ bool ReadPlayerCommand(CommandParams& cmd)
         stream >> std::setw(MAX_COMMAND_WORD_LENGTH);
         stream >> cards;
 
-        cmd.cards = CardListFromBuffer(cards, strlen(cards));
+        cmd.cards = CardListCopyString(cards);
     }
 
     return (stream >> std::ws).eof();

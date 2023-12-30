@@ -7,12 +7,10 @@ bool InitGameData(GameData& game, unsigned int playerCount)
 {
     game.players = PlayerListCreate(playerCount);
 
-    CardList gameCards = CreateGameCards();
-    DistributeCards(game.players, gameCards);
+    game.talonCards = CreateGameCards();
+    DistributeCards(game.players, game.talonCards);
 
-    CardStackAssignList(game.talonCards, gameCards);
     game.exposedCards = CardStackCreate();
-
     CardStackPush(game.exposedCards, CardStackPop(game.talonCards));
 
     game.placedWords = WordListCreate();

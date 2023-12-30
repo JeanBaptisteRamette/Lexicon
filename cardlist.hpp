@@ -36,11 +36,10 @@ CardList CardListCopy(const CardList& copied);
 
 /*!
  * @brief Créer une liste de carte à partir d'un buffer
- * @param[in] buffer Pointeur vers le début du buffer
- * @param[in] bufferLength Nombre d'éléments du buffer à copier
- * @return CardList de taille bufferLength et contenant les éléments du buffer copiés
+ * @param[in] buffer chaîne de caractères null-terminated
+ * @return CardList de taille strlen(buffer) et contenant les éléments du buffer copiés
  */
-CardList CardListFromBuffer(const char* buffer, size_t bufferLength);
+CardList CardListCopyString(const char* buffer);
 
 /*!
  * @brief Détruit une liste de caractère allouée dynamiquement

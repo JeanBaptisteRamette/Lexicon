@@ -61,7 +61,11 @@
 				5,
 				7,
 				9,
-				11
+				11,
+				13,
+				15,
+				17,
+				19
 			]
 		}
 	],
@@ -104,7 +108,11 @@
 				5,
 				7,
 				9,
-				11
+				11,
+				13,
+				15,
+				17,
+				19
 			]
 		},
 		{
@@ -116,7 +124,12 @@
 				6,
 				8,
 				10,
-				12
+				12,
+				14,
+				16,
+				18,
+				20,
+				21
 			]
 		}
 	],
@@ -164,6 +177,39 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
+			"path" : "C:/Users/griffith/CLionProjects/Lexicon/gamelogic.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "C:/Users/griffith/CLionProjects/Lexicon/gamelogic.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Users/griffith/CLionProjects/Lexicon/gameinterface.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "C:/Users/griffith/CLionProjects/Lexicon/gameinterface.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Users/griffith/CLionProjects/Lexicon/players.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "C:/Users/griffith/CLionProjects/Lexicon/players.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
 			"path" : "TestCardList.cpp",
 			"sourceGroupIndex" : 0
 		},
@@ -192,6 +238,22 @@
 		{
 			"backtrace" : 1,
 			"path" : "TestCardStack.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "TestGame.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "TestGame.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "AutoDestructors.hpp",
 			"sourceGroupIndex" : 1
 		}
 	],
