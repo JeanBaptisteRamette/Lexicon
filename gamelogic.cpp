@@ -55,9 +55,8 @@ void GameRun(GameData& game)
         {
             DisplayScores(game.players);
             UpdateLosers(game.players);
-        }
-
-        if (IsEmpty(game.talonCards))
+            RedistributeCards(game);
+        } else if (IsEmpty(game.talonCards))
         {
             ReuseExposedCards(game.talonCards, game.exposedCards);
         }
@@ -178,12 +177,28 @@ void DistributeCards(PlayerList& players, CardStack& cards)
     {
         Player& player = PlayerAt(players, i);
 
-        for (size_t j = 0; j < CARDS_COUNT_PLAYER; ++j)
+        if (!player.lost)
         {
-            const Card card = CardStackPop(cards);
-            CardListAppend(player.cards, card);
+            for (size_t j = 0; j < CARDS_COUNT_PLAYER; ++j)
+            {
+                const Card card = CardStackPop(cards);
+                CardListAppend(player.cards, card);
+            }
         }
     }
+}
+
+void RedistributeCards(GameData& game)
+{
+    for (size_t i = 0; i < ListSize(game.players); ++i)
+    {
+        Player& player = PlayerAt(game.players, i);
+        CardListClear(player.cards);
+    }
+
+    GameCardsDestroy(game);
+    GameCardsInit(game);
+    GameCardsSetup(game);
 }
 
 bool CommandTalon(const CommandParams& params, Player& player, CardStack& exposedCards, CardStack& talonCards)
@@ -420,6 +435,7 @@ bool CommandComplete(const CommandParams& params, Player& player, WordList& plac
     else
     {
         ApplyScorePenalty(player);
+        DisplayInvalidWord();
         CardListDestroy(newWord);
     }
 

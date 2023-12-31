@@ -56,6 +56,12 @@ void ShuffleCards(CardList& cards);
 void DistributeCards(PlayerList& players, CardStack& cards);
 
 /*!
+ * @brief Reprend toutes les cartes du jeu
+ * @param game
+ */
+void RedistributeCards(GameData& game);
+
+/*!
  * @brief Détermine si la partie est terminée, c'est à dire qu'il n'y a plus qu'un joueur restant
  * @param[in] players La liste des joueurs
  * @return true si la partie est terminée, false sinon

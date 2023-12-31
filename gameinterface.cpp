@@ -48,7 +48,7 @@ void DisplayInvalidWord()
 
 void DisplayGameState(const GameData& game)
 {
-    std::cout << "* Joueur " << GetCurrentPlayerId(game.players) + 1 << " (" << CardStackPeek(game.exposedCards) << ") ";
+    std::cout << "* Joueur " << GetCurrentPlayerId(game.players) << " (" << CardStackPeek(game.exposedCards) << ") ";
 
     const Player& currentPlayer = GetCurrentPlayer(game.players);
 

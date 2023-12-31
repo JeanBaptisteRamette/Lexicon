@@ -2,18 +2,32 @@
 #include "gamelogic.hpp"
 #include "gamedata.hpp"
 
+void GameCardsInit(GameData& game)
+{
+    game.talonCards = CreateGameCards();
+    game.exposedCards = CardStackCreate();
+    game.placedWords = WordListCreate();
+}
+
+void GameCardsDestroy(GameData& game)
+{
+    CardStackDestroy(game.talonCards);
+    CardStackDestroy(game.exposedCards);
+    WordListDestroy(game.placedWords);
+}
+
+void GameCardsSetup(GameData& game)
+{
+    DistributeCards(game.players, game.talonCards);
+    CardStackPush(game.exposedCards, CardStackPop(game.talonCards));
+}
 
 bool InitGameData(GameData& game, unsigned int playerCount)
 {
     game.players = PlayerListCreate(playerCount);
 
-    game.talonCards = CreateGameCards();
-    DistributeCards(game.players, game.talonCards);
-
-    game.exposedCards = CardStackCreate();
-    CardStackPush(game.exposedCards, CardStackPop(game.talonCards));
-
-    game.placedWords = WordListCreate();
+    GameCardsInit(game);
+    GameCardsSetup(game);
 
     if (!ReadDictionary(game.dictionary))
     {
@@ -26,9 +40,8 @@ bool InitGameData(GameData& game, unsigned int playerCount)
 
 void DestroyGameData(GameData& game)
 {
+    GameCardsDestroy(game);
+
     PlayerListDestroy(game.players);
-    CardStackDestroy(game.talonCards);
-    CardStackDestroy(game.exposedCards);
-    WordListDestroy(game.placedWords);
     WordListDestroy(game.dictionary);
 }

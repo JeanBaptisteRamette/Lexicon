@@ -15,6 +15,11 @@ CardList CardListCreate(size_t initialCapacity)
     return cards;
 }
 
+void CardListClear(CardList& cardList)
+{
+    cardList.count = 0;
+}
+
 CardList CardListCopy(const CardList& copied)
 {
     const size_t count = ListSize(copied);

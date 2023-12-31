@@ -2,6 +2,36 @@
 #include "TestCardList.hpp"
 #include "AutoDestructors.hpp"
 
+void TEST_CardList_Clear()
+{
+    TEST_FUNCTION_ENTER();
+
+    {
+        TEST_CASE_ENTER("Liste deja vide");
+
+        CardListAuto cl;
+
+        CardListClear(cl);
+        TEST_CASE_ASSERT(IsEmpty(cl));
+    }
+
+    {
+        TEST_CASE_ENTER("Liste non vide");
+
+        CardListAuto cl(5);
+        CardListAppend(cl, 'A');
+        CardListAppend(cl, 'A');
+        CardListAppend(cl, 'A');
+        CardListAppend(cl, 'A');
+        CardListAppend(cl, 'A');
+
+        CardListClear(cl);
+        TEST_CASE_ASSERT(IsEmpty(cl));
+        TEST_CASE_ASSERT(cl.cards.capacity == 5);
+    }
+
+    TEST_FUNCTION_LEAVE();
+}
 
 void TEST_CardList_Compare()
 {
@@ -577,6 +607,10 @@ void TEST_CardList_Difference()
         TEST_CASE_ASSERT(CardListIndexOf(diff1, 'T', unused));
         TEST_CASE_ASSERT(CardListIndexOf(diff1, 'E', unused));
 
+        CardListDestroy(tmp1);
+        CardListDestroy(tmp2);
+        CardListDestroy(diff1);
+        CardListDestroy(diff2);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -586,6 +620,7 @@ void TEST_COMPONENT_CardList()
 {
     TEST_COMPONENT_ENTER();
 
+    TEST_CardList_Clear();
     TEST_CardList_Empty();
     TEST_CardList_Copy();
     TEST_CardList_Size();
