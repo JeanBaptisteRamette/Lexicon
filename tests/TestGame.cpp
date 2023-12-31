@@ -1,6 +1,6 @@
 #include "Tests.hpp"
 #include "TestGame.hpp"
-#include "../gamelogic.hpp"
+#include "../src/Game/Logic.hpp"
 #include "AutoDestructors.hpp"
 
 

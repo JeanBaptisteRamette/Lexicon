@@ -56,45 +56,52 @@ build CMakeFiles\IUT_Projet2_tests.dir\TestsMain.cpp.obj: CXX_COMPILER__IUT_Proj
   TARGET_COMPILE_PDB = CMakeFiles\IUT_Projet2_tests.dir\
   TARGET_PDB = IUT_Projet2_tests.pdb
 
-build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\cardlist.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\cardlist.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
+build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Containers\CardList.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\src\Game\Containers\CardList.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++20
   OBJECT_DIR = CMakeFiles\IUT_Projet2_tests.dir
-  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon
+  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Containers
   TARGET_COMPILE_PDB = CMakeFiles\IUT_Projet2_tests.dir\
   TARGET_PDB = IUT_Projet2_tests.pdb
 
-build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\wordlist.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\wordlist.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
+build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Containers\WordList.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\src\Game\Containers\WordList.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++20
   OBJECT_DIR = CMakeFiles\IUT_Projet2_tests.dir
-  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon
+  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Containers
   TARGET_COMPILE_PDB = CMakeFiles\IUT_Projet2_tests.dir\
   TARGET_PDB = IUT_Projet2_tests.pdb
 
-build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\cardstack.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\cardstack.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
+build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Containers\CardStack.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\src\Game\Containers\CardStack.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++20
   OBJECT_DIR = CMakeFiles\IUT_Projet2_tests.dir
-  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon
+  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Containers
   TARGET_COMPILE_PDB = CMakeFiles\IUT_Projet2_tests.dir\
   TARGET_PDB = IUT_Projet2_tests.pdb
 
-build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\gamelogic.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\gamelogic.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
+build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\GameData.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\src\Game\GameData.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++20
   OBJECT_DIR = CMakeFiles\IUT_Projet2_tests.dir
-  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon
+  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game
   TARGET_COMPILE_PDB = CMakeFiles\IUT_Projet2_tests.dir\
   TARGET_PDB = IUT_Projet2_tests.pdb
 
-build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\gameinterface.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\gameinterface.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
+build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Logic.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\src\Game\Logic.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++20
   OBJECT_DIR = CMakeFiles\IUT_Projet2_tests.dir
-  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon
+  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game
   TARGET_COMPILE_PDB = CMakeFiles\IUT_Projet2_tests.dir\
   TARGET_PDB = IUT_Projet2_tests.pdb
 
-build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\players.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\players.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
+build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Interface.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\src\Game\Interface.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++20
   OBJECT_DIR = CMakeFiles\IUT_Projet2_tests.dir
-  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon
+  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game
+  TARGET_COMPILE_PDB = CMakeFiles\IUT_Projet2_tests.dir\
+  TARGET_PDB = IUT_Projet2_tests.pdb
+
+build CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Players.cpp.obj: CXX_COMPILER__IUT_Projet2_tests_Debug C$:\Users\griffith\CLionProjects\Lexicon\src\Game\Players.cpp || cmake_object_order_depends_target_IUT_Projet2_tests
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++20
+  OBJECT_DIR = CMakeFiles\IUT_Projet2_tests.dir
+  OBJECT_FILE_DIR = CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game
   TARGET_COMPILE_PDB = CMakeFiles\IUT_Projet2_tests.dir\
   TARGET_PDB = IUT_Projet2_tests.pdb
 
@@ -134,7 +141,7 @@ build CMakeFiles\IUT_Projet2_tests.dir\TestGame.cpp.obj: CXX_COMPILER__IUT_Proje
 #############################################
 # Link the executable IUT_Projet2_tests.exe
 
-build IUT_Projet2_tests.exe: CXX_EXECUTABLE_LINKER__IUT_Projet2_tests_Debug CMakeFiles\IUT_Projet2_tests.dir\TestsMain.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\cardlist.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\wordlist.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\cardstack.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\gamelogic.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\gameinterface.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\players.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\TestCardList.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\TestWordList.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\TestCardStack.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\TestGame.cpp.obj
+build IUT_Projet2_tests.exe: CXX_EXECUTABLE_LINKER__IUT_Projet2_tests_Debug CMakeFiles\IUT_Projet2_tests.dir\TestsMain.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Containers\CardList.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Containers\WordList.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Containers\CardStack.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\GameData.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Logic.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Interface.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\C_\Users\griffith\CLionProjects\Lexicon\src\Game\Players.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\TestCardList.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\TestWordList.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\TestCardStack.cpp.obj CMakeFiles\IUT_Projet2_tests.dir\TestGame.cpp.obj
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

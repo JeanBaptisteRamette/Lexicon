@@ -1,5 +1,5 @@
-#ifndef IUT_PROJET2_TESTS_TESTS_HPP
-#define IUT_PROJET2_TESTS_TESTS_HPP
+#ifndef LEXICON_TESTS_TESTS_HPP
+#define LEXICON_TESTS_TESTS_HPP
 
 
 #include <iostream>
@@ -56,4 +56,4 @@ do {                                 \
   }                                  \
 } while (0)
 
-#endif //IUT_PROJET2_TESTS_TESTS_HPP
+#endif //LEXICON_TESTS_TESTS_HPP

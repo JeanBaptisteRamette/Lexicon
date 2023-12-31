@@ -1,10 +1,10 @@
-#ifndef IUT_PROJET2_TESTS_AUTODESTRUCTORS_HPP
-#define IUT_PROJET2_TESTS_AUTODESTRUCTORS_HPP
+#ifndef LEXICON_TESTS_AUTODESTRUCTORS_HPP
+#define LEXICON_TESTS_AUTODESTRUCTORS_HPP
 
-#include "../cardlist.hpp"
-#include "../cardstack.hpp"
-#include "../wordlist.hpp"
-#include "../players.hpp"
+#include "../src/Game/Containers/CardList.hpp"
+#include "../src/Game/Containers/CardStack.hpp"
+#include "../src/Game/Containers/WordList.hpp"
+#include "../src/Game/Players.hpp"
 
 
 struct CardListAuto
@@ -80,4 +80,4 @@ struct PlayerListAuto
     }
 };
 
-#endif //IUT_PROJET2_TESTS_AUTODESTRUCTORS_HPP
+#endif //LEXICON_TESTS_AUTODESTRUCTORS_HPP

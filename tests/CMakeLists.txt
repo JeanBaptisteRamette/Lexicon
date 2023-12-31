@@ -5,24 +5,28 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(IUT_Projet2_tests
         TestsMain.cpp
+        Tests.hpp
 
-        ../cardlist.cpp
-        ../cardlist.hpp
+        ../src/Game/Containers/CardList.cpp
+        ../src/Game/Containers/CardList.hpp
 
-        ../wordlist.cpp
-        ../wordlist.hpp
+        ../src/Game/Containers/WordList.cpp
+        ../src/Game/Containers/WordList.hpp
 
-        ../cardstack.cpp
-        ../cardstack.hpp
+        ../src/Game/Containers/CardStack.cpp
+        ../src/Game/Containers/CardStack.hpp
 
-        ../gamelogic.cpp
-        ../gamelogic.hpp
+        ../src/Game/GameData.cpp
+        ../src/Game/GameData.hpp
 
-        ../gameinterface.cpp
-        ../gameinterface.hpp
+        ../src/Game/Logic.cpp
+        ../src/Game/Logic.hpp
 
-        ../players.cpp
-        ../players.hpp
+        ../src/Game/Interface.cpp
+        ../src/Game/Interface.hpp
+
+        ../src/Game/Players.cpp
+        ../src/Game/Players.hpp
 
         TestCardList.cpp
         TestCardList.hpp
