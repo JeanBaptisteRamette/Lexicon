@@ -13,6 +13,7 @@ struct CardListAuto
 
     CardListAuto(size_t cap = 0) : cards(CardListCreate(cap)) {}
     CardListAuto(CardList& other) : cards(other) {}
+    CardListAuto(CardList&& other) : cards(other) {}
 
     ~CardListAuto()
     {
