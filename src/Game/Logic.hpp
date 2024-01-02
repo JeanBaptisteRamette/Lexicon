@@ -17,13 +17,11 @@
  */
 void ReuseExposedCards(CardStack& talonCards, CardStack& exposedCards);
 
-
 /*!
  * @brief Joue au jeu après l'initialisation des données nécessaires au jeu
  * @param[in, out] game Les données nécéssaires au jeu, initialisé avec InitGameData
  */
 void GameRun(GameData& game);
-
 
 /*!
  * @brief Exécute une commande utilisateur
@@ -68,11 +66,6 @@ void RedistributeCards(GameData& game);
  */
 bool IsGameOver(const PlayerList& players);
 
-/*!
- * @brief Elimine les joueurs qui dépassent 100 points après la fin d'un tour
- * @param[in, out] players
- */
-void UpdateLosers(PlayerList& players);
 
 /*!
  * @brief Vérifie si le joueur à les cartes cards, autrement dit si il peut former le mot cards avec sa main
@@ -98,7 +91,7 @@ bool IsWordValid(const WordList& dictionary, const CardList& word);
  * @param b La liste dans laquelle chercher
  * @return true si b inclue a et éléments dans le même ordre sinon false
  */
-bool IsOrderedSublist(const CardList& a, const CardList& b);
+bool IncludesOrdered(const CardList& a, const CardList& b);
 
 /*!
  * @brief Lit le dictionnaire de mot valides depuis le fichier "ods4.txt"

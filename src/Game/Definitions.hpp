@@ -1,9 +1,27 @@
+/*!
+ * @file Definitions.hpp
+ * @brief Définitions des constantes, types et énumérations relatives au jeu
+ */
+
+
 #ifndef LEXICON_DEFINITIONS_HPP
 #define LEXICON_DEFINITIONS_HPP
 
 
+//
 // chemin relatif du fichier dictionnaire à utiliser
+//
 #define DICTIONARY_PATH "ods4.txt"
+
+//
+// Récupère la position (à partir de 0) d'une lettre dans l'alphabet
+// 'A' -> 0
+// 'B' -> 1
+// ...
+// 'Y' -> 24
+// 'Z' -> 25
+//
+#define CARD_NO(c) ((c) - 'A')
 
 
 enum
@@ -26,12 +44,15 @@ enum
     SCORE_TO_LOSE = 101  // Chaque joueur ayant un score supérieur ou égale à cette valeur après un tour est éliminé
 };
 
-
+//
 // Une carte est représentée par un caractère pour le moment
+//
 typedef char Card;
 
 
+//
 // Les valeurs que peuvent prendre chaque commande entrée par l'utilisateur
+//
 enum Command
 {
     TALON    = 'T',

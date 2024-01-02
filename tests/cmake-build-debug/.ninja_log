@@ -11,11 +11,13 @@
 35	1050	7257494147276764	CMakeFiles/IUT_Projet2_tests.dir/TestCardList.cpp.obj	a950fa9610c6c760
 9	1248	7256562287674226	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/gamelogic.cpp.obj	ccf36d4199b28af5
 26	1282	7256562288716373	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/gameinterface.cpp.obj	97c1264f97b27a6f
-955	1272	7256567423637452	IUT_Projet2_tests.exe	9fac396e97748a63
+544	691	7257499143299352	IUT_Projet2_tests.exe	9c3446122e557e0e
 15	389	7257494141166793	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/src/Game/Containers/CardStack.cpp.obj	6dfdcafa0b23227d
 8	219	7257495870912449	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/src/Game/Players.cpp.obj	9d1f0bbd5c985fb3
 0	399	7257494141256777	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/src/Game/Containers/CardList.cpp.obj	9bee5549ce11a8ad
 1	665	7257495875512437	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/src/Game/Logic.cpp.obj	d1d5e49596bce59f
 42	1121	7257494148486740	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/src/Game/Interface.cpp.obj	54950a536b8f7f55
 1	541	7257499142095693	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/src/Game/GameData.cpp.obj	67e4d661fe60d8f0
-544	691	7257499143299352	IUT_Projet2_tests.exe	9c3446122e557e0e
+12	385	7257765322491781	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/src/Game/Players.cpp.obj	9d1f0bbd5c985fb3
+1	390	7257765322542630	CMakeFiles/IUT_Projet2_tests.dir/C_/Users/griffith/CLionProjects/Lexicon/src/Game/Containers/CardList.cpp.obj	9bee5549ce11a8ad
+391	641	7257765324561486	IUT_Projet2_tests.exe	9c3446122e557e0e

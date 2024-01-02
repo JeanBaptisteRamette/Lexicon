@@ -1,8 +1,18 @@
+/*!
+ * @file CardList.cpp
+ * @brief Implémentation d'une liste de carte, pouvant représenter la main d'un joueur, un mot placé par un joueur...
+ *
+ * L'implémentation actuelle repose sur un tableau extensible, l'interface d'utilisation peut tout à fait être reproduite
+ * avec une autre structure de donnée comme une liste chaînée.
+ */
+
 #include <cassert>
 #include <cstring>
 #include "CardList.hpp"
 
+
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+
 
 CardList CardListCreate(size_t initialCapacity)
 {
@@ -161,8 +171,7 @@ int CardListCompare(const CardList& lhs, const CardList& rhs)
     const size_t lhsLength = ListSize(lhs);
     const size_t rhsLength = ListSize(rhs);
 
-    // TODO: memcmp or strncmp ?
-    const int ret = memcmp(lhs.cards, rhs.cards, MIN(lhsLength, rhsLength));
+    const int ret = strncmp(lhs.cards, rhs.cards, MIN(lhsLength, rhsLength));
 
     if (ret != 0 || lhsLength == rhsLength)
         return ret;

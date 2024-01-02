@@ -46,30 +46,38 @@ void DisplayInvalidWord()
     std::cout << "Mot invalide, vous passez votre tour" << std::endl;
 }
 
+void DisplayCardList(const CardList& cardList)
+{
+    for (size_t i = 0; i < ListSize(cardList); ++i)
+        std::cout << CardAt(cardList, i);
+
+    std::cout << std::endl;
+}
+
 void DisplayGameState(const GameData& game)
 {
+    //
+    // Afficher l'identifiant du joueur actuel et la première carte exposée (la pile n'est jamais vide)
+    //
     std::cout << "* Joueur " << GetCurrentPlayerId(game.players) << " (" << CardStackPeek(game.exposedCards) << ") ";
 
     const Player& currentPlayer = GetCurrentPlayer(game.players);
 
-    for (size_t i = 0; i < ListSize(currentPlayer.cards); ++i)
-    {
-        const Card card = CardAt(currentPlayer.cards, i);
-        std::cout << card;
-    }
+    //
+    // Afficher la main du joueur actuel
+    //
+    DisplayCardList(currentPlayer.cards);
 
-    std::cout << std::endl;
-
+    //
+    // Afficher la liste des mots placés sur la table
+    //
     for (size_t i = 0; i < ListSize(game.placedWords); ++i)
     {
         const CardList& word = WordAt(game.placedWords, i);
 
         std::cout << i + 1 << " - ";
 
-        for (size_t j = 0; j < ListSize(word); ++j)
-            std::cout << CardAt(word, j);
-
-        std::cout << std::endl;
+        DisplayCardList(word);
     }
 }
 
@@ -78,10 +86,13 @@ void DisplayScores(const PlayerList& players)
     std::cout << "Le tour est fini" << std::endl;
     std::cout << "* Scores" << std::endl;
 
+    //
+    // Afficher le score total de chaque joueur
+    //
     for (size_t i = 0; i < ListSize(players); ++i)
     {
         const Player& player = PlayerAt(players, i);
-        std::cout << "Joueur " << i + 1 << " : " << GetTotalScore(player) << " points" << std::endl;
+        std::cout << "Joueur " << i + 1 << " : " << player.score << " points" << std::endl;
     }
 }
 

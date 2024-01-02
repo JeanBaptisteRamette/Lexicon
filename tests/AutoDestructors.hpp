@@ -1,3 +1,10 @@
+/*!
+ * @file AutoDestructors.hpp
+ * @brief Utilisation de l'idiome C++ RAII pour faciliter l'écriture des tests
+ *        en évitant de libérer la mémoire dynamique manuellement, et d'assurer la destruction
+ *        si un test est faux et qu'il cause l'arrêt prématuré du programme
+ */
+
 #ifndef LEXICON_TESTS_AUTODESTRUCTORS_HPP
 #define LEXICON_TESTS_AUTODESTRUCTORS_HPP
 

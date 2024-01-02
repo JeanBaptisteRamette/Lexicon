@@ -1,3 +1,8 @@
+/*!
+ * @file Players.cpp
+ * @brief Implémentation de la gestion des joueurs
+ */
+
 #include <cassert>
 #include "Players.hpp"
 #include "Definitions.hpp"
@@ -5,10 +10,10 @@
 
 void ApplyScorePenalty(Player& player)
 {
-    player.penalty += INVALID_WORD_PENALTY;
+    player.score += INVALID_WORD_PENALTY;
 }
 
-unsigned int GetTotalScore(const Player& player)
+unsigned int GetPlayerScore(const Player& player)
 {
     unsigned int scores[CARDS_COUNT_VALUES] = {
             10, 2, 8, 6, 10, 2, 4, 8, 10,
@@ -21,10 +26,10 @@ unsigned int GetTotalScore(const Player& player)
     for (size_t i = 0; i < ListSize(player.cards); ++i)
     {
         const Card card = CardAt(player.cards, i);
-        score += scores[card - 'A'];
+        score += scores[CARD_NO(card)];
     }
 
-    return score + player.penalty;
+    return score;
 }
 
 
@@ -43,7 +48,7 @@ PlayerList PlayerListCreate(size_t playerCount)
     for (size_t i = 0; i < playerCount; ++i)
     {
         players.players[i].cards = CardListCreate(CARDS_COUNT_PLAYER);
-        players.players[i].penalty = 0;
+        players.players[i].score = 0;
         players.players[i].lost = false;
     }
 
@@ -98,5 +103,20 @@ void RotateCurrentPlayer(PlayerList& players)
     } while (GetCurrentPlayer(players).lost);
 }
 
+void UpdateScores(PlayerList& players)
+{
+    for (size_t i = 0; i < ListSize(players); ++i)
+    {
+        Player& player = PlayerAt(players, i);
+
+        player.score += GetPlayerScore(player);
+
+        //
+        // Vérifier si le joueur dépasse le score maximal, et le rendre inactif si c'est le cas
+        //
+        if (player.score >= SCORE_TO_LOSE)
+            player.lost = true;
+    }
+}
 
 
