@@ -1,3 +1,0 @@
-C:/Users/griffith/CLionProjects/Lexicon/tests/cmake-build-debug/CMakeFiles/IUT_Projet2_tests.dir
-C:/Users/griffith/CLionProjects/Lexicon/tests/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/griffith/CLionProjects/Lexicon/tests/cmake-build-debug/CMakeFiles/rebuild_cache.dir
