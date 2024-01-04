@@ -62,7 +62,7 @@ void TEST_Game_ReuseExposedCards()
 
         CardList tmp = CardListCopyString("AABBCCDDEE");
 
-        CardStack ec;
+        CardStack ec {};
         CardStackAssignList(ec, tmp);
 
         CardStackAuto exposedCards(ec);
@@ -113,7 +113,7 @@ void TEST_Game_DistributeCards()
     TEST_FUNCTION_LEAVE();
 }
 
-void TEST_Game_UpdateLosers()
+void TEST_Game_UpdateScores()
 {
     TEST_FUNCTION_ENTER();
 
@@ -126,12 +126,12 @@ void TEST_Game_UpdateLosers()
         for (size_t i = 0; i < 10; ++i)
             CardListAppend(player.cards, 'A');
 
-        UpdateLosers(players);
+        UpdateScores(players);
 
         TEST_CASE_ASSERT_FALSE(player.lost);
 
         CardListAppend(player.cards, 'Z');
-        UpdateLosers(players);
+        UpdateScores(players);
 
         TEST_CASE_ASSERT(player.lost);
     }
@@ -145,12 +145,12 @@ void TEST_Game_UpdateLosers()
         for (size_t i = 0; i < 99 / INVALID_WORD_PENALTY; ++i)
             ApplyScorePenalty(player);
 
-        UpdateLosers(players);
+        UpdateScores(players);
         TEST_CASE_ASSERT_FALSE(player.lost);
 
         ApplyScorePenalty(player);
 
-        UpdateLosers(players);
+        UpdateScores(players);
         TEST_CASE_ASSERT(player.lost);
     }
 
@@ -164,7 +164,7 @@ void TEST_Game_HasCards()
     {
         TEST_CASE_ENTER("Carte dans l'ordre");
 
-        Player player;
+        Player player {};
         player.cards = CardListCopyString("MAISONPART");
 
         CardList word = CardListCopyString("MAISON");
@@ -178,7 +178,7 @@ void TEST_Game_HasCards()
     {
         TEST_CASE_ENTER("Cartes espacees et pas dans le meme ordre");
 
-        Player player;
+        Player player {};
         player.cards = CardListCopyString("MAPITSAONG");
 
         CardList word = CardListCopyString("SONMAI");
@@ -192,7 +192,7 @@ void TEST_Game_HasCards()
     {
         TEST_CASE_ENTER("Lettre plusieurs fois présente");
 
-        Player player;
+        Player player {};
         player.cards = CardListCopyString("APOKRILISURETSE");
 
         CardList word = CardListCopyString("RAPETISSER");
@@ -206,7 +206,7 @@ void TEST_Game_HasCards()
     {
         TEST_CASE_ENTER("Faux");
 
-        Player player;
+        Player player {};
         player.cards = CardListCopyString("APOKRILIURETSE");
 
         CardList word = CardListCopyString("RAPETISSER");
@@ -257,7 +257,7 @@ void TEST_Game_IsWordValid()
     TEST_FUNCTION_LEAVE();
 }
 
-void TEST_Game_IsOrderedSublist()
+void TEST_Game_IncludesOrdered()
 {
     TEST_FUNCTION_ENTER();
 
@@ -270,7 +270,7 @@ void TEST_Game_IsOrderedSublist()
         CardListAuto cl1(tmp1);
         CardListAuto cl2(tmp2);
 
-        TEST_CASE_ASSERT(IsOrderedSublist(cl1, cl2));
+        TEST_CASE_ASSERT(IncludesOrdered(cl1, cl2));
 
         CardList tmp3 = CardListCopyString("MER");
         CardList tmp4 = CardListCopyString("AMERTUMES");
@@ -278,7 +278,7 @@ void TEST_Game_IsOrderedSublist()
         CardListAuto cl3(tmp3);
         CardListAuto cl4(tmp4);
 
-        TEST_CASE_ASSERT(IsOrderedSublist(cl3, cl4));
+        TEST_CASE_ASSERT(IncludesOrdered(cl3, cl4));
 
         CardList tmp5 = CardListCopyString("PQRST");
         CardList tmp6 = CardListCopyString("AAAAAPQRST");
@@ -286,7 +286,7 @@ void TEST_Game_IsOrderedSublist()
         CardListAuto cl5(tmp5);
         CardListAuto cl6(tmp6);
 
-        TEST_CASE_ASSERT(IsOrderedSublist(cl5, cl6));
+        TEST_CASE_ASSERT(IncludesOrdered(cl5, cl6));
 
         CardList tmp7 = CardListCopyString("PQRST");
         CardList tmp8 = CardListCopyString("APAPQARRRASSSAT");
@@ -294,7 +294,7 @@ void TEST_Game_IsOrderedSublist()
         CardListAuto cl7(tmp7);
         CardListAuto cl8(tmp8);
 
-        TEST_CASE_ASSERT(IsOrderedSublist(cl7, cl8));
+        TEST_CASE_ASSERT(IncludesOrdered(cl7, cl8));
     }
 
     {
@@ -306,7 +306,7 @@ void TEST_Game_IsOrderedSublist()
         CardListAuto cl1(tmp1);
         CardListAuto cl2(tmp2);
 
-        TEST_CASE_ASSERT_FALSE(IsOrderedSublist(cl1, cl2));
+        TEST_CASE_ASSERT_FALSE(IncludesOrdered(cl1, cl2));
 
         CardList tmp3 = CardListCopyString("EMR");
         CardList tmp4 = CardListCopyString("AMERTUMES");
@@ -314,7 +314,7 @@ void TEST_Game_IsOrderedSublist()
         CardListAuto cl3(tmp3);
         CardListAuto cl4(tmp4);
 
-        TEST_CASE_ASSERT_FALSE(IsOrderedSublist(cl3, cl4));
+        TEST_CASE_ASSERT_FALSE(IncludesOrdered(cl3, cl4));
     }
 
     TEST_FUNCTION_LEAVE();
@@ -328,10 +328,10 @@ void TEST_COMPONENT_Game()
     TEST_Game_CreateGameCards();
     TEST_Game_DistributeCards();
     TEST_Game_ShuffleCards();
-    TEST_Game_UpdateLosers();
+    TEST_Game_UpdateScores();
     TEST_Game_HasCards();
     TEST_Game_IsWordValid();
-    TEST_Game_IsOrderedSublist();
+    TEST_Game_IncludesOrdered();
 
     TEST_COMPONENT_LEAVE();
 }

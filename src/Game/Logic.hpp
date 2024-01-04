@@ -60,14 +60,6 @@ void DistributeCards(PlayerList& players, CardStack& cards);
 void RedistributeCards(GameData& game);
 
 /*!
- * @brief Détermine si la partie est terminée, c'est à dire qu'il n'y a plus qu'un joueur restant
- * @param[in] players La liste des joueurs
- * @return true si la partie est terminée, false sinon
- */
-bool IsGameOver(const PlayerList& players);
-
-
-/*!
  * @brief Vérifie si le joueur à les cartes cards, autrement dit si il peut former le mot cards avec sa main
  * @param[in] player Le joueur pour qui vérifier la main
  * @param[in] cards Le mot à former

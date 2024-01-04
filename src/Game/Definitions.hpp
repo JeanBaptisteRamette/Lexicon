@@ -23,6 +23,16 @@
 //
 #define CARD_NO(c) ((c) - 'A')
 
+//
+// Récupère la valeur correspondant à une position (à partir de 0) dans l'alphabet
+// 0 -> 'A'
+// 1 -> 'B'
+// ...
+// 24 -> 'Y'
+// 25 -> 'Z'
+//
+#define CARD_VALUE(cardNo) ((cardNo) + 'A')
+
 
 enum
 {

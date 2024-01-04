@@ -75,6 +75,11 @@ size_t GetCurrentPlayerId(const PlayerList& players)
     return players.currentPlayerIndex + 1;
 }
 
+size_t GetCurrentPlayerIndex(const PlayerList& players)
+{
+    return players.currentPlayerIndex;
+}
+
 Player& PlayerAt(const PlayerList& players, size_t index)
 {
     assert(index < ListSize(players));
@@ -94,13 +99,31 @@ bool HasPlayerWonRound(const Player& currentPlayer)
 
 void RotateCurrentPlayer(PlayerList& players)
 {
+    //
+    // Trouve le prochain joueur encore actif
+    //
     do
     {
         if (players.currentPlayerIndex == players.playerCount - 1)
             players.currentPlayerIndex = 0;
         else
             ++players.currentPlayerIndex;
-    } while (GetCurrentPlayer(players).lost);
+    }
+    while (GetCurrentPlayer(players).lost);
+}
+
+void SetRoundStarter(PlayerList& players, size_t& starterIndex)
+{
+    assert(starterIndex < ListSize(players));
+
+    // Revenir au joueur qui a commencé le tour précédent
+    players.currentPlayerIndex = starterIndex;
+
+    // Trouver le prochain joueur actif
+    RotateCurrentPlayer(players);
+
+    // Actualiser l'indice du joueur qui a commencé le tour
+    starterIndex = GetCurrentPlayerIndex(players);
 }
 
 void UpdateScores(PlayerList& players)
@@ -119,4 +142,23 @@ void UpdateScores(PlayerList& players)
     }
 }
 
+bool EnoughPlayers(const PlayerList& players)
+{
+    size_t activePlayerCount = 0;
 
+    //
+    // Compter le nombre de joueurs actifs (qui n'ont pas perdu)
+    //
+    for (size_t i = 0; i < ListSize(players); ++i)
+    {
+        const Player& player = PlayerAt(players, i);
+
+        if (!player.lost)
+            ++activePlayerCount;
+    }
+
+    //
+    // La partie peut continuer s'il le joueur n'est pas seul
+    //
+    return activePlayerCount >= MIN_PLAYER_COUNT;
+}

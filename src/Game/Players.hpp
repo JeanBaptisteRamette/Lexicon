@@ -93,6 +93,13 @@ size_t ListSize(const PlayerList& players);
 size_t GetCurrentPlayerId(const PlayerList& players);
 
 /*!
+ * @brief Retourne l'indice (et pas l'identifiant) du joueur actuel dans la liste
+ * @param[in] players La liste des joueurs
+ * @return L'identifiant du joueur actuel tel que 0 <= id < ListSize(players)
+ */
+size_t GetCurrentPlayerIndex(const PlayerList& players);
+
+/*!
  * @brief Retourne le joueur à l'indice index de la liste
  * @param[in] players La liste des joueurs
  * @param[in] index L'indice du joueur dans la liste
@@ -109,16 +116,32 @@ Player& PlayerAt(const PlayerList& players, size_t index);
 Player& GetCurrentPlayer(const PlayerList& players);
 
 /*!
- * @brief Mets à jour le joueur actuel après que le précédent ait finit de joueur
+ * @brief Met à jour le joueur actuel après que le précédent ait finit de joueur
  * @param[in, out] players La liste des joueurs
  * @note Il faut être sûr qu'au moins un joueur est toujours actif, pour éviter une boucle infinie
  */
 void RotateCurrentPlayer(PlayerList& players);
 
 /*!
+ * @brief Met à jour le joueur qui commence le tour,
+ *        c'est à dire le prochain joueur actif après celui qui a commencé le tour précédent
+ * @param[in, out] players La liste des joueurs
+ * @param[in, out] starterIndex Indice du joueur qui a commencé le tour précédent, devient celui du joueur qui commence le nouveau tour
+ * @pre starterId < ListSize(players)
+ */
+void SetRoundStarter(PlayerList& players, size_t& starterIndex);
+
+/*!
  * @brief Met à jour le score et élimine les joueurs qui dépassent 100 points après la fin d'un tour
  * @param[in, out] players Liste des joueurs
  */
 void UpdateScores(PlayerList& players);
+
+/*!
+ * @brief Détermine si il y a assez de joueur actif pour joueur, autrement dit, si la partie est fini ou non
+ * @param[in] players La liste des joueurs
+ * @return true si il y a assez de joueur pour continuer à jouer, false sinon
+ */
+bool EnoughPlayers(const PlayerList& players);
 
 #endif //LEXICON_PLAYERS_HPP

@@ -13,12 +13,16 @@
 #include "Definitions.hpp"
 #include "Interface.hpp"
 #include "GameData.hpp"
+#include "Players.hpp"
 
 
 bool ExecuteCommand(const CommandParams& cmd, GameData& game)
 {
     Player& currentPlayer = GetCurrentPlayer(game.players);
 
+    //
+    // Trouve la commande correspondante à la lettre entrée par l'utilisateur et l'exécute
+    //
     switch (cmd.name)
     {
         case Command::TALON:
@@ -46,9 +50,14 @@ void GameRun(GameData& game)
     DisplayValidCommands();
 
     //
-    // Boucle principale du jeu, on en sort quand la partie est terminée
+    // Indice du joueur qui commence le tour
     //
-    while (!IsGameOver(game.players))
+    size_t starterIndex = GetCurrentPlayerIndex(game.players);
+
+    //
+    // Boucle principale du jeu, on en sort quand il n'y a plus qu'un joueur
+    //
+    while (EnoughPlayers(game.players))
     {
         DisplayGameState(game);
 
@@ -75,19 +84,23 @@ void GameRun(GameData& game)
             UpdateScores(game.players);
             DisplayScores(game.players);
             RedistributeCards(game);
+            SetRoundStarter(game.players, starterIndex);
         }
-        else if (IsEmpty(game.talonCards))
+        else
+        {
+            //
+            // Passer au joueur suivant
+            //
+            RotateCurrentPlayer(game.players);
+        }
+
+        if (IsEmpty(game.talonCards))
         {
             //
             // Recycler la pile des cartes exposées pour remplir le talon s'il est vide
             //
             ReuseExposedCards(game.talonCards, game.exposedCards);
         }
-
-        //
-        // Passer au joueur suivant
-        //
-        RotateCurrentPlayer(game.players);
     }
 
     DisplayGameOver();
@@ -125,9 +138,9 @@ CardStack CreateGameCards()
     //
     // Pour chaque lettre, ajouter quantities[indice lettre] cartes
     //
-    for (Card card = 'A'; card <= 'Z'; ++card)
-        while (quantities[CARD_NO(card)]--)
-            CardStackPush(gameCards, card);
+    for (Card cardIndex = 0; cardIndex < CARDS_COUNT_VALUES; ++cardIndex)
+        while (quantities[cardIndex]--)
+            CardStackPush(gameCards, CARD_VALUE(cardIndex));
 
     return gameCards;
 }
@@ -150,28 +163,6 @@ void ShuffleCards(CardList& cards)
         SetCardAt(cards, j, c);
     }
 }
-
-bool IsGameOver(const PlayerList& players)
-{
-    size_t activePlayerCount = 0;
-
-    //
-    // Compter le nombre de joueurs actifs (qui n'ont pas perdu)
-    //
-    for (size_t i = 0; i < ListSize(players); ++i)
-    {
-        const Player& player = PlayerAt(players, i);
-
-        if (!player.lost)
-            ++activePlayerCount;
-    }
-
-    //
-    // La partie est terminée s'il n'y a que 1 joueur restant
-    //
-    return activePlayerCount < MIN_PLAYER_COUNT;
-}
-
 
 bool ReadDictionary(WordList& dictionary)
 {
