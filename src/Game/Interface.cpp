@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <cassert>
 #include <charconv>
+#include <cstring>
 #include "Interface.hpp"
 
 

@@ -182,7 +182,6 @@ bool ReadDictionary(WordList& dictionary)
     if (!inputFile)
         return false;
 
-
     char buffer[DICTIONARY_MAX_WORD_SIZE + 1];
 
     //
@@ -190,8 +189,8 @@ bool ReadDictionary(WordList& dictionary)
     //
     do
     {
-        inputFile >> std::setw(DICTIONARY_MAX_WORD_SIZE + 1);
-        inputFile >> buffer;
+        inputFile >> std::setw(sizeof(buffer));
+        inputFile.getline(buffer, sizeof(buffer));
 
         //
         // 5. Ajouter au dictionnaire chaque mot d'une longueur positive
@@ -201,8 +200,8 @@ bool ReadDictionary(WordList& dictionary)
             const CardList word = CardListCopyString(buffer);
             WordListAppend(dictionary, word);
         }
-
-    } while (inputFile);
+    }
+    while (inputFile);
 
     //
     // 6. Vérifier qu'on a bien lu DICTIONARY_WORD_COUNT mots
