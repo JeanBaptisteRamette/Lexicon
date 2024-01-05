@@ -13,6 +13,7 @@
 //
 #define DICTIONARY_PATH "ods4.txt"
 
+
 //
 // Récupère la position (à partir de 0) d'une lettre dans l'alphabet
 // 'A' -> 0

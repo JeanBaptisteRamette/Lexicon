@@ -167,7 +167,7 @@ void ShuffleCards(CardList& cards)
 bool ReadDictionary(WordList& dictionary)
 {
     //
-    // 1. Réserver une liste de mot pouvant contenir jusqu'à DICTIONARY_WORD_COUNT avant réallocation
+    // 1. Réserver une liste de mots pouvant contenir jusqu'à DICTIONARY_WORD_COUNT avant réallocation
     //
     dictionary = WordListCreate(DICTIONARY_WORD_COUNT);
 
@@ -176,35 +176,19 @@ bool ReadDictionary(WordList& dictionary)
     //
     std::ifstream inputFile(DICTIONARY_PATH);
 
-    //
-    // 3. Vérifier si le fichier à bien été ouvert, et que le flux est valide
-    //
-    if (!inputFile)
-        return false;
-
     char buffer[DICTIONARY_MAX_WORD_SIZE + 1];
 
     //
-    // 4. Lire tant que le flux est valide
+    // 3. Lire tant que le flux est valide
     //
-    do
+    while (inputFile.getline(buffer, sizeof(buffer)))
     {
-        inputFile >> std::setw(sizeof(buffer));
-        inputFile.getline(buffer, sizeof(buffer));
-
-        //
-        // 5. Ajouter au dictionnaire chaque mot d'une longueur positive
-        //
-        if (buffer[0] != '\0')
-        {
-            const CardList word = CardListCopyString(buffer);
-            WordListAppend(dictionary, word);
-        }
+        const CardList word = CardListCopyString(buffer);
+        WordListAppend(dictionary, word);
     }
-    while (inputFile);
 
     //
-    // 6. Vérifier qu'on a bien lu DICTIONARY_WORD_COUNT mots
+    // 4. Vérifier qu'on a bien lu DICTIONARY_WORD_COUNT mots
     //
     return ListSize(dictionary) == DICTIONARY_WORD_COUNT;
 }
