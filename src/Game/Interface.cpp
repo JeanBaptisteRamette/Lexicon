@@ -35,7 +35,7 @@ unsigned int ReadPlayerCount(int argc, const char* argv[])
 
 void DisplayValidCommands()
 {
-    std::cout << "(Commandes valides : TEPRC)" << std::endl;
+    std::cout << "(Commandes valides : TEPRC)\n" << std::endl;
 }
 
 void DisplayInvalidCommand()
@@ -67,6 +67,7 @@ void DisplayCardListSorted(const CardList& cardList)
     // Une fonction d'affichage ne doit pas modifier le paramètre
     CardList copy = CardListCopy(cardList);
 
+    // Trier la liste du début à la fin
     std::sort(
         CardListBegin(copy),
         CardListEnd(copy)
@@ -109,13 +110,15 @@ void DisplayScores(const PlayerList& players)
     std::cout << "Le tour est fini" << std::endl;
     std::cout << "* Scores" << std::endl;
 
-    //
-    // Afficher le score total de chaque joueur
-    //
     for (size_t i = 0; i < ListSize(players); ++i)
     {
         const Player& player = PlayerAt(players, i);
-        std::cout << "Joueur " << i + 1 << " : " << player.score << " points" << std::endl;
+
+        //
+        // Afficher seulement s'il n'a pas perdu
+        //
+        if (!player.lost)
+            std::cout << "Joueur " << i + 1 << " : " << player.score << " points" << std::endl;
     }
 }
 

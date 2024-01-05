@@ -13,26 +13,6 @@ void ApplyScorePenalty(Player& player)
     player.score += INVALID_WORD_PENALTY;
 }
 
-unsigned int GetPlayerScore(const Player& player)
-{
-    unsigned int scores[CARDS_COUNT_VALUES] = {
-            10, 2, 8, 6, 10, 2, 4, 8, 10,
-            6, 8, 8, 8, 8, 8, 8, 4, 8,
-            8, 8, 8, 8, 8, 2, 4, 2
-    };
-
-    unsigned int score = 0;
-
-    for (size_t i = 0; i < ListSize(player.cards); ++i)
-    {
-        const Card card = CardAt(player.cards, i);
-        score += scores[CARD_NO(card)];
-    }
-
-    return score;
-}
-
-
 PlayerList PlayerListCreate(size_t playerCount)
 {
     assert(playerCount >= MIN_PLAYER_COUNT);
@@ -41,7 +21,8 @@ PlayerList PlayerListCreate(size_t playerCount)
     PlayerList players {
         .players = new Player[playerCount],
         .playerCount = playerCount,
-        .currentPlayerIndex = 0
+        .currentPlayerIndex = 0,
+        .roundStarterIndex = 0
     };
 
     // Créer une liste de carte vide pour chaque joueur
@@ -75,11 +56,6 @@ size_t GetCurrentPlayerId(const PlayerList& players)
     return players.currentPlayerIndex + 1;
 }
 
-size_t GetCurrentPlayerIndex(const PlayerList& players)
-{
-    return players.currentPlayerIndex;
-}
-
 Player& PlayerAt(const PlayerList& players, size_t index)
 {
     assert(index < ListSize(players));
@@ -104,41 +80,79 @@ void RotateCurrentPlayer(PlayerList& players)
     //
     do
     {
-        if (players.currentPlayerIndex == players.playerCount - 1)
-            players.currentPlayerIndex = 0;
-        else
-            ++players.currentPlayerIndex;
+        players.currentPlayerIndex = (players.currentPlayerIndex + 1) % players.playerCount;
     }
     while (GetCurrentPlayer(players).lost);
 }
 
-void SetRoundStarter(PlayerList& players, size_t& starterIndex)
+void SetRoundStarter(PlayerList& players)
 {
-    assert(starterIndex < ListSize(players));
+    do
+    {
+        players.roundStarterIndex = (players.roundStarterIndex + 1) % players.playerCount;
+    }
+    while (PlayerAt(players, players.roundStarterIndex).lost);
 
-    // Revenir au joueur qui a commencé le tour précédent
-    players.currentPlayerIndex = starterIndex;
+    players.currentPlayerIndex = players.roundStarterIndex;
+}
 
-    // Trouver le prochain joueur actif
-    RotateCurrentPlayer(players);
+void UpdatePlayerScore(Player& player)
+{
+    if (player.lost)
+        return;
 
-    // Actualiser l'indice du joueur qui a commencé le tour
-    starterIndex = GetCurrentPlayerIndex(players);
+    // Voir tableau dans l'annexe du sujet
+    unsigned int scores[CARDS_COUNT_VALUES] = {
+            10, 2, 8, 6, 10, 2, 4, 8, 10,
+            6, 8, 8, 8, 8, 8, 8, 4, 8,
+            8, 8, 8, 8, 8, 2, 4, 2
+    };
+
+    for (size_t i = 0; i < ListSize(player.cards); ++i)
+    {
+        const Card card = CardAt(player.cards, i);
+        player.score += scores[CARD_NO(card)];
+    }
 }
 
 void UpdateScores(PlayerList& players)
 {
     for (size_t i = 0; i < ListSize(players); ++i)
+        UpdatePlayerScore(PlayerAt(players, i));
+}
+
+void UpdateLosers(PlayerList& players)
+{
+    unsigned int minimumScore = PlayerAt(players, 0).score;
+
+    //
+    // Trouver le score minimum
+    //
+    for (size_t i = 1; i < ListSize(players); ++i)
+        minimumScore = MIN(minimumScore, PlayerAt(players, i).score);
+
+    if (minimumScore >= SCORE_TO_LOSE)
     {
-        Player& player = PlayerAt(players, i);
-
-        player.score += GetPlayerScore(player);
-
         //
-        // Vérifier si le joueur dépasse le score maximal, et le rendre inactif si c'est le cas
+        // Dans le cas où tous les joueurs ont 100 points ou plus,
+        // les seuls joueurs gagnants sont ceux qui ont le score le plus bas
         //
-        if (player.score >= SCORE_TO_LOSE)
-            player.lost = true;
+        for (size_t i = 0; i < ListSize(players); ++i)
+        {
+            Player& player = PlayerAt(players, i);
+            player.lost = player.score > minimumScore;
+        }
+    }
+    else
+    {
+        //
+        // Sinon, tous les joueurs avec un score >= 100 perdent
+        //
+        for (size_t i = 0; i < ListSize(players); ++i)
+        {
+            Player& player = PlayerAt(players, i);
+            player.lost = player.score >= SCORE_TO_LOSE;
+        }
     }
 }
 

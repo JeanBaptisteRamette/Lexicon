@@ -18,7 +18,7 @@ struct Player
     // La main du joueur
     CardList cards;
 
-    // La somme des scores à la fin de chaque round + les points de pénalité
+    // La somme des scores à la fin de chaque tour + les points de pénalité
     unsigned int score;
 
     // Si true alors le joueur est éliminé, si false alors le joueur est toujours actif
@@ -32,12 +32,12 @@ struct Player
 void ApplyScorePenalty(Player& player);
 
 /*!
- * @brief Calcul le score d'un joueur à la fin d'un tour, c'est à dire la somme des points de ses cartes restantes
- * @param[in] player Le joueur dont le score est calculé
- * @return Le score du joueur
+ * @brief Met à jour le score d'un joueur à la fin d'un tour, c'est à dire ajoute la somme des points de ses cartes restantes
+ * @param[in] player Le joueur dont le score est mis à jour
+ * @return true si le joueur a joué le round, false si il avait déjà perdu
  * @note La fonction doit être appelée à la fin d'un tour
  */
-unsigned int GetPlayerScore(const Player& player);
+void UpdatePlayerScore(Player& player);
 
 /*!
  * @brief Détermine si le joueur actuel a terminé et gagné le tour
@@ -61,6 +61,9 @@ struct PlayerList
 
     // L'indice dans la liste du joueur actuel, 0 <= currentPlayerIndex < playerCount
     size_t currentPlayerIndex;
+
+    // L'indice du joueur qui a commencé le tour
+    size_t roundStarterIndex;
 };
 
 /*!
@@ -93,13 +96,6 @@ size_t ListSize(const PlayerList& players);
 size_t GetCurrentPlayerId(const PlayerList& players);
 
 /*!
- * @brief Retourne l'indice (et pas l'identifiant) du joueur actuel dans la liste
- * @param[in] players La liste des joueurs
- * @return L'identifiant du joueur actuel tel que 0 <= id < ListSize(players)
- */
-size_t GetCurrentPlayerIndex(const PlayerList& players);
-
-/*!
  * @brief Retourne le joueur à l'indice index de la liste
  * @param[in] players La liste des joueurs
  * @param[in] index L'indice du joueur dans la liste
@@ -126,16 +122,16 @@ void RotateCurrentPlayer(PlayerList& players);
  * @brief Met à jour le joueur qui commence le tour,
  *        c'est à dire le prochain joueur actif après celui qui a commencé le tour précédent
  * @param[in, out] players La liste des joueurs
- * @param[in, out] starterIndex Indice du joueur qui a commencé le tour précédent, devient celui du joueur qui commence le nouveau tour
- * @pre starterId < ListSize(players)
  */
-void SetRoundStarter(PlayerList& players, size_t& starterIndex);
+void SetRoundStarter(PlayerList& players);
 
 /*!
- * @brief Met à jour le score et élimine les joueurs qui dépassent 100 points après la fin d'un tour
+ * @brief Met à jour le score et des joueurs après la fin d'un tour
  * @param[in, out] players Liste des joueurs
  */
 void UpdateScores(PlayerList& players);
+
+void UpdateLosers(PlayerList& players);
 
 /*!
  * @brief Détermine si il y a assez de joueur actif pour joueur, autrement dit, si la partie est fini ou non

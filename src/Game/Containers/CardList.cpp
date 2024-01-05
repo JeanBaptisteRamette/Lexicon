@@ -11,7 +11,6 @@
 #include "CardList.hpp"
 
 
-#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 
 CardList CardListCreate(size_t initialCapacity)

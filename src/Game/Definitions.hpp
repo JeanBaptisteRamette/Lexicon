@@ -9,6 +9,12 @@
 
 
 //
+// Renvoie la plus petite valeur entre X et Y
+//
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+
+
+//
 // chemin relatif du fichier dictionnaire à utiliser
 //
 #define DICTIONARY_PATH "ods4.txt"
@@ -52,7 +58,7 @@ enum
 
     INVALID_WORD_PENALTY = 3,   // Nombre de points de pénalité attribués à un joueur lorsque le mot entré est invalide
 
-    SCORE_TO_LOSE = 101  // Chaque joueur ayant un score supérieur ou égale à cette valeur après un tour est éliminé
+    SCORE_TO_LOSE = 100  // Chaque joueur ayant un score supérieur ou égale à cette valeur après un tour est éliminé
 };
 
 //

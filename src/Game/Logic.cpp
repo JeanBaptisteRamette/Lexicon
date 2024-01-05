@@ -49,11 +49,6 @@ void GameRun(GameData& game)
     DisplayValidCommands();
 
     //
-    // Indice du joueur qui commence le tour
-    //
-    size_t starterIndex = GetCurrentPlayerIndex(game.players);
-
-    //
     // Boucle principale du jeu, on en sort quand il n'y a plus qu'un joueur
     //
     while (EnoughPlayers(game.players))
@@ -79,8 +74,9 @@ void GameRun(GameData& game)
         {
             UpdateScores(game.players);
             DisplayScores(game.players);
+            UpdateLosers(game.players);
             RedistributeCards(game);
-            SetRoundStarter(game.players, starterIndex);
+            SetRoundStarter(game.players);
         }
         else
         {

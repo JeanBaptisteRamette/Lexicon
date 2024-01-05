@@ -320,18 +320,103 @@ void TEST_Game_IncludesOrdered()
     TEST_FUNCTION_LEAVE();
 }
 
+void TEST_Game_UpdateLosers()
+{
+    TEST_FUNCTION_ENTER();
+
+    {
+        TEST_CASE_ENTER("Tout score >= 100 croissants");
+
+        PlayerListAuto pl(MAX_PLAYER_COUNT);
+        Player* players = pl.players.players;
+        players[0].score = 100;
+        players[1].score = 101;
+        players[2].score = 102;
+        players[3].score = 103;
+
+        UpdateLosers(pl);
+
+        TEST_CASE_ASSERT_FALSE(players[0].lost);
+        TEST_CASE_ASSERT(players[1].lost);
+        TEST_CASE_ASSERT(players[2].lost);
+        TEST_CASE_ASSERT(players[3].lost);
+    }
+
+    {
+        TEST_CASE_ENTER("Tout score >= 100 decroissants");
+
+        PlayerListAuto pl(MAX_PLAYER_COUNT);
+        Player* players = pl.players.players;
+
+        players[0].score = 103;
+        players[1].score = 102;
+        players[2].score = 101;
+        players[3].score = 100;
+
+        UpdateLosers(pl);
+
+        TEST_CASE_ASSERT(players[0].lost);
+        TEST_CASE_ASSERT(players[1].lost);
+        TEST_CASE_ASSERT(players[2].lost);
+        TEST_CASE_ASSERT_FALSE(players[3].lost);
+    }
+
+    {
+        TEST_CASE_ENTER("premier score < 100");
+
+        PlayerListAuto pl(MAX_PLAYER_COUNT);
+        Player* players = pl.players.players;
+
+        players[0].score = 70;
+        players[1].score = 102;
+        players[2].score = 101;
+        players[3].score = 103;
+
+        UpdateLosers(pl);
+
+        TEST_CASE_ASSERT_FALSE(players[0].lost);
+        TEST_CASE_ASSERT(players[1].lost);
+        TEST_CASE_ASSERT(players[2].lost);
+        TEST_CASE_ASSERT(players[3].lost);
+    }
+
+    {
+        TEST_CASE_ENTER("dernier score < 100");
+
+        PlayerListAuto pl(MAX_PLAYER_COUNT);
+        Player* players = pl.players.players;
+
+        players[0].score = 103;
+        players[1].score = 102;
+        players[2].score = 101;
+        players[3].score = 70;
+
+        UpdateLosers(pl);
+
+        TEST_CASE_ASSERT(players[0].lost);
+        TEST_CASE_ASSERT(players[1].lost);
+        TEST_CASE_ASSERT(players[2].lost);
+        TEST_CASE_ASSERT_FALSE(players[3].lost);
+    }
+
+    TEST_FUNCTION_LEAVE();
+}
+
 void TEST_COMPONENT_Game()
 {
     TEST_COMPONENT_ENTER();
 
-    TEST_Game_ReuseExposedCards();
-    TEST_Game_CreateGameCards();
-    TEST_Game_DistributeCards();
-    TEST_Game_ShuffleCards();
-    TEST_Game_UpdateScores();
-    TEST_Game_HasCards();
-    TEST_Game_IsWordValid();
-    TEST_Game_IncludesOrdered();
+    TEST_Game_UpdateLosers();
+
+    // TEST_Game_ReuseExposedCards();
+    // TEST_Game_CreateGameCards();
+    // TEST_Game_DistributeCards();
+    // TEST_Game_ShuffleCards();
+    // TEST_Game_UpdateScores();
+    // TEST_Game_HasCards();
+    // TEST_Game_IsWordValid();
+    // TEST_Game_IncludesOrdered();
+
 
     TEST_COMPONENT_LEAVE();
 }

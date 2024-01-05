@@ -48,7 +48,7 @@ void DisplayInvalidWord();
 void DisplayGameState(const GameData& game);
 
 /*!
- * @brief Affiche les scores de chaque joueurs à la fin d'un tour
+ * @brief Affiche les scores de chaque joueurs encore actif à la fin d'un tour.
  * @param[in] players La liste des joueurs
  */
 void DisplayScores(const PlayerList& players);
