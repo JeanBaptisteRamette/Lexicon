@@ -178,3 +178,13 @@ int CardListCompare(const CardList& lhs, const CardList& rhs)
 
     return lhsLength < rhsLength ? -1 : 1;
 }
+
+Card* CardListBegin(const CardList& cardList)
+{
+    return cardList.cards;
+}
+
+Card* CardListEnd(const CardList& cardList)
+{
+    return cardList.cards + cardList.count;
+}

@@ -141,5 +141,19 @@ CardList CardListDifference(const CardList& a, const CardList& b);
  */
 int CardListCompare(const CardList& lhs, const CardList& rhs);
 
+/*!
+ *
+ * @param cardList
+ * @return
+ */
+Card* CardListBegin(const CardList& cardList);
+
+/*!
+ *
+ * @param cardList
+ * @return
+ */
+Card* CardListEnd(const CardList& cardList);
+
 
 #endif //LEXICON_CONTAINERS_CARDLIST_HPP

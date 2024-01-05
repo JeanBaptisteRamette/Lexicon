@@ -7,7 +7,6 @@
 #include <fstream>
 #include <cassert>
 #include <cstdlib>
-#include <iomanip>
 #include <ctime>
 #include "Logic.hpp"
 #include "Definitions.hpp"
@@ -65,14 +64,11 @@ void GameRun(GameData& game)
 
         //
         // Lire, valider et exécuter la commande entrée par le joueur
+        // Le joueur doit rejouer si la commande est invalide
         //
         if (!ReadPlayerCommand(cmd) || !ExecuteCommand(cmd, game))
         {
             DisplayInvalidCommand();
-
-            //
-            // Le joueur doit rejouer si la commande est invalide
-            //
             continue;
         }
 
@@ -94,13 +90,11 @@ void GameRun(GameData& game)
             RotateCurrentPlayer(game.players);
         }
 
+        //
+        // Recycler la pile des cartes exposées pour remplir le talon s'il est vide
+        //
         if (IsEmpty(game.talonCards))
-        {
-            //
-            // Recycler la pile des cartes exposées pour remplir le talon s'il est vide
-            //
             ReuseExposedCards(game.talonCards, game.exposedCards);
-        }
     }
 
     DisplayGameOver();

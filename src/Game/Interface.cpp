@@ -4,6 +4,7 @@
 #include <cassert>
 #include <charconv>
 #include <cstring>
+#include <algorithm>
 #include "Interface.hpp"
 
 
@@ -47,12 +48,33 @@ void DisplayInvalidWord()
     std::cout << "Mot invalide, vous passez votre tour" << std::endl;
 }
 
+void DisplayGameOver()
+{
+    std::cout << "La partie est finie" << std::endl;
+}
+
 void DisplayCardList(const CardList& cardList)
 {
     for (size_t i = 0; i < ListSize(cardList); ++i)
         std::cout << CardAt(cardList, i);
 
     std::cout << std::endl;
+}
+
+void DisplayCardListSorted(const CardList& cardList)
+{
+    // On prend une copie de la liste en paramètre
+    // Une fonction d'affichage ne doit pas modifier le paramètre
+    CardList copy = CardListCopy(cardList);
+
+    std::sort(
+        CardListBegin(copy),
+        CardListEnd(copy)
+    );
+
+    DisplayCardList(cardList);
+
+    CardListDestroy(copy);
 }
 
 void DisplayGameState(const GameData& game)
@@ -65,9 +87,9 @@ void DisplayGameState(const GameData& game)
     const Player& currentPlayer = GetCurrentPlayer(game.players);
 
     //
-    // Afficher la main du joueur actuel
+    // Afficher la main du joueur actuel, true pour affichage triée
     //
-    DisplayCardList(currentPlayer.cards);
+    DisplayCardListSorted(currentPlayer.cards);
 
     //
     // Afficher la liste des mots placés sur la table
@@ -104,7 +126,7 @@ bool ReadPlayerCommand(CommandParams& cmd)
     char input[MAX_COMMAND_LENGTH + 1];
 
     std::cin >> std::ws;
-    std::cin.getline(input, MAX_COMMAND_LENGTH + 1);
+    std::cin.getline(input, sizeof(input));
     std::istringstream stream(input);
 
     stream >> cmd.name;
@@ -112,6 +134,7 @@ bool ReadPlayerCommand(CommandParams& cmd)
     if (stream.peek() != ' ')
         return false;
 
+    // Ces deux commandes prennent un nombre en plus en paramètre
     if (cmd.name == Command::REPLACE || cmd.name == Command::COMPLETE)
     {
         stream >> cmd.wordIndex;
@@ -122,23 +145,22 @@ bool ReadPlayerCommand(CommandParams& cmd)
         --cmd.wordIndex;
     }
 
+    // Ces deux commandes prennent seulement une lettre en paramètre
     if (cmd.name == Command::TALON || cmd.name == Command::EXPOSED)
     {
         stream >> cmd.card;
-    } else
+    }
+    else
     {
         char cards[MAX_COMMAND_WORD_LENGTH + 1];
-        stream >> std::setw(MAX_COMMAND_WORD_LENGTH + 1);
+        stream >> std::setw(sizeof(cards));
         stream >> cards;
 
         cmd.cards = CardListCopyString(cards);
     }
 
+    // Vérifier qu'il ne reste pas d'autres caractères sur la ligne
     return (stream >> std::ws).eof();
 }
 
-void DisplayGameOver()
-{
-    std::cout << "La partie est finie" << std::endl;
-}
 
