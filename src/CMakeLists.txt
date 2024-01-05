@@ -6,8 +6,11 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(IUT_Projet2
         main.cpp
 
-        Game/Players.hpp
+        Game/Player.cpp
+        Game/Player.hpp
+
         Game/Players.cpp
+        Game/Players.hpp
 
         Game/Containers/CardList.cpp
         Game/Containers/CardList.hpp

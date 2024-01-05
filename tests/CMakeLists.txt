@@ -25,6 +25,9 @@ add_executable(IUT_Projet2_tests
         ../src/Game/Interface.cpp
         ../src/Game/Interface.hpp
 
+        ../src/Game/Player.cpp
+        ../src/Game/Player.hpp
+
         ../src/Game/Players.cpp
         ../src/Game/Players.hpp
 

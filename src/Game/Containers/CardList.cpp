@@ -11,8 +11,6 @@
 #include "CardList.hpp"
 
 
-
-
 CardList CardListCreate(size_t initialCapacity)
 {
     const CardList cards = {

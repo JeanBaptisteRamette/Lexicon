@@ -8,11 +8,6 @@
 #include "Definitions.hpp"
 
 
-void ApplyScorePenalty(Player& player)
-{
-    player.score += INVALID_WORD_PENALTY;
-}
-
 PlayerList PlayerListCreate(size_t playerCount)
 {
     assert(playerCount >= MIN_PLAYER_COUNT);
@@ -68,10 +63,6 @@ Player& GetCurrentPlayer(const PlayerList& players)
     return PlayerAt(players, players.currentPlayerIndex);
 }
 
-bool HasPlayerWonRound(const Player& currentPlayer)
-{
-    return IsEmpty(currentPlayer.cards);
-}
 
 void RotateCurrentPlayer(PlayerList& players)
 {
@@ -94,25 +85,6 @@ void SetRoundStarter(PlayerList& players)
     while (PlayerAt(players, players.roundStarterIndex).lost);
 
     players.currentPlayerIndex = players.roundStarterIndex;
-}
-
-void UpdatePlayerScore(Player& player)
-{
-    if (player.lost)
-        return;
-
-    // Voir tableau dans l'annexe du sujet
-    unsigned int scores[CARDS_COUNT_VALUES] = {
-            10, 2, 8, 6, 10, 2, 4, 8, 10,
-            6, 8, 8, 8, 8, 8, 8, 4, 8,
-            8, 8, 8, 8, 8, 2, 4, 2
-    };
-
-    for (size_t i = 0; i < ListSize(player.cards); ++i)
-    {
-        const Card card = CardAt(player.cards, i);
-        player.score += scores[CARD_NO(card)];
-    }
 }
 
 void UpdateScores(PlayerList& players)
