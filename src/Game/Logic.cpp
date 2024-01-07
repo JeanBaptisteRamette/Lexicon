@@ -380,15 +380,18 @@ bool CommandPlace(const CommandParams& params, Player& player, WordList& placedW
 bool CommandReplace(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary)
 {
     const size_t wordIndex = params.wordIndex;
+    CardList newWord = params.cards;
 
     //
     // 1. Vérifier que l'indice du mot est valide
     //
     if (wordIndex >= ListSize(placedWords))
+    {
+        CardListDestroy(newWord);
         return false;
+    }
 
     CardList& oldWord = WordAt(placedWords, wordIndex);
-    CardList  newWord = params.cards;
 
     //
     // 2. Le nouveau mot doit avoir la même taille que celui remplacé
@@ -485,12 +488,15 @@ bool IncludesOrdered(const CardList& a, const CardList& b)
 bool CommandComplete(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary)
 {
     const size_t wordIndex = params.wordIndex;
+    CardList newWord = params.cards;
 
     if (wordIndex >= ListSize(placedWords))
+    {
+        CardListDestroy(newWord);
         return false;
+    }
 
     CardList& oldWord = WordAt(placedWords, wordIndex);
-    CardList  newWord = params.cards;
 
     if (!IncludesOrdered(oldWord, newWord))
     {

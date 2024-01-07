@@ -73,7 +73,7 @@ void DisplayCardListSorted(const CardList& cardList)
         CardListEnd(copy)
     );
 
-    DisplayCardList(cardList);
+    DisplayCardList(copy);
 
     CardListDestroy(copy);
 }
@@ -88,7 +88,7 @@ void DisplayGameState(const GameData& game)
     const Player& currentPlayer = GetCurrentPlayer(game.players);
 
     //
-    // Afficher la main du joueur actuel, true pour affichage triée
+    // Afficher la main du joueur actuel
     //
     DisplayCardListSorted(currentPlayer.cards);
 
