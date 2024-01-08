@@ -15,7 +15,7 @@
 #include "Players.hpp"
 
 
-bool ExecuteCommand(const CommandParams& cmd, GameData& game)
+bool ExecuteCommand(const Command& cmd, GameData& game)
 {
     Player& currentPlayer = GetCurrentPlayer(game.players);
 
@@ -24,19 +24,19 @@ bool ExecuteCommand(const CommandParams& cmd, GameData& game)
     //
     switch (cmd.name)
     {
-        case Command::TALON:
+        case Commands::TALON:
             return CommandTalon(cmd, currentPlayer, game.exposedCards, game.talonCards);
 
-        case Command::EXPOSED:
+        case Commands::EXPOSED:
             return CommandExposed(cmd, currentPlayer, game.exposedCards);
 
-        case Command::PLACE:
+        case Commands::PLACE:
             return CommandPlace(cmd, currentPlayer, game.placedWords, game.dictionary);
 
-        case Command::REPLACE:
+        case Commands::REPLACE:
             return CommandReplace(cmd, currentPlayer, game.placedWords, game.dictionary);
 
-        case Command::COMPLETE:
+        case Commands::COMPLETE:
             return CommandComplete(cmd, currentPlayer, game.placedWords, game.dictionary);
 
         default:
@@ -55,7 +55,7 @@ void GameRun(GameData& game)
     {
         DisplayGameState(game);
 
-        CommandParams cmd {};
+        Command cmd {};
 
         //
         // Lire, valider et exécuter la commande entrée par le joueur
@@ -224,7 +224,7 @@ void RedistributeCards(GameData& game)
     GameCardsSetup(game);
 }
 
-bool CommandTalon(const CommandParams& params, Player& player, CardStack& exposedCards, CardStack& talonCards)
+bool CommandTalon(const Command& params, Player& player, CardStack& exposedCards, CardStack& talonCards)
 {
     const Card card = params.card;
 
@@ -255,7 +255,7 @@ bool CommandTalon(const CommandParams& params, Player& player, CardStack& expose
     return true;
 }
 
-bool CommandExposed(const CommandParams& params, Player& player, CardStack& exposedCards)
+bool CommandExposed(const Command& params, Player& player, CardStack& exposedCards)
 {
     const Card card = params.card;
 
@@ -339,7 +339,7 @@ bool IsWordValid(const WordList& dictionary, const CardList& word)
     return false;
 }
 
-bool CommandPlace(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary)
+bool CommandPlace(const Command& params, Player& player, WordList& placedWords, const WordList& dictionary)
 {
     CardList word = params.cards;
 
@@ -377,7 +377,7 @@ bool CommandPlace(const CommandParams& params, Player& player, WordList& placedW
     return true;
 }
 
-bool CommandReplace(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary)
+bool CommandReplace(const Command& params, Player& player, WordList& placedWords, const WordList& dictionary)
 {
     const size_t wordIndex = params.wordIndex;
     CardList newWord = params.cards;
@@ -485,7 +485,7 @@ bool IncludesOrdered(const CardList& a, const CardList& b)
     return true;
 }
 
-bool CommandComplete(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary)
+bool CommandComplete(const Command& params, Player& player, WordList& placedWords, const WordList& dictionary)
 {
     const size_t wordIndex = params.wordIndex;
     CardList newWord = params.cards;

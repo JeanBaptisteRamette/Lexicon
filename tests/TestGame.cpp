@@ -4,6 +4,25 @@
 #include "AutoDestructors.hpp"
 
 
+void TEST_Game_CardConversions()
+{
+    TEST_FUNCTION_ENTER();
+
+    {
+        TEST_CASE_ENTER("CARD_NO et CARD_VALUE");
+
+        const char* ptr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for (unsigned int i = 0; i < strlen(ptr); ++i)
+        {
+            TEST_CASE_ASSERT(CARD_NO(ptr[i]) == i);
+            TEST_CASE_ASSERT(CARD_NO(i) == ptr[i]);
+        }
+    }
+
+    TEST_FUNCTION_LEAVE();
+}
+
 void TEST_Game_ShuffleCards()
 {
     TEST_FUNCTION_ENTER();

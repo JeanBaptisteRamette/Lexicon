@@ -30,7 +30,7 @@ void GameRun(GameData& game);
  * @return true si la commande est valide et que le joueur a donc finit son tour,
  *         false si la commande est invalide et que le joueur doit rejouer son tour
  */
-bool ExecuteCommand(const CommandParams& cmd, GameData& game);
+bool ExecuteCommand(const Command& cmd, GameData& game);
 
 /*!
  * @brief Créer le paquet de carte contenant toutes les cartes du jeu
@@ -101,7 +101,7 @@ bool ReadDictionary(WordList& dictionary);
  * @param[in, out] exposedCards La pile des cartes exposées
  * @param[in, out] talonCards La pile des cartes invisibles
  */
-bool CommandTalon(const CommandParams& params, Player& player, CardStack& exposedCards, CardStack& talonCards);
+bool CommandTalon(const Command& params, Player& player, CardStack& exposedCards, CardStack& talonCards);
 
 /*!
  * @brief Implémente la commande 'E' du jeu
@@ -109,7 +109,7 @@ bool CommandTalon(const CommandParams& params, Player& player, CardStack& expose
  * @param[in, out] player Le joueur actuel
  * @param[in, out] exposedCards La pile des cartes exposées
  */
-bool CommandExposed(const CommandParams& params, Player& player, CardStack& exposedCards);
+bool CommandExposed(const Command& params, Player& player, CardStack& exposedCards);
 
 /*!
  * @brief Implémente la commande 'P' du jeu
@@ -117,8 +117,9 @@ bool CommandExposed(const CommandParams& params, Player& player, CardStack& expo
  * @param[in, out] player Le joueur actuel
  * @param[in, out] placedWords La liste des mots placés sur la table
  * @param[in] dictionary Le dictionnaire des mots valides
+ * @note La fonction désalloue params.cards si la commande est invalide
  */
-bool CommandPlace(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary);
+bool CommandPlace(const Command& params, Player& player, WordList& placedWords, const WordList& dictionary);
 
 /*!
  * @brief Implémente la commande 'R' du jeu
@@ -126,8 +127,9 @@ bool CommandPlace(const CommandParams& params, Player& player, WordList& placedW
  * @param[in, out] player Le joueur actuel
  * @param[in, out] placedWords La liste des mots placés sur la table
  * @param[in] dictionary Le dictionnaire des mots valides
+ * @note La fonction désalloue params.cards si la commande est invalide
  */
-bool CommandReplace(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary);
+bool CommandReplace(const Command& params, Player& player, WordList& placedWords, const WordList& dictionary);
 
 /*!
  * @brief Implémente la commande 'C' du jeu
@@ -135,7 +137,8 @@ bool CommandReplace(const CommandParams& params, Player& player, WordList& place
  * @param[in, out] player Le joueur actuel
  * @param[in, out] placedWords La liste des mots placés sur la table
  * @param[in] dictionary Le dictionnaire des mots valides
+ * @note La fonction désalloue params.cards si la commande est invalide
  */
-bool CommandComplete(const CommandParams& params, Player& player, WordList& placedWords, const WordList& dictionary);
+bool CommandComplete(const Command& params, Player& player, WordList& placedWords, const WordList& dictionary);
 
 #endif //LEXICON_LOGIC_HPP

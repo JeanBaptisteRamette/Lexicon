@@ -1,5 +1,4 @@
 #include <iostream>
-#include <sstream>
 #include <iomanip>
 #include <cassert>
 #include <charconv>
@@ -10,18 +9,21 @@
 
 unsigned int ReadPlayerCount(int argc, const char* argv[])
 {
-    if (argc != 2)
+    ++argv;
+    --argc;
+
+    if (!argc)
     {
         std::cerr << "Nombre de joueurs manquant" << std::endl;
         return 0;
     }
 
-    ++argv;
-
     const char* beg = *argv;
     const char* end = *argv + strlen(*argv);
 
     unsigned int playerCount;
+
+    // Essaye de convertir une chaîne de caractère en entier
     const std::from_chars_result result = std::from_chars(beg, end, playerCount);
 
     if (result.ec != std::errc() || playerCount < MIN_PLAYER_COUNT || playerCount > MAX_PLAYER_COUNT)
@@ -75,26 +77,21 @@ void DisplayCardListSorted(const CardList& cardList)
 
     DisplayCardList(copy);
 
+    // Détruire la copie
     CardListDestroy(copy);
 }
 
 void DisplayGameState(const GameData& game)
 {
-    //
     // Afficher l'identifiant du joueur actuel et la première carte exposée (la pile n'est jamais vide)
-    //
     std::cout << "* Joueur " << GetCurrentPlayerId(game.players) << " (" << CardStackPeek(game.exposedCards) << ") ";
 
     const Player& currentPlayer = GetCurrentPlayer(game.players);
 
-    //
     // Afficher la main du joueur actuel
-    //
     DisplayCardListSorted(currentPlayer.cards);
 
-    //
     // Afficher la liste des mots placés sur la table
-    //
     for (size_t i = 0; i < ListSize(game.placedWords); ++i)
     {
         const CardList& word = WordAt(game.placedWords, i);
@@ -114,56 +111,67 @@ void DisplayScores(const PlayerList& players)
     {
         const Player& player = PlayerAt(players, i);
 
-        //
-        // Afficher seulement s'il n'a pas perdu
-        //
+        // Seulement afficher les scores des joueurs actifs
         if (!player.lost)
             std::cout << "Joueur " << i + 1 << " : " << player.score << " points" << std::endl;
     }
 }
 
-bool ReadPlayerCommand(CommandParams& cmd)
+std::istringstream ReadCommandAsStream()
 {
-    std::cout << "> ";
-
     char input[MAX_COMMAND_LENGTH + 1];
 
+    // Lire l'entrée sur une seule ligne, puis utiliser std::istringstream facilitant la lecture
     std::cin >> std::ws;
     std::cin.getline(input, sizeof(input));
     std::istringstream stream(input);
 
-    stream >> cmd.name;
+    return stream;
+}
 
-    if (stream.peek() != ' ')
+bool ReadCommandFromStream(Command& cmd, std::istringstream& stream)
+{
+    // Lire le nom de la commande
+    if (!(stream >> cmd.name) || stream.peek() != ' ')
         return false;
 
-    // Ces deux commandes prennent un nombre en plus en paramètre
-    if (cmd.name == Command::REPLACE || cmd.name == Command::COMPLETE)
+    // Lire une seule carte pour 'T' et 'E'
+    if (cmd.name == Commands::TALON || cmd.name == Commands::EXPOSED)
     {
-        stream >> cmd.wordIndex;
+        stream >> cmd.card;
 
-        if (stream.peek() != ' ')
+        // Vérifier que le stream ne contient plus de caractères
+        return (stream >> std::ws).eof();
+    }
+
+    // Lire un entier pour 'R' et 'C'
+    if (cmd.name == Commands::REPLACE || cmd.name == Commands::COMPLETE)
+    {
+        if (!(stream >> cmd.wordIndex) || stream.peek() != ' ')
             return false;
 
         --cmd.wordIndex;
     }
 
-    // Ces deux commandes prennent seulement une lettre en paramètre
-    if (cmd.name == Command::TALON || cmd.name == Command::EXPOSED)
-    {
-        stream >> cmd.card;
-    }
-    else
-    {
-        char cards[MAX_COMMAND_WORD_LENGTH + 1];
-        stream >> std::setw(sizeof(cards));
-        stream >> cards;
+    // Lire un mot pour 'R', 'C', et 'P'
+    char cards[MAX_COMMAND_WORD_LENGTH + 1];
+    stream >> std::setw(sizeof(cards));
+    stream >> cards;
 
-        cmd.cards = CardListCopyString(cards);
-    }
+    if (!(stream >> std::ws).eof())
+        return false;
 
-    // Vérifier qu'il ne reste pas d'autres caractères sur la ligne
-    return (stream >> std::ws).eof();
+    cmd.cards = CardListCopyString(cards);
+    return true;
+}
+
+bool ReadPlayerCommand(Command& cmd)
+{
+    std::cout << "> ";
+
+    std::istringstream stream = ReadCommandAsStream();
+
+    return ReadCommandFromStream(cmd, stream);
 }
 
 

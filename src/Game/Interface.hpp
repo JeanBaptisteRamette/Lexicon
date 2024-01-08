@@ -2,6 +2,7 @@
 #define LEXICON_INTERFACE_HPP
 
 
+#include <sstream>
 #include "Definitions.hpp"
 #include "Players.hpp"
 #include "Containers/WordList.hpp"
@@ -9,7 +10,7 @@
 #include "Containers/CardStack.hpp"
 #include "GameData.hpp"
 
-struct CommandParams
+struct Command
 {
     char name;
     size_t wordIndex;
@@ -63,7 +64,16 @@ void DisplayGameOver();
  * @param[in, out] cmd La structure contenant le nom de la commande et ses paramètres
  * @return true si la commande est correctement formée, false si elle doit être re-saisis
  */
-bool ReadPlayerCommand(CommandParams& cmd);
+bool ReadPlayerCommand(Command& cmd);
+
+/*!
+ * @brief Lit une commande utilisateur depuis un stream
+ * @param[out] cmd Contient les données de la commande saisie
+ * @param[in, out] stream Le flot qui contient la ligne de commande saisie par le joueur
+ * @return true si la commande est correctement formée, false si non
+ * @note On sépare cette fonction pour pouvoir la tester dans les tests unitaires
+ */
+bool ReadCommandFromStream(Command& cmd, std::istringstream& stream);
 
 
 #endif //LEXICON_INTERFACE_HPP

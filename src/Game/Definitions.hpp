@@ -70,7 +70,7 @@ typedef char Card;
 //
 // Les valeurs que peuvent prendre chaque commande entrée par l'utilisateur
 //
-enum Command
+enum Commands
 {
     TALON    = 'T',
     EXPOSED  = 'E',
