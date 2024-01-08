@@ -1,8 +1,142 @@
+#include <sstream>
 #include "Tests.hpp"
 #include "TestGame.hpp"
 #include "../src/Game/Logic.hpp"
 #include "AutoDestructors.hpp"
 
+
+void TEST_Game_ReadCommandFromStream()
+{
+    TEST_FUNCTION_ENTER();
+
+    {
+        TEST_CASE_ENTER("Commandes valides: T");
+
+        Command cmd {};
+        std::istringstream stream("T E");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'T');
+        TEST_CASE_ASSERT(cmd.card == 'E');
+    }
+
+    {
+        TEST_CASE_ENTER("Commandes valides: E");
+
+        Command cmd {};
+        std::istringstream stream("E B");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'E');
+        TEST_CASE_ASSERT(cmd.card == 'B');
+    }
+
+    {
+        TEST_CASE_ENTER("Commandes valides: P");
+
+        Command cmd {};
+        std::istringstream stream("P FOIN");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'P');
+        TEST_CASE_ASSERT(std::strncmp(cmd.cards.cards, "FOIN", 4) == 0);
+
+        CardListDestroy(cmd.cards);
+    }
+
+    {
+        TEST_CASE_ENTER("Commandes valides: R");
+
+        Command cmd {};
+        std::istringstream stream("R 23 DEAARKFJAHFRKC");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'R');
+        TEST_CASE_ASSERT(cmd.wordIndex == 22);
+        TEST_CASE_ASSERT(std::strncmp(cmd.cards.cards, "DEAARKFJAHFRKC", 14) == 0);
+
+        CardListDestroy(cmd.cards);
+    }
+
+    {
+        TEST_CASE_ENTER("Commandes valides: C");
+
+        Command cmd {};
+        std::istringstream stream("C 100 MAISOOOOOOON");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'C');
+        TEST_CASE_ASSERT(cmd.wordIndex == 99);
+        TEST_CASE_ASSERT(std::strncmp(cmd.cards.cards, "MAISOOOOOOON", 12) == 0);
+
+        CardListDestroy(cmd.cards);
+    }
+
+    {
+        TEST_CASE_ENTER("Commandes valides espaces multiples: T");
+
+        Command cmd {};
+        std::istringstream stream("     T      E        ");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'T');
+        TEST_CASE_ASSERT(cmd.card == 'E');
+    }
+
+    {
+        TEST_CASE_ENTER("Commandes valides espaces multiples: E");
+
+        Command cmd {};
+        std::istringstream stream("   E              B ");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'E');
+        TEST_CASE_ASSERT(cmd.card == 'B');
+    }
+
+    {
+        TEST_CASE_ENTER("Commandes valides espaces multiples: P");
+
+        Command cmd {};
+        std::istringstream stream("   P     FOIN ");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'P');
+        TEST_CASE_ASSERT(std::strncmp(cmd.cards.cards, "FOIN", 4) == 0);
+
+        CardListDestroy(cmd.cards);
+    }
+
+    {
+        TEST_CASE_ENTER("Commandes valides espaces multiples: R");
+
+        Command cmd {};
+        std::istringstream stream("   R    23       DEAARKFJAHFRKC     ");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'R');
+        TEST_CASE_ASSERT(cmd.wordIndex == 22);
+        TEST_CASE_ASSERT(std::strncmp(cmd.cards.cards, "DEAARKFJAHFRKC", 14) == 0);
+
+        CardListDestroy(cmd.cards);
+    }
+
+    {
+        TEST_CASE_ENTER("Commandes valides espaces multiples: C");
+
+        Command cmd {};
+        std::istringstream stream("  C     100   MAISOOOOOOON   ");
+        ReadCommandFromStream(cmd, stream);
+
+        TEST_CASE_ASSERT(cmd.name == 'C');
+        TEST_CASE_ASSERT(cmd.wordIndex == 99);
+        TEST_CASE_ASSERT(std::strncmp(cmd.cards.cards, "MAISOOOOOOON", 12) == 0);
+
+        CardListDestroy(cmd.cards);
+    }
+
+    TEST_FUNCTION_LEAVE();
+}
 
 void TEST_Game_CardConversions()
 {
@@ -16,7 +150,7 @@ void TEST_Game_CardConversions()
         for (unsigned int i = 0; i < strlen(ptr); ++i)
         {
             TEST_CASE_ASSERT(CARD_NO(ptr[i]) == i);
-            TEST_CASE_ASSERT(CARD_NO(i) == ptr[i]);
+            TEST_CASE_ASSERT(CARD_VALUE(i) == ptr[i]);
         }
     }
 
@@ -132,45 +266,26 @@ void TEST_Game_DistributeCards()
     TEST_FUNCTION_LEAVE();
 }
 
-void TEST_Game_UpdateScores()
+void TEST_Game_UpdatePlayerScore()
 {
     TEST_FUNCTION_ENTER();
 
     {
         TEST_CASE_ENTER("Cartes");
 
-        PlayerListAuto players(2);
-        Player& player = PlayerAt(players, 0);
+        Player player {};
 
         for (size_t i = 0; i < 10; ++i)
             CardListAppend(player.cards, 'A');
 
-        UpdateScores(players);
+        UpdatePlayerScore(player);
 
-        TEST_CASE_ASSERT_FALSE(player.lost);
+        TEST_CASE_ASSERT(player.score == 100);
 
         CardListAppend(player.cards, 'Z');
-        UpdateScores(players);
+        UpdatePlayerScore(player);
 
-        TEST_CASE_ASSERT(player.lost);
-    }
-
-    {
-        TEST_CASE_ENTER("Penalites");
-
-        PlayerListAuto players(2);
-        Player& player = PlayerAt(players, 0);
-
-        for (size_t i = 0; i < 99 / INVALID_WORD_PENALTY; ++i)
-            ApplyScorePenalty(player);
-
-        UpdateScores(players);
-        TEST_CASE_ASSERT_FALSE(player.lost);
-
-        ApplyScorePenalty(player);
-
-        UpdateScores(players);
-        TEST_CASE_ASSERT(player.lost);
+        TEST_CASE_ASSERT(player.score == 100 + 102);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -425,16 +540,17 @@ void TEST_COMPONENT_Game()
 {
     TEST_COMPONENT_ENTER();
 
+    TEST_Game_ReadCommandFromStream();
+    TEST_Game_CardConversions();
     TEST_Game_UpdateLosers();
-
-    // TEST_Game_ReuseExposedCards();
-    // TEST_Game_CreateGameCards();
-    // TEST_Game_DistributeCards();
-    // TEST_Game_ShuffleCards();
-    // TEST_Game_UpdateScores();
-    // TEST_Game_HasCards();
-    // TEST_Game_IsWordValid();
-    // TEST_Game_IncludesOrdered();
+    TEST_Game_ReuseExposedCards();
+    TEST_Game_CreateGameCards();
+    TEST_Game_DistributeCards();
+    TEST_Game_ShuffleCards();
+    TEST_Game_UpdatePlayerScore();
+    TEST_Game_HasCards();
+    TEST_Game_IsWordValid();
+    TEST_Game_IncludesOrdered();
 
 
     TEST_COMPONENT_LEAVE();

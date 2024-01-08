@@ -53,7 +53,7 @@ enum
     DICTIONARY_WORD_COUNT = 369085,  // Le dictionnaire contient 369085 mots
     DICTIONARY_MAX_WORD_SIZE = 15,   // Le(s) plus grand(s) mot(s) du dictionnaire ont une taille de 15 caractères
 
-    MAX_COMMAND_LENGTH = 32,         // La taille maximale (sans le 0 terminal) d'une commande entrée par le joueur
+    MAX_COMMAND_LENGTH = 64,         // La taille maximale (sans le 0 terminal) d'une commande entrée par le joueur
     MAX_COMMAND_WORD_LENGTH = DICTIONARY_MAX_WORD_SIZE,  // La taille maximale d'un mot donné en paramètre à une commande
 
     INVALID_WORD_PENALTY = 3,   // Nombre de points de pénalité attribués à un joueur lorsque le mot entré est invalide

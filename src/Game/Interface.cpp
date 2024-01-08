@@ -126,6 +126,16 @@ std::istringstream ReadCommandAsStream()
     std::cin.getline(input, sizeof(input));
     std::istringstream stream(input);
 
+    // Vérifier s'il y a trop de caractères saisit
+    if (std::cin.fail())
+    {
+        // Remettre dans un état valide le stream
+        std::cin.clear();
+
+        // Ignorer les caractères en trop sur la ligne
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+
     return stream;
 }
 
