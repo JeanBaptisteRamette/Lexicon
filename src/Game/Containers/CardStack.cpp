@@ -1,11 +1,11 @@
+/*!
+ * @file CardStack.cpp
+ * @brief Implémentation d'une pile de carte
+ */
+
 #include <cassert>
 #include "CardStack.hpp"
 
-
-void CardStackAssignList(CardStack& cardStack, const CardList& cardList)
-{
-    cardStack.list = cardList;
-}
 
 CardStack CardStackCreate(size_t initialCapacity)
 {

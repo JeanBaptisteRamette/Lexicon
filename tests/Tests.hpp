@@ -1,3 +1,7 @@
+/*!
+ * Définition de macro aidant à définir des tests et logging basique
+ */
+
 #ifndef LEXICON_TESTS_TESTS_HPP
 #define LEXICON_TESTS_TESTS_HPP
 
@@ -37,7 +41,8 @@
 #define TEST_CASE_ERROR(str_expr) std::cerr << "***** Failed " << str_expr << ' ' << std::endl; exit(EXIT_FAILURE)
 #endif
 
-#define TEST_CASE_ASSERT(expr) \
+
+#define TEST_CASE_ASSERT_TRUE(expr) \
 do {                           \
   if ((expr)) {                \
       TEST_CASE_LEAVE(#expr);  \
@@ -55,5 +60,10 @@ do {                                 \
       TEST_CASE_ERROR(#expr);        \
   }                                  \
 } while (0)
+
+
+#define TEST_CASE_ASSERT_EQUAL(lhs, rhs) TEST_CASE_ASSERT_TRUE((lhs) == (rhs))
+#define TEST_CASE_ASSERT_UNEQUAL(lhs, rhs) TEST_CASE_ASSERT_FALSE((lhs) == (rhs))
+
 
 #endif //LEXICON_TESTS_TESTS_HPP

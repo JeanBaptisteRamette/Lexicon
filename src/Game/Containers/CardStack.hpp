@@ -1,22 +1,25 @@
+/*!
+ * @file CardStack.hpp
+ * @brief Définition de l'interface d'une pile de carte
+ */
+
 #ifndef LEXICON_CONTAINERS_CARDSTACK_HPP
 #define LEXICON_CONTAINERS_CARDSTACK_HPP
 
 #include "../Definitions.hpp"
 #include "CardList.hpp"
 
+
+/*!
+ * Structure représentant une pile de carte
+ */
 struct CardStack
 {
+    // On utilise simplement une liste pour l'implémentation,
+    // à laquelle on ne fait qu'ajouter et supprimer par le haut
     CardList list;
 };
 
-
-/*!
- * @brief Créer une pile de carte en s'appropriant la mémoire occupée par les éléments d'une liste de carte
- *        La ressource pointé par cardList est partagé avec la nouvelle pile
- * @param[in, out] cardStack La pile de carte s'appropriant la ressource
- * @param[in] cardList La liste de carte dont on s'approprie les éléments dans la pile
- */
-void CardStackAssignList(CardStack& cardStack, const CardList& cardList);
 
 /*!
  * @brief Créer une pile de carte vide
@@ -52,6 +55,11 @@ void CardStackPush(CardStack& cardStack, Card card);
  */
 Card CardStackPop(CardStack& cardStack);
 
+/*!
+ * @brief Vérifie si une pile est vide ou pas
+ * @param cardStack La pile
+ * @return true si la pile est vide, false sinon
+ */
 bool IsEmpty(const CardStack& cardStack);
 
 #endif //LEXICON_CONTAINERS_CARDSTACK_HPP

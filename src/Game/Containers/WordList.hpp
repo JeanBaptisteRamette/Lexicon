@@ -1,18 +1,25 @@
+/*!
+ * @file WordList.hpp
+ * @brief Définition l'une liste de mot
+ */
+
 #ifndef LEXICON_CONTAINERS_WORDLIST_HPP
 #define LEXICON_CONTAINERS_WORDLIST_HPP
 
 #include "CardList.hpp"
 
+
 enum
 {
-    WORD_LIST_CAPACITY_EXTEND = 2  // facteur d'extension par défaut d'une liste de mot
+    WORD_LIST_CAPACITY_EXTEND = 2  // Facteur d'extension par défaut d'une liste de mot
 };
+
 
 struct WordList
 {
-    size_t capacity;
-    size_t count;
-    CardList* words;
+    size_t capacity;       // Nombre de mots que peut stocker la liste
+    size_t count;          // Nombre de mots stockés dans la liste
+    CardList* words;       // Pointeur vers les mots stockés dans la liste
 };
 
 

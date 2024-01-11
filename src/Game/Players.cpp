@@ -13,6 +13,7 @@ PlayerList PlayerListCreate(size_t playerCount)
     assert(playerCount >= MIN_PLAYER_COUNT);
     assert(playerCount <= MAX_PLAYER_COUNT);
 
+    // Initialiser la liste
     PlayerList players {
         .players = new Player[playerCount],
         .playerCount = playerCount,
@@ -66,11 +67,9 @@ Player& GetCurrentPlayer(const PlayerList& players)
 
 void RotateCurrentPlayer(PlayerList& players)
 {
-    //
-    // Trouve le prochain joueur encore actif
-    //
     do
     {
+        // Passer au prochain joueur et répéter tant que le nouveau joueur n'est pas actif
         players.currentPlayerIndex = (players.currentPlayerIndex + 1) % players.playerCount;
     }
     while (GetCurrentPlayer(players).lost);
@@ -80,10 +79,12 @@ void SetRoundStarter(PlayerList& players)
 {
     do
     {
+        // Passer au prochain joueur et répéter tant que le nouveau joueur n'est pas actif
         players.roundStarterIndex = (players.roundStarterIndex + 1) % players.playerCount;
     }
     while (PlayerAt(players, players.roundStarterIndex).lost);
 
+    // Définir le joueur actuel comme celui qui commence le tour
     players.currentPlayerIndex = players.roundStarterIndex;
 }
 
@@ -97,18 +98,14 @@ void UpdateLosers(PlayerList& players)
 {
     unsigned int minimumScore = PlayerAt(players, 0).score;
 
-    //
     // Trouver le score minimum
-    //
     for (size_t i = 1; i < ListSize(players); ++i)
         minimumScore = MIN(minimumScore, PlayerAt(players, i).score);
 
     if (minimumScore >= SCORE_TO_LOSE)
     {
-        //
         // Dans le cas où tous les joueurs ont 100 points ou plus,
         // les seuls joueurs gagnants sont ceux qui ont le score le plus bas
-        //
         for (size_t i = 0; i < ListSize(players); ++i)
         {
             Player& player = PlayerAt(players, i);
@@ -117,9 +114,7 @@ void UpdateLosers(PlayerList& players)
     }
     else
     {
-        //
         // Sinon, tous les joueurs avec un score >= 100 perdent
-        //
         for (size_t i = 0; i < ListSize(players); ++i)
         {
             Player& player = PlayerAt(players, i);
@@ -132,9 +127,7 @@ bool EnoughPlayers(const PlayerList& players)
 {
     size_t activePlayerCount = 0;
 
-    //
     // Compter le nombre de joueurs actifs (qui n'ont pas perdu)
-    //
     for (size_t i = 0; i < ListSize(players); ++i)
     {
         const Player& player = PlayerAt(players, i);
@@ -143,8 +136,6 @@ bool EnoughPlayers(const PlayerList& players)
             ++activePlayerCount;
     }
 
-    //
-    // La partie peut continuer s'il le joueur n'est pas seul
-    //
+    // La partie peut continuer s'il y a au moins 2 joueur
     return activePlayerCount >= MIN_PLAYER_COUNT;
 }

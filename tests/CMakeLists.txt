@@ -42,6 +42,4 @@ add_executable(IUT_Projet2_tests
 
         TestGame.cpp
         TestGame.hpp
-
-        AutoDestructors.hpp
         )

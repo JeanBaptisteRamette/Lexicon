@@ -1,3 +1,8 @@
+/*!
+ * @file Logic.hpp
+ * @brief Définition des fonctions liées à la logique du jeu: commandes, boucle principale, gestion des cartes, dictionnaire
+ */
+
 #ifndef LEXICON_LOGIC_HPP
 #define LEXICON_LOGIC_HPP
 
@@ -79,20 +84,11 @@ bool IsWordValid(const WordList& dictionary, const CardList& word);
 /*!
  * @brief Vérifie si la collection a est une partie de la collection b,
  *        et que les éléments de a sont dans le même ordre dans a et dans b
- * @param a La liste à chercher
- * @param b La liste dans laquelle chercher
+ * @param[in] a La liste à chercher
+ * @param[in] b La liste dans laquelle chercher
  * @return true si b inclue a et éléments dans le même ordre sinon false
  */
 bool IncludesOrdered(const CardList& a, const CardList& b);
-
-/*!
- * @brief Lit le dictionnaire de mot valides depuis le fichier "ods4.txt"
- * @param[in, out] dictionary La liste de mot qui va contenir les données du fichier
- * @return true si le dictionnaire a pu être lu en entier, false sinon
- * @note La lecture n'est pas correcte si on lit depuis un environnement Unix un fichier sauvegardé sur Windows
- *       à cause de la différence (CRLF/LF)
- */
-bool ReadDictionary(WordList& dictionary);
 
 /*!
  * @brief Implémente la commande 'T' du jeu

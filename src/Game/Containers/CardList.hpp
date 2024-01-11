@@ -1,3 +1,8 @@
+/*!
+ * @file CardList.hpp
+ * @brief Définition d'une liste de carte, pouvant représenter la main d'un joueur, un mot placé par un joueur...
+ */
+
 #ifndef LEXICON_CONTAINERS_CARDLIST_HPP
 #define LEXICON_CONTAINERS_CARDLIST_HPP
 
@@ -11,11 +16,15 @@ enum
     CARD_LIST_CAPACITY_EXTEND = 2  // Facteur d'extension par défaut d'une liste de carte
 };
 
+/*!
+ * @brief Définit une collection de carte (lettre)
+ * @note L'implémentation actuelle se base sur un tableau extensible
+ */
 struct CardList
 {
-    size_t capacity;
-    size_t count;
-    Card* cards;
+    size_t capacity;     // Nombre de Card pouvant être stockés par le conteneur
+    size_t count;        // Nombre de Card stockés par le conteneur
+    Card* cards;         // Pointeur vers les Card stockés par le conteneur
 };
 
 
@@ -142,16 +151,18 @@ CardList CardListDifference(const CardList& a, const CardList& b);
 int CardListCompare(const CardList& lhs, const CardList& rhs);
 
 /*!
- *
- * @param cardList
- * @return
+ * @brief Retourne un "itérateur" (ici un pointeur) sur la première carte de la liste
+ * @param[in] cardList La liste
+ * @return Le pointeur
  */
 Card* CardListBegin(const CardList& cardList);
 
 /*!
- *
- * @param cardList
- * @return
+ * @brief Retourne un "itérateur" (ici un pointeur) après la dernière carte de la liste
+ * @param[in] cardList La liste
+ * @return Le pointeur
+ * @note ne pas déréférencer le pointeur, le pointeur se trouve après le dernier élément pour être consistent
+ *       avec le design des itérateurs de la STL
  */
 Card* CardListEnd(const CardList& cardList);
 

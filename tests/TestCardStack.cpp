@@ -1,43 +1,7 @@
 #include "Tests.hpp"
 #include "TestCardStack.hpp"
-#include "AutoDestructors.hpp"
+#include "../src/Game/Containers/CardStack.hpp"
 
-
-void TEST_CardStack_AssignList()
-{
-    TEST_FUNCTION_ENTER();
-
-    {
-        TEST_CASE_ENTER("Liste vide");
-
-        CardList list = CardListCreate();
-        CardStackAuto stack;
-
-        CardStackAssignList(stack, list);
-
-        TEST_CASE_ASSERT(IsEmpty(stack));
-    }
-
-    {
-        TEST_CASE_ENTER("Liste non vide");
-
-        CardList list = CardListCreate();
-        CardListAppend(list, 'A');
-        CardListAppend(list, 'B');
-        CardListAppend(list, 'C');
-
-        CardStackAuto stack;
-
-        CardStackAssignList(stack, list);
-
-        TEST_CASE_ASSERT_FALSE(IsEmpty(stack));
-        TEST_CASE_ASSERT(CardAt(stack.cards.list, 0) == 'A');
-        TEST_CASE_ASSERT(CardAt(stack.cards.list, 1) == 'B');
-        TEST_CASE_ASSERT(CardAt(stack.cards.list, 2) == 'C');
-    }
-
-    TEST_FUNCTION_LEAVE();
-}
 
 void TEST_CardStack_Peek()
 {
@@ -46,15 +10,17 @@ void TEST_CardStack_Peek()
     {
         TEST_CASE_ENTER("Peek");
 
-        CardStackAuto stack;
+        CardStack stack = CardStackCreate();
 
         CardStackPush(stack, 'P');
         CardStackPush(stack, 'E');
         CardStackPush(stack, 'E');
         CardStackPush(stack, 'K');
 
-        TEST_CASE_ASSERT(CardStackPeek(stack) == 'K');
-        TEST_CASE_ASSERT(CardStackPeek(stack) == 'K');
+        TEST_CASE_ASSERT_EQUAL(CardStackPeek(stack), 'K');
+        TEST_CASE_ASSERT_EQUAL(CardStackPeek(stack), 'K');
+
+        CardStackDestroy(stack);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -67,21 +33,23 @@ void TEST_CardStack_Push()
     {
         TEST_CASE_ENTER("Empiler avec capacite nulle");
 
-        CardStackAuto stack;
+        CardStack stack = CardStackCreate();
 
         CardStackPush(stack, 'A');
         CardStackPush(stack, 'B');
         CardStackPush(stack, 'C');
 
         TEST_CASE_ASSERT_FALSE(IsEmpty(stack));
-        TEST_CASE_ASSERT(CardStackPeek(stack) == 'C');
-        TEST_CASE_ASSERT(ListSize(stack.cards.list) == 3);
+        TEST_CASE_ASSERT_EQUAL(CardStackPeek(stack), 'C');
+        TEST_CASE_ASSERT_EQUAL(ListSize(stack.list), 3);
+
+        CardStackDestroy(stack);
     }
 
     {
         TEST_CASE_ENTER("Empiler avec capacite non nulle");
 
-        CardStackAuto stack(4);
+        CardStack stack = CardStackCreate(4);
 
         CardStackPush(stack, 'A');
         CardStackPush(stack, 'B');
@@ -89,11 +57,13 @@ void TEST_CardStack_Push()
         CardStackPush(stack, 'D');
 
         TEST_CASE_ASSERT_FALSE(IsEmpty(stack));
-        TEST_CASE_ASSERT(stack.cards.list.capacity == 4);
+        TEST_CASE_ASSERT_EQUAL(stack.list.capacity, 4);
 
         CardStackPush(stack, 'E');
 
-        TEST_CASE_ASSERT(stack.cards.list.capacity > 4);
+        TEST_CASE_ASSERT_TRUE(stack.list.capacity > 4);
+
+        CardStackDestroy(stack);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -106,7 +76,7 @@ void TEST_CardStack_Pop()
     {
         TEST_CASE_ENTER("Pop");
 
-        CardStackAuto stack;
+        CardStack stack = CardStackCreate();
 
         CardStackPush(stack, 'A');
         CardStackPush(stack, 'B');
@@ -118,7 +88,9 @@ void TEST_CardStack_Pop()
         CardStackPop(stack);
         CardStackPop(stack);
 
-        TEST_CASE_ASSERT(IsEmpty(stack));
+        TEST_CASE_ASSERT_TRUE(IsEmpty(stack));
+
+        CardStackDestroy(stack);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -131,23 +103,26 @@ void TEST_CardStack_Empty()
     {
         TEST_CASE_ENTER("Capacite nulle");
 
-        CardStackAuto stack;
-        TEST_CASE_ASSERT(IsEmpty(stack));
+        CardStack stack = CardStackCreate();
+        TEST_CASE_ASSERT_TRUE(IsEmpty(stack));
+        CardStackDestroy(stack);
     }
 
     {
         TEST_CASE_ENTER("Capacite non-nulle");
 
-        CardStackAuto stack(10);
-        TEST_CASE_ASSERT(IsEmpty(stack));
+        CardStack stack = CardStackCreate(10);
+        TEST_CASE_ASSERT_TRUE(IsEmpty(stack));
+        CardStackDestroy(stack);
     }
 
     {
         TEST_CASE_ENTER("Ajout");
 
-        CardStackAuto stack(10);
+        CardStack stack = CardStackCreate(10);
         CardStackPush(stack, 'A');
         TEST_CASE_ASSERT_FALSE(IsEmpty(stack));
+        CardStackDestroy(stack);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -157,7 +132,6 @@ void TEST_COMPONENT_CardStack()
 {
     TEST_COMPONENT_ENTER();
 
-    TEST_CardStack_AssignList();
     TEST_CardStack_Peek();
     TEST_CardStack_Push();
     TEST_CardStack_Pop();

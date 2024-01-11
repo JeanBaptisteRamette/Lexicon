@@ -13,6 +13,7 @@
 
 CardList CardListCreate(size_t initialCapacity)
 {
+    // Allouer avec une capacité nulle ou pas
     const CardList cards = {
          .capacity = initialCapacity,
          .count = 0,
@@ -24,6 +25,8 @@ CardList CardListCreate(size_t initialCapacity)
 
 void CardListClear(CardList& cardList)
 {
+    // On ne supprime pas réellement la zone mémoire,
+    // il suffit de mettre la taille à 0 pour "vider" le conteneur
     cardList.count = 0;
 }
 
@@ -33,6 +36,7 @@ CardList CardListCopy(const CardList& copied)
 
     CardList cards = CardListCreate(count);
 
+    // Copier toutes les cartes dans la nouvelle liste
     for (size_t i = 0; i < count; ++i)
         CardListAppend(cards, CardAt(copied, i));
 
@@ -45,6 +49,7 @@ CardList CardListCopyString(const char* buffer)
 
     CardList cards = CardListCreate(bufferLength);
 
+    // Copier toutes les données dans la nouvelle liste
     for (size_t i = 0; i < bufferLength; ++i)
         CardListAppend(cards, buffer[i]);
 
@@ -54,22 +59,22 @@ CardList CardListCopyString(const char* buffer)
 void CardListDestroy(CardList& cardList)
 {
     delete[] cardList.cards;
-
-    cardList.capacity = 0;
-    cardList.count = 0;
 }
 
 bool CardListIndexOf(const CardList& cardList, Card card, size_t& index)
 {
+    // Chercher la première occurrence de card
     for (size_t i = 0; i < ListSize(cardList); ++i)
     {
         if (CardAt(cardList, i) == card)
         {
+            // trouvée, index est valide
             index = i;
             return true;
         }
     }
 
+    // pas trouvée, index invalide
     return false;
 }
 
@@ -144,6 +149,7 @@ void CardListRemoveAt(CardList& cardList, size_t index)
 {
     assert(index < ListSize(cardList));
 
+    // Décaler les valeurs de la droite vers la gauche d'un indice
     for (; index < ListSize(cardList) - 1; ++index)
         cardList.cards[index] = cardList.cards[index + 1];
 
@@ -154,6 +160,7 @@ CardList CardListDifference(const CardList& lhs, const CardList& rhs)
 {
     CardList diff = CardListCopy(lhs);
 
+    // Supprimer toutes les valeurs de rhs qui apparaissent dans lhs
     for (size_t i = 0; i < ListSize(rhs); ++i)
     {
         const Card c = CardAt(rhs, i);
@@ -168,12 +175,16 @@ int CardListCompare(const CardList& lhs, const CardList& rhs)
     const size_t lhsLength = ListSize(lhs);
     const size_t rhsLength = ListSize(rhs);
 
+    // Compare les premières cartes du mot
     const int ret = strncmp(lhs.cards, rhs.cards, MIN(lhsLength, rhsLength));
 
+    // Si ret != 0 alors les deux collections sont déjà différentes sur les premières cartes
+    // Si elles ont la même taille, on sait déjà que toutes les cartes ont été comparées
     if (ret != 0 || lhsLength == rhsLength)
         return ret;
 
-    return lhsLength < rhsLength ? -1 : 1;
+    // Le mot le plus long est considéré comme supérieur
+    return lhsLength > rhsLength ? 1 : -1;
 }
 
 Card* CardListBegin(const CardList& cardList)

@@ -1,9 +1,15 @@
+/*!
+ * @file WordList.cpp
+ * @brief Implémentation d'une liste de mot
+ */
+
 #include <cassert>
 #include "WordList.hpp"
 
 
 WordList WordListCreate(size_t initialCapacity)
 {
+    // Alloué la liste de mots avec une capacité nulle ou pas
     const WordList words = {
             .capacity = initialCapacity,
             .count = 0,
@@ -15,12 +21,14 @@ WordList WordListCreate(size_t initialCapacity)
 
 void WordListDestroy(WordList& wordList)
 {
+    // Détruire tous les mots présents dans la liste avant de détruire la liste et perdre les pointeurs
     for (size_t i = 0; i < ListSize(wordList); ++i)
     {
         CardList& word = WordAt(wordList, i);
         CardListDestroy(word);
     }
 
+    // Détruire la liste
     delete[] wordList.words;
 }
 

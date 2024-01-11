@@ -27,6 +27,11 @@ struct Command
 unsigned int ReadPlayerCount(int argc, const char* argv[]);
 
 /*!
+ * @brief Affiche un message d'erreur lorsque le dictionnaire n'a pas pu être lu correctement
+ */
+void DisplayDictionaryReadError();
+
+/*!
  * @brief Affiche les commandes valides du jeu
  */
 void DisplayValidCommands();

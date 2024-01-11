@@ -1,3 +1,8 @@
+/*!
+ * @file Interface.cpp
+ * @brief Implémentation de l'interface du jeu
+ */
+
 #include <iostream>
 #include <iomanip>
 #include <cassert>
@@ -33,6 +38,11 @@ unsigned int ReadPlayerCount(int argc, const char* argv[])
     }
 
     return playerCount;
+}
+
+void DisplayDictionaryReadError()
+{
+    std::cerr << "Erreur lors de la lecture du dictionnaire" << std::endl;
 }
 
 void DisplayValidCommands()

@@ -1,6 +1,6 @@
 #include "Tests.hpp"
 #include "TestWordList.hpp"
-#include "AutoDestructors.hpp"
+#include "../src/Game/Containers/WordList.hpp"
 
 
 
@@ -11,15 +11,17 @@ void TEST_WordList_Size()
     {
         TEST_CASE_ENTER("Capacite nulle");
 
-        WordListAuto wl;
-        TEST_CASE_ASSERT(ListSize(wl) == 0);
+        WordList wl = WordListCreate();
+        TEST_CASE_ASSERT_EQUAL(ListSize(wl), 0);
+        WordListDestroy(wl);
     }
 
     {
         TEST_CASE_ENTER("Capacite non-nulle");
 
-        WordListAuto wl(10);
-        TEST_CASE_ASSERT(ListSize(wl) == 0);
+        WordList wl = WordListCreate(10);
+        TEST_CASE_ASSERT_EQUAL(ListSize(wl), 0);
+        WordListDestroy(wl);
     }
 
     TEST_FUNCTION_ENTER();
@@ -32,7 +34,7 @@ void TEST_WordList_At()
     {
         TEST_CASE_ENTER("At");
 
-        WordListAuto wl;
+        WordList wl = WordListCreate(2);
 
         CardList a = CardListCopyString("valeur1");
         CardList b = CardListCopyString("valeur2");
@@ -40,7 +42,9 @@ void TEST_WordList_At()
         WordListAppend(wl, a);
         WordListAppend(wl, b);
 
-        TEST_CASE_ASSERT(CardListCompare(WordAt(wl, 0), WordAt(wl, 1)) == -1);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(WordAt(wl, 0), WordAt(wl, 1)), -1);
+
+        WordListDestroy(wl);
     }
 
     TEST_FUNCTION_ENTER();
@@ -53,7 +57,7 @@ void TEST_WordList_SetAt()
     {
         TEST_CASE_ENTER("SetAt");
 
-        WordListAuto wl;
+        WordList wl = WordListCreate();
 
         CardList a = CardListCopyString("valeur1");
         CardList b = CardListCopyString("valeur2");
@@ -63,9 +67,10 @@ void TEST_WordList_SetAt()
 
         SetWordAt(wl, 0, b);
 
-        TEST_CASE_ASSERT(CardListCompare(WordAt(wl, 0), c) == 0);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(WordAt(wl, 0), c), 0);
 
         CardListDestroy(c);
+        WordListDestroy(wl);
     }
 
     TEST_FUNCTION_ENTER();
@@ -78,7 +83,7 @@ void TEST_WordList_Append()
     {
         TEST_CASE_ENTER("Capacite nulle");
 
-        WordListAuto wl;
+        WordList wl = WordListCreate(10);
 
         for (size_t i = 0; i < 10; ++i)
         {
@@ -86,13 +91,14 @@ void TEST_WordList_Append()
             WordListAppend(wl, cl);
         }
 
-        TEST_CASE_ASSERT(ListSize(wl) == 10);
+        TEST_CASE_ASSERT_EQUAL(ListSize(wl), 10);
+        WordListDestroy(wl);
     }
 
     {
         TEST_CASE_ENTER("Capacite non-nulle");
 
-        WordListAuto wl(5);
+        WordList wl = WordListCreate(5);
 
         for (size_t i = 0; i < 10; ++i)
         {
@@ -100,8 +106,10 @@ void TEST_WordList_Append()
             WordListAppend(wl, cl);
         }
 
-        TEST_CASE_ASSERT(ListSize(wl) == 10);
-        TEST_CASE_ASSERT(wl.words.capacity >= 10);
+        TEST_CASE_ASSERT_EQUAL(ListSize(wl), 10);
+        TEST_CASE_ASSERT_TRUE(wl.capacity >= 10);
+
+        WordListDestroy(wl);
     }
 
     TEST_FUNCTION_ENTER();

@@ -1,6 +1,7 @@
 #include "Tests.hpp"
 #include "TestCardList.hpp"
-#include "AutoDestructors.hpp"
+#include "../src/Game/Containers/CardList.hpp"
+
 
 void TEST_CardList_Clear()
 {
@@ -9,16 +10,18 @@ void TEST_CardList_Clear()
     {
         TEST_CASE_ENTER("Liste deja vide");
 
-        CardListAuto cl;
+        CardList cl = CardListCreate();
 
         CardListClear(cl);
-        TEST_CASE_ASSERT(IsEmpty(cl));
+        TEST_CASE_ASSERT_TRUE(IsEmpty(cl));
+
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Liste non vide");
 
-        CardListAuto cl(5);
+        CardList cl = CardListCreate(5);
         CardListAppend(cl, 'A');
         CardListAppend(cl, 'A');
         CardListAppend(cl, 'A');
@@ -26,8 +29,10 @@ void TEST_CardList_Clear()
         CardListAppend(cl, 'A');
 
         CardListClear(cl);
-        TEST_CASE_ASSERT(IsEmpty(cl));
-        TEST_CASE_ASSERT(cl.cards.capacity == 5);
+        TEST_CASE_ASSERT_TRUE(IsEmpty(cl));
+        TEST_CASE_ASSERT_EQUAL(cl.capacity, 5);
+
+        CardListDestroy(cl);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -40,93 +45,123 @@ void TEST_CardList_Compare()
     {
         TEST_CASE_ENTER("Collections vides");
 
-        CardListAuto cl1;
-        CardListAuto cl2;
+        CardList cl1 = CardListCreate();
+        CardList cl2 = CardListCreate();
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == 0);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), 0);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Collection gauche vide");
 
-        CardListAuto cl1;
-        CardListAuto cl2;
+        CardList cl1 = CardListCreate();
+        CardList cl2 = CardListCreate();
         CardListAppend(cl2, 'A');
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == -1);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), -1);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Collection de droite vide");
 
-        CardListAuto cl1;
-        CardListAuto cl2;
+        CardList cl1 = CardListCreate();
+        CardList cl2 = CardListCreate();
         CardListAppend(cl1, 'A');
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == 1);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), 1);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Non vides et egales");
 
-        CardListAuto cl1(CardListCopyString("IUT"));
-        CardListAuto cl2(CardListCopyString("IUT"));
+        CardList cl1 = CardListCopyString("IUT");
+        CardList cl2 = CardListCopyString("IUT");
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == 0);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), 0);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Non vides et non-egales");
 
-        CardListAuto cl1(CardListCopyString("IUT"));
-        CardListAuto cl2(CardListCopyString("BUT"));
+        CardList cl1 = CardListCopyString("IUT");
+        CardList cl2 = CardListCopyString("BUT");
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) != 0);
+        TEST_CASE_ASSERT_UNEQUAL(CardListCompare(cl1, cl2), 0);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Collection de meme taille et gauche superieure");
 
-        CardListAuto cl1(CardListCopyString("AAB"));
-        CardListAuto cl2(CardListCopyString("AAA"));
+        CardList cl1 = CardListCopyString("AAB");
+        CardList cl2 = CardListCopyString("AAA");
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == 1);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), 1);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Collections de meme taille et droite superieure");
 
-        CardListAuto cl1(CardListCopyString("AAA"));
-        CardListAuto cl2(CardListCopyString("AAB"));
+        CardList cl1 = CardListCopyString("AAA");
+        CardList cl2 = CardListCopyString("AAB");
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == -1);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), -1);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Collection de tailles differentes et gauche superieure");
 
-        CardListAuto cl1(CardListCopyString("AAAA"));
-        CardListAuto cl2(CardListCopyString("AAA"));
+        CardList cl1 = CardListCopyString("AAAA");
+        CardList cl2 = CardListCopyString("AAA");
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == 1);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), 1);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Collections de tailles differentes et droite superieure");
 
-        CardListAuto cl1(CardListCopyString("AAA"));
-        CardListAuto cl2(CardListCopyString("AAAA"));
+        CardList cl1 = CardListCopyString("AAA");
+        CardList cl2 = CardListCopyString("AAAA");
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == -1);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), -1);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Contenu plus long mais inferieur");
 
-        CardListAuto cl1(CardListCopyString("BBB"));
-        CardListAuto cl2(CardListCopyString("AAAA"));
+        CardList cl1 = CardListCopyString("BBB");
+        CardList cl2 = CardListCopyString("AAAA");
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == 1);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), 1);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -139,24 +174,28 @@ void TEST_CardListCopyString()
     {
         TEST_CASE_ENTER("Chaine vide");
 
-        CardListAuto cl1(CardListCopyString(nullptr));
+        CardList cl1 = CardListCopyString(nullptr);
 
-        TEST_CASE_ASSERT(IsEmpty(cl1));
-        TEST_CASE_ASSERT(ListSize(cl1) == 0);
+        TEST_CASE_ASSERT_TRUE(IsEmpty(cl1));
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl1), 0);
+
+        CardListDestroy(cl1);
     }
 
     {
         TEST_CASE_ENTER("Chaine non vide");
 
-        CardListAuto cl1(CardListCopyString("AZOTE"));
+        CardList cl1 = CardListCopyString("AZOTE");
 
         TEST_CASE_ASSERT_FALSE(IsEmpty(cl1));
-        TEST_CASE_ASSERT(CardAt(cl1, 0) == 'A');
-        TEST_CASE_ASSERT(CardAt(cl1, 1) == 'Z');
-        TEST_CASE_ASSERT(CardAt(cl1, 2) == 'O');
-        TEST_CASE_ASSERT(CardAt(cl1, 3) == 'T');
-        TEST_CASE_ASSERT(CardAt(cl1, 4) == 'E');
-        TEST_CASE_ASSERT(ListSize(cl1) == 5);
+        TEST_CASE_ASSERT_EQUAL(CardAt(cl1, 0), 'A');
+        TEST_CASE_ASSERT_EQUAL(CardAt(cl1, 1), 'Z');
+        TEST_CASE_ASSERT_EQUAL(CardAt(cl1, 2), 'O');
+        TEST_CASE_ASSERT_EQUAL(CardAt(cl1, 3), 'T');
+        TEST_CASE_ASSERT_EQUAL(CardAt(cl1, 4), 'E');
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl1), 5);
+
+        CardListDestroy(cl1);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -168,21 +207,24 @@ void TEST_CardList_Empty()
 
     {
         TEST_CASE_ENTER("Capacite a 0");
-        CardListAuto cl;
-        TEST_CASE_ASSERT(IsEmpty(cl));
+        CardList cl = CardListCreate();
+        TEST_CASE_ASSERT_TRUE(IsEmpty(cl));
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Capacite positive");
-        CardListAuto cl(10);
-        TEST_CASE_ASSERT(IsEmpty(cl));
+        CardList cl = CardListCreate(10);
+        TEST_CASE_ASSERT_TRUE(IsEmpty(cl));
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Ajout d'une carte");
-        CardListAuto cl;
+        CardList cl = CardListCreate();
         CardListAppend(cl, 'A');
         TEST_CASE_ASSERT_FALSE(IsEmpty(cl));
+        CardListDestroy(cl);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -194,21 +236,24 @@ void TEST_CardList_Size()
 
     {
         TEST_CASE_ENTER("Capacite a 0");
-        CardListAuto cl;
-        TEST_CASE_ASSERT(ListSize(cl) == 0);
+        CardList cl = CardListCreate();
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl), 0);
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Capacite positive");
-        CardListAuto cl;
-        TEST_CASE_ASSERT(ListSize(cl) == 0);
+        CardList cl = CardListCreate(10);
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl), 0);
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Ajout d'une carte");
-        CardListAuto cl;
+        CardList cl = CardListCreate();
         CardListAppend(cl, 'A');
-        TEST_CASE_ASSERT(ListSize(cl) == 1);
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl), 1);
+        CardListDestroy(cl);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -221,23 +266,29 @@ void TEST_CardList_Copy()
     {
         TEST_CASE_ENTER("Collection vide");
 
-        CardListAuto copied;
-        CardListAuto copy(CardListCopy(copied));
+        CardList copied = CardListCreate();
+        CardList copy = CardListCopy(copied);
 
-        TEST_CASE_ASSERT(IsEmpty(copied));
-        TEST_CASE_ASSERT(IsEmpty(copy));
+        TEST_CASE_ASSERT_TRUE(IsEmpty(copied));
+        TEST_CASE_ASSERT_TRUE(IsEmpty(copy));
+
+        CardListDestroy(copied);
+        CardListDestroy(copy);
     }
 
     {
         TEST_CASE_ENTER("Collection non-vide");
 
-        CardListAuto copied(CardListCopyString("ABCDEFGHIJ"));
-        CardListAuto copy(CardListCopy(copied));
+        CardList copied = CardListCopyString("ABCDEFGHIJ");
+        CardList copy = CardListCopy(copied);
 
         TEST_CASE_ASSERT_FALSE(IsEmpty(copied));
         TEST_CASE_ASSERT_FALSE(IsEmpty(copy));
-        TEST_CASE_ASSERT(ListSize(copied) == 10);
-        TEST_CASE_ASSERT(ListSize(copy) == 10);
+        TEST_CASE_ASSERT_EQUAL(ListSize(copied), 10);
+        TEST_CASE_ASSERT_EQUAL(ListSize(copy), 10);
+
+        CardListDestroy(copied);
+        CardListDestroy(copy);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -250,28 +301,33 @@ void TEST_CardList_IndexOf()
     {
         TEST_CASE_ENTER("Liste vide");
 
-        CardListAuto cl;
+        CardList cl = CardListCreate();
         size_t index;
 
         TEST_CASE_ASSERT_FALSE(CardListIndexOf(cl, 'J', index));
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Element existant");
 
-        CardListAuto cl(CardListCopyString("AKJLT"));
+        CardList cl = CardListCopyString("AKJLT");
         size_t index;
 
-        TEST_CASE_ASSERT(CardListIndexOf(cl, 'J', index));
-        TEST_CASE_ASSERT(index == 2);
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(cl, 'J', index));
+        TEST_CASE_ASSERT_EQUAL(index, 2);
+
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Element inexistant");
-        CardListAuto cl(CardListCopyString("AKBLT"));
+        CardList cl = CardListCopyString("AKBLT");
         size_t index;
 
         TEST_CASE_ASSERT_FALSE(CardListIndexOf(cl, 'J', index));
+
+        CardListDestroy(cl);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -285,13 +341,14 @@ void TEST_CardList_At()
         TEST_CASE_ENTER("CardAt");
 
         const char* str = "DEHLDZEFKGAZ";
-        CardList tmp = CardListCopyString(str);
-        CardListAuto cl(tmp);
+        CardList cl = CardListCopyString(str);
 
         for (size_t i = 0; i < ListSize(cl); ++i)
         {
-            TEST_CASE_ASSERT(CardAt(cl, i) == str[i]);
+            TEST_CASE_ASSERT_EQUAL(CardAt(cl, i),  str[i]);
         }
+
+        CardListDestroy(cl);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -304,31 +361,35 @@ void TEST_CardList_Append()
     {
         TEST_CASE_ENTER("Ajout quand la capacite est nulle");
 
-        CardListAuto cl;
+        CardList cl = CardListCreate();
 
-        TEST_CASE_ASSERT(cl.cards.capacity == 0);
+        TEST_CASE_ASSERT_EQUAL(cl.capacity, 0);
 
         CardListAppend(cl, 'R');
 
-        TEST_CASE_ASSERT(CardAt(cl, 0));
-        TEST_CASE_ASSERT(cl.cards.capacity > 0);
+        TEST_CASE_ASSERT_TRUE(CardAt(cl, 0));
+        TEST_CASE_ASSERT_TRUE(cl.capacity > 0);
         TEST_CASE_ASSERT_FALSE(IsEmpty(cl));
+
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Reallocation");
 
-        CardListAuto cl(5);
+        CardList cl = CardListCreate(5);
 
         for (size_t i = 0; i < 5; ++i)
             CardListAppend(cl, 'L');
 
-        TEST_CASE_ASSERT(ListSize(cl) == cl.cards.capacity);
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl), cl.capacity);
 
         CardListAppend(cl, 'L');
 
-        TEST_CASE_ASSERT(ListSize(cl) > 5);
-        TEST_CASE_ASSERT(cl.cards.capacity >= ListSize(cl));
+        TEST_CASE_ASSERT_TRUE(ListSize(cl) > 5);
+        TEST_CASE_ASSERT_TRUE(cl.capacity >= ListSize(cl));
+
+        CardListDestroy(cl);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -341,59 +402,67 @@ void TEST_CardList_Remove()
     {
         TEST_CASE_ENTER("Collection vide");
 
-        CardListAuto cl;
+        CardList cl = CardListCreate();
 
         size_t size_before_removal = ListSize(cl);
         CardListRemove(cl, 'A');
         size_t size_after_removal = ListSize(cl);
 
-        TEST_CASE_ASSERT(size_after_removal == size_before_removal);
+        TEST_CASE_ASSERT_EQUAL(size_after_removal, size_before_removal);
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Collection non vide element non existant");
 
-        CardListAuto cl(CardListCopyString("MALISTEDECARTE"));
+        CardList cl(CardListCopyString("MALISTEDECARTE"));
 
         size_t size_before_removal = ListSize(cl);
         CardListRemove(cl, 'J');
         size_t size_after_removal = ListSize(cl);
 
-        TEST_CASE_ASSERT(size_after_removal == size_before_removal);
+        TEST_CASE_ASSERT_EQUAL(size_after_removal, size_before_removal);
+
+        CardListDestroy(cl);
     }
 
     {
         TEST_CASE_ENTER("Collection non vide element existant une fois");
 
-        CardListAuto cl1(CardListCopyString("MALISTEDECARTE"));
+        CardList cl1 = CardListCopyString("MALISTEDECARTE");
 
         size_t size_before_removal = ListSize(cl1);
         CardListRemove(cl1, 'C');
         size_t size_after_removal = ListSize(cl1);
 
-        TEST_CASE_ASSERT(size_after_removal == size_before_removal - 1);
+        TEST_CASE_ASSERT_EQUAL(size_after_removal, size_before_removal - 1);
 
-        CardListAuto cl2(CardListCopyString("MALISTEDEARTE"));
+        CardList cl2 = CardListCopyString("MALISTEDEARTE");
 
-        TEST_CASE_ASSERT(CardListCompare(cl1, cl2) == 0);
+        TEST_CASE_ASSERT_EQUAL(CardListCompare(cl1, cl2), 0);
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
     }
 
     {
         TEST_CASE_ENTER("Collection non vide element existant plusieurs fois");
 
-        CardListAuto cl(CardListCopyString("MALISTEDECARTE"));
+        CardList cl = CardListCopyString("MALISTEDECARTE");
 
         CardListRemove(cl, 'E');
-        TEST_CASE_ASSERT(ListSize(cl) == 13);
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl), 13);
 
         CardListRemove(cl, 'E');
-        TEST_CASE_ASSERT(ListSize(cl) == 12);
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl), 12);
 
         CardListRemove(cl, 'E');
-        TEST_CASE_ASSERT(ListSize(cl) == 11);
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl), 11);
 
         CardListRemove(cl, 'E');
-        TEST_CASE_ASSERT(ListSize(cl) == 11);
+        TEST_CASE_ASSERT_EQUAL(ListSize(cl), 11);
+
+        CardListDestroy(cl);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -406,20 +475,22 @@ void TEST_CardList_RemoveAt()
     {
         TEST_CASE_ENTER("Simple");
 
-        CardListAuto cl(CardListCopyString("ABCDEF"));
+        CardList cl = CardListCopyString("ABCDEF");
 
         CardListRemoveAt(cl, 0);
-        TEST_CASE_ASSERT(CardAt(cl, 0) == 'B');
+        TEST_CASE_ASSERT_EQUAL(CardAt(cl, 0), 'B');
 
         size_t previous_size = ListSize(cl);
         while (!IsEmpty(cl))
         {
             CardListRemoveAt(cl, ListSize(cl) - 1);
 
-            TEST_CASE_ASSERT(ListSize(cl) == previous_size - 1);
+            TEST_CASE_ASSERT_EQUAL(ListSize(cl), previous_size - 1);
 
             previous_size = ListSize(cl);
         }
+
+        CardListDestroy(cl);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -431,19 +502,21 @@ void TEST_CardList_RemoveLast()
 
     {
         TEST_CASE_ENTER("Suppression depuis l'arrière");
-        CardListAuto cl(CardListCopyString("TESTBUFFER"));
+        CardList cl = CardListCopyString("TESTBUFFER");
 
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'R');
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'E');
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'F');
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'F');
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'U');
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'B');
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'T');
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'S');
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'E');
-        TEST_CASE_ASSERT(CardListRemoveLast(cl) == 'T');
-        TEST_CASE_ASSERT(IsEmpty(cl));
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'R');
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'E');
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'F');
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'F');
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'U');
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'B');
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'T');
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'S');
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'E');
+        TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'T');
+        TEST_CASE_ASSERT_TRUE(IsEmpty(cl));
+
+        CardListDestroy(cl);
     }
 
     TEST_FUNCTION_LEAVE();
@@ -456,67 +529,85 @@ void TEST_CardList_Difference()
     {
         TEST_CASE_ENTER("Listes vides");
 
-        CardListAuto cl1;
-        CardListAuto cl2;
+        CardList cl1 = CardListCreate();
+        CardList cl2 = CardListCreate();
 
-        CardListAuto diff(CardListDifference(cl1, cl2));
+        CardList diff = CardListDifference(cl1, cl2);
 
-        TEST_CASE_ASSERT(IsEmpty(diff));
+        TEST_CASE_ASSERT_TRUE(IsEmpty(diff));
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
+        CardListDestroy(diff);
     }
 
     {
         TEST_CASE_ENTER("Listes egales");
 
-        CardListAuto cl1(CardListCopyString("DIFFERENCES"));
-        CardListAuto cl2(CardListCopyString("DIFFERENCES"));
-        CardListAuto cl3(CardListDifference(cl1, cl2));
+        CardList cl1 = CardListCopyString("DIFFERENCES");
+        CardList cl2 = CardListCopyString("DIFFERENCES");
+        CardList cl3 = CardListDifference(cl1, cl2);
 
-        TEST_CASE_ASSERT(IsEmpty(cl3));
+        TEST_CASE_ASSERT_TRUE(IsEmpty(cl3));
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
+        CardListDestroy(cl3);
     }
 
     {
         TEST_CASE_ENTER("Listes differentes meme tailles");
 
-        CardListAuto cl1(CardListCopyString("DITFERENSES"));
-        CardListAuto cl2(CardListCopyString("DIFFRRYNCES"));
+        CardList cl1 = CardListCopyString("DITFERENSES");
+        CardList cl2 = CardListCopyString("DIFFRRYNCES");
 
-        CardListAuto diff1(CardListDifference(cl1, cl2));
-        CardListAuto diff2(CardListDifference(cl2, cl1));
+        CardList diff1 = CardListDifference(cl1, cl2);
+        CardList diff2 = CardListDifference(cl2, cl1);
 
-        TEST_CASE_ASSERT(ListSize(diff1) == 4);
-        TEST_CASE_ASSERT(ListSize(diff2) == 4);
+        TEST_CASE_ASSERT_EQUAL(ListSize(diff1), 4);
+        TEST_CASE_ASSERT_EQUAL(ListSize(diff2), 4);
 
         size_t unused;
 
-        TEST_CASE_ASSERT(CardListIndexOf(diff1, 'T', unused));
-        TEST_CASE_ASSERT(CardListIndexOf(diff1, 'E', unused));
-        TEST_CASE_ASSERT(CardListIndexOf(diff1, 'E', unused));
-        TEST_CASE_ASSERT(CardListIndexOf(diff1, 'S', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff1, 'T', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff1, 'E', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff1, 'E', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff1, 'S', unused));
 
-        TEST_CASE_ASSERT(CardListIndexOf(diff2, 'F', unused));
-        TEST_CASE_ASSERT(CardListIndexOf(diff2, 'R', unused));
-        TEST_CASE_ASSERT(CardListIndexOf(diff2, 'Y', unused));
-        TEST_CASE_ASSERT(CardListIndexOf(diff2, 'C', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff2, 'F', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff2, 'R', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff2, 'Y', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff2, 'C', unused));
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
+        CardListDestroy(diff1);
+        CardListDestroy(diff2);
     }
 
     {
         TEST_CASE_ENTER("Listes differentes tailles differentes");
 
-        CardListAuto cl1(CardListCopyString("DROITES"));
-        CardListAuto cl2(CardListCopyString("DOS"));
+        CardList cl1 = CardListCopyString("DROITES");
+        CardList cl2 = CardListCopyString("DOS");
 
-        CardListAuto diff1(CardListDifference(cl1, cl2));
-        CardListAuto diff2(CardListDifference(cl2, cl1));
+        CardList diff1 = CardListDifference(cl1, cl2);
+        CardList diff2 = CardListDifference(cl2, cl1);
 
-        TEST_CASE_ASSERT(ListSize(diff1) == 4);
-        TEST_CASE_ASSERT(IsEmpty(diff2));
+        TEST_CASE_ASSERT_EQUAL(ListSize(diff1), 4);
+        TEST_CASE_ASSERT_TRUE(IsEmpty(diff2));
 
         size_t unused;
 
-        TEST_CASE_ASSERT(CardListIndexOf(diff1, 'R', unused));
-        TEST_CASE_ASSERT(CardListIndexOf(diff1, 'I', unused));
-        TEST_CASE_ASSERT(CardListIndexOf(diff1, 'T', unused));
-        TEST_CASE_ASSERT(CardListIndexOf(diff1, 'E', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff1, 'R', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff1, 'I', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff1, 'T', unused));
+        TEST_CASE_ASSERT_TRUE(CardListIndexOf(diff1, 'E', unused));
+
+        CardListDestroy(cl1);
+        CardListDestroy(cl2);
+        CardListDestroy(diff1);
+        CardListDestroy(diff2);
     }
 
     TEST_FUNCTION_LEAVE();
