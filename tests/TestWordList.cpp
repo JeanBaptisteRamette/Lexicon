@@ -1,5 +1,5 @@
-#include "Tests.hpp"
 #include "TestWordList.hpp"
+#include "Tests.hpp"
 #include "../src/Game/Containers/WordList.hpp"
 
 

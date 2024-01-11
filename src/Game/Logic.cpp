@@ -398,6 +398,12 @@ bool CommandComplete(const Command& params, Player& player, WordList& placedWord
 
     CardList& oldWord = WordAt(placedWords, wordIndex);
 
+    if (ListSize(newWord) <= ListSize(oldWord))
+    {
+        CardListDestroy(newWord);
+        return false;
+    }
+
     // Vérifier que le mot à compléter est une sous-séquence ordonnée du nouveau mot
     if (!IncludesOrdered(oldWord, newWord))
     {
@@ -436,20 +442,3 @@ bool CommandComplete(const Command& params, Player& player, WordList& placedWord
     CardListDestroy(usedCards);
     return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

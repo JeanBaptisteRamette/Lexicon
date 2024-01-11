@@ -1,5 +1,5 @@
-#include "Tests.hpp"
 #include "TestCardList.hpp"
+#include "Tests.hpp"
 #include "../src/Game/Containers/CardList.hpp"
 
 

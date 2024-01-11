@@ -1,9 +1,7 @@
 #include <sstream>
-#include "Tests.hpp"
 #include "TestGame.hpp"
+#include "Tests.hpp"
 #include "../src/Game/Logic.hpp"
-#include "../src/Game/Containers/CardList.hpp"
-#include "../src/Game/Containers/CardStack.hpp"
 
 
 void TEST_Game_ReadCommandFromStream()
