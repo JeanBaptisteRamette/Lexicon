@@ -6,7 +6,6 @@
 #ifndef LEXICON_CONTAINERS_CARDSTACK_HPP
 #define LEXICON_CONTAINERS_CARDSTACK_HPP
 
-#include "../Definitions.hpp"
 #include "CardList.hpp"
 
 

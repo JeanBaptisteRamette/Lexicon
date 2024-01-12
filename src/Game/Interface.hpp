@@ -10,12 +10,16 @@
 #include "Containers/CardStack.hpp"
 #include "GameData.hpp"
 
+
+/*!
+ * Représente une commande rentré par l'utilisateur après lecture
+ */
 struct Command
 {
-    char name;
-    size_t wordIndex;
-    Card card;
-    CardList cards;
+    char name;              // Nom de la commande, 'T'/'E'/'P'/'R'/'C'
+    size_t wordIndex;       // Indice du mot pour les commandes 'R' et 'C'
+    Card card;              // Valeur de la carte à jeter pour les commandes 'T' et 'E'
+    CardList cards;         // Liste de carte pour les commandes 'P', 'R' et 'C'
 };
 
 /*!
