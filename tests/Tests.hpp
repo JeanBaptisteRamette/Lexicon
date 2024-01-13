@@ -1,5 +1,6 @@
 /*!
- * Définition de macro aidant à définir des tests et logging basique
+ * @file Tests.hpp
+ * @brief Définition de macro aidant à définir des tests et logging basique
  */
 
 #ifndef LEXICON_TESTS_TESTS_HPP
@@ -32,8 +33,8 @@
 #define TEST_FUNCTION_LEAVE() ((void)0)
 #endif
 
-#define TEST_CASE_ENTER(name) std::cout << "***** TEST CASE " << name << std::endl
-#define TEST_CASE_LEAVE(str_expr) std::cout << "***** Success " << str_expr << std::endl
+#define TEST_CASE_DEFINE(name) std::cout << "***** TEST CASE " << name << std::endl;
+#define TEST_CASE_SUCCESS(str_expr) std::cout << "***** Success " << str_expr << std::endl
 
 #ifdef CURRENT_FUNCTION_NAME
 #define TEST_CASE_ERROR(str_expr) std::cerr << "***** Failed " << str_expr << ' ' << CURRENT_FUNCTION_NAME << std::endl; exit(EXIT_FAILURE)
@@ -43,19 +44,19 @@
 
 
 #define TEST_CASE_ASSERT_TRUE(expr) \
-do {                           \
-  if ((expr)) {                \
-      TEST_CASE_LEAVE(#expr);  \
-  } else {                     \
-      TEST_CASE_ERROR(#expr);  \
-  }                            \
+do {                                \
+  if ((expr)) {                     \
+      TEST_CASE_SUCCESS(#expr);     \
+  } else {                          \
+      TEST_CASE_ERROR(#expr);       \
+  }                                 \
 } while (0)
 
 
 #define TEST_CASE_ASSERT_FALSE(expr) \
 do {                                 \
   if (!(expr)) {                     \
-      TEST_CASE_LEAVE(#expr);        \
+      TEST_CASE_SUCCESS(#expr);      \
   } else {                           \
       TEST_CASE_ERROR(#expr);        \
   }                                  \

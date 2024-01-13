@@ -1,3 +1,8 @@
+/*!
+ * @file TestCardStack.cpp
+ * @brief Définitions et implémentation des tests du composant CardStack
+ */
+
 #include "TestCardStack.hpp"
 #include "Tests.hpp"
 #include "../src/Game/Containers/CardStack.hpp"
@@ -7,9 +12,8 @@ void TEST_CardStack_Peek()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Peek")
     {
-        TEST_CASE_ENTER("Peek");
-
         CardStack stack = CardStackCreate();
 
         CardStackPush(stack, 'P');
@@ -30,9 +34,8 @@ void TEST_CardStack_Push()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Empiler avec capacite nulle")
     {
-        TEST_CASE_ENTER("Empiler avec capacite nulle");
-
         CardStack stack = CardStackCreate();
 
         CardStackPush(stack, 'A');
@@ -46,9 +49,8 @@ void TEST_CardStack_Push()
         CardStackDestroy(stack);
     }
 
+	TEST_CASE_DEFINE("Empiler avec capacite non nulle")
     {
-        TEST_CASE_ENTER("Empiler avec capacite non nulle");
-
         CardStack stack = CardStackCreate(4);
 
         CardStackPush(stack, 'A');
@@ -73,8 +75,8 @@ void TEST_CardStack_Pop()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Pop")
     {
-        TEST_CASE_ENTER("Pop");
 
         CardStack stack = CardStackCreate();
 
@@ -100,25 +102,22 @@ void TEST_CardStack_Empty()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Capacite nulle")
     {
-        TEST_CASE_ENTER("Capacite nulle");
-
         CardStack stack = CardStackCreate();
         TEST_CASE_ASSERT_TRUE(IsEmpty(stack));
         CardStackDestroy(stack);
     }
 
+	TEST_CASE_DEFINE("Capacite non-nulle")
     {
-        TEST_CASE_ENTER("Capacite non-nulle");
-
         CardStack stack = CardStackCreate(10);
         TEST_CASE_ASSERT_TRUE(IsEmpty(stack));
         CardStackDestroy(stack);
     }
 
+	TEST_CASE_DEFINE("Ajout")
     {
-        TEST_CASE_ENTER("Ajout");
-
         CardStack stack = CardStackCreate(10);
         CardStackPush(stack, 'A');
         TEST_CASE_ASSERT_FALSE(IsEmpty(stack));

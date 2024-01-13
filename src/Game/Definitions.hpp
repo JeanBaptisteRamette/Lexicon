@@ -3,7 +3,6 @@
  * @brief Définitions des constantes, types et énumérations relatives au jeu
  */
 
-
 #ifndef LEXICON_DEFINITIONS_HPP
 #define LEXICON_DEFINITIONS_HPP
 

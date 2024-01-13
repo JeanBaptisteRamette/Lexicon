@@ -1,7 +1,13 @@
+/*!
+ * @file GameData.cpp
+ * @brief Implémentation des fonctions liés aux données du jeu
+ */
+
 #include <fstream>
 #include "GameData.hpp"
 #include "Logic.hpp"
 #include "Interface.hpp"
+
 
 void GameCardsInit(GameData& game)
 {

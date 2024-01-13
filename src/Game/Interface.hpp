@@ -1,6 +1,10 @@
+/*!
+ * @file Interface.hpp
+ * @brief Définitions des fonctions liées à l'interface du jeu, gère les entrées et sorties
+ */
+
 #ifndef LEXICON_INTERFACE_HPP
 #define LEXICON_INTERFACE_HPP
-
 
 #include <sstream>
 #include "Definitions.hpp"

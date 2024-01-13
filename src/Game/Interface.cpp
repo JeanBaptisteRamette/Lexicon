@@ -5,7 +5,6 @@
 
 #include <iostream>
 #include <iomanip>
-#include <cassert>
 #include <charconv>
 #include <cstring>
 #include <algorithm>
@@ -193,5 +192,3 @@ bool ReadPlayerCommand(Command& cmd)
 
     return ReadCommandFromStream(cmd, stream);
 }
-
-

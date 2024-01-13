@@ -1,3 +1,8 @@
+/*!
+ * @file TestsMain.cpp
+ * @brief Point d'entrée des tests unitaires
+ */
+
 #include "TestCardList.hpp"
 #include "TestWordList.hpp"
 #include "TestCardStack.hpp"

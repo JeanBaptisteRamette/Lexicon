@@ -46,6 +46,4 @@ void UpdatePlayerScore(Player& player);
  */
 bool HasPlayerWonRound(const Player& currentPlayer);
 
-
-
 #endif //LEXICON_PLAYER_HPP

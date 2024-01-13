@@ -1,24 +1,26 @@
+/*!
+ * @file TestWordList.cpp
+ * @brief Définitions et implémentation des tests du composant WordList
+ */
+
 #include "TestWordList.hpp"
 #include "Tests.hpp"
 #include "../src/Game/Containers/WordList.hpp"
-
 
 
 void TEST_WordList_Size()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Capacite nulle")
     {
-        TEST_CASE_ENTER("Capacite nulle");
-
         WordList wl = WordListCreate();
         TEST_CASE_ASSERT_EQUAL(ListSize(wl), 0);
         WordListDestroy(wl);
     }
 
+	TEST_CASE_DEFINE("Capacite non-nulle")
     {
-        TEST_CASE_ENTER("Capacite non-nulle");
-
         WordList wl = WordListCreate(10);
         TEST_CASE_ASSERT_EQUAL(ListSize(wl), 0);
         WordListDestroy(wl);
@@ -31,9 +33,8 @@ void TEST_WordList_At()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("At")
     {
-        TEST_CASE_ENTER("At");
-
         WordList wl = WordListCreate(2);
 
         CardList a = CardListCopyString("valeur1");
@@ -54,9 +55,8 @@ void TEST_WordList_SetAt()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("SetAt")
     {
-        TEST_CASE_ENTER("SetAt");
-
         WordList wl = WordListCreate();
 
         CardList a = CardListCopyString("valeur1");
@@ -80,9 +80,8 @@ void TEST_WordList_Append()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Capacite nulle")
     {
-        TEST_CASE_ENTER("Capacite nulle");
-
         WordList wl = WordListCreate(10);
 
         for (size_t i = 0; i < 10; ++i)
@@ -95,9 +94,8 @@ void TEST_WordList_Append()
         WordListDestroy(wl);
     }
 
+	TEST_CASE_DEFINE("Capacite non-nulle")
     {
-        TEST_CASE_ENTER("Capacite non-nulle");
-
         WordList wl = WordListCreate(5);
 
         for (size_t i = 0; i < 10; ++i)

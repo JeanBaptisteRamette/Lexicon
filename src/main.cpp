@@ -1,8 +1,7 @@
 /*!
  * @file main.cpp
- * @brief Point d'entrée du programme
+ * @brief Contient le point d'entrée du programme
  */
-
 
 #include <cstdlib>
 

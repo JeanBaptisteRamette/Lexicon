@@ -69,6 +69,4 @@ void SetWordAt(WordList& wordList, size_t index, const CardList& word);
 void WordListAppend(WordList& wordList, const CardList& word);
 
 
-
-
 #endif //LEXICON_CONTAINERS_WORDLIST_HPP

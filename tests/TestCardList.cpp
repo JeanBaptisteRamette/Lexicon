@@ -1,3 +1,8 @@
+/*!
+ * @file TestCardList
+ * @brief Définitions et implémentation des tests du composant CardList
+ */
+
 #include "TestCardList.hpp"
 #include "Tests.hpp"
 #include "../src/Game/Containers/CardList.hpp"
@@ -7,9 +12,8 @@ void TEST_CardList_Clear()
 {
     TEST_FUNCTION_ENTER();
 
-    {
-        TEST_CASE_ENTER("Liste deja vide");
-
+    TEST_CASE_DEFINE("Liste déja vide")
+	{
         CardList cl = CardListCreate();
 
         CardListClear(cl);
@@ -18,9 +22,8 @@ void TEST_CardList_Clear()
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Liste non vide")
     {
-        TEST_CASE_ENTER("Liste non vide");
-
         CardList cl = CardListCreate(5);
         CardListAppend(cl, 'A');
         CardListAppend(cl, 'A');
@@ -42,9 +45,8 @@ void TEST_CardList_Compare()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Collections vides")
     {
-        TEST_CASE_ENTER("Collections vides");
-
         CardList cl1 = CardListCreate();
         CardList cl2 = CardListCreate();
 
@@ -54,8 +56,8 @@ void TEST_CardList_Compare()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Collection gauche vide")
     {
-        TEST_CASE_ENTER("Collection gauche vide");
 
         CardList cl1 = CardListCreate();
         CardList cl2 = CardListCreate();
@@ -67,8 +69,8 @@ void TEST_CardList_Compare()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Collection de droite vide")
     {
-        TEST_CASE_ENTER("Collection de droite vide");
 
         CardList cl1 = CardListCreate();
         CardList cl2 = CardListCreate();
@@ -80,9 +82,8 @@ void TEST_CardList_Compare()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Non vides et egales")
     {
-        TEST_CASE_ENTER("Non vides et egales");
-
         CardList cl1 = CardListCopyString("IUT");
         CardList cl2 = CardListCopyString("IUT");
 
@@ -92,9 +93,8 @@ void TEST_CardList_Compare()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Non vides et non-egales")
     {
-        TEST_CASE_ENTER("Non vides et non-egales");
-
         CardList cl1 = CardListCopyString("IUT");
         CardList cl2 = CardListCopyString("BUT");
 
@@ -104,8 +104,8 @@ void TEST_CardList_Compare()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Collection de meme taille et gauche superieure")
     {
-        TEST_CASE_ENTER("Collection de meme taille et gauche superieure");
 
         CardList cl1 = CardListCopyString("AAB");
         CardList cl2 = CardListCopyString("AAA");
@@ -116,9 +116,8 @@ void TEST_CardList_Compare()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Collections de meme taille et droite superieure")
     {
-        TEST_CASE_ENTER("Collections de meme taille et droite superieure");
-
         CardList cl1 = CardListCopyString("AAA");
         CardList cl2 = CardListCopyString("AAB");
 
@@ -128,8 +127,8 @@ void TEST_CardList_Compare()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Collection de tailles differentes et gauche superieure")
     {
-        TEST_CASE_ENTER("Collection de tailles differentes et gauche superieure");
 
         CardList cl1 = CardListCopyString("AAAA");
         CardList cl2 = CardListCopyString("AAA");
@@ -140,9 +139,8 @@ void TEST_CardList_Compare()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Collections de tailles differentes et droite superieure")
     {
-        TEST_CASE_ENTER("Collections de tailles differentes et droite superieure");
-
         CardList cl1 = CardListCopyString("AAA");
         CardList cl2 = CardListCopyString("AAAA");
 
@@ -152,9 +150,8 @@ void TEST_CardList_Compare()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Contenu plus long mais inferieur")
     {
-        TEST_CASE_ENTER("Contenu plus long mais inferieur");
-
         CardList cl1 = CardListCopyString("BBB");
         CardList cl2 = CardListCopyString("AAAA");
 
@@ -171,9 +168,8 @@ void TEST_CardListCopyString()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Chaine vide")
     {
-        TEST_CASE_ENTER("Chaine vide");
-
         CardList cl1 = CardListCopyString(nullptr);
 
         TEST_CASE_ASSERT_TRUE(IsEmpty(cl1));
@@ -182,9 +178,8 @@ void TEST_CardListCopyString()
         CardListDestroy(cl1);
     }
 
+	TEST_CASE_DEFINE("Chaine non vide")
     {
-        TEST_CASE_ENTER("Chaine non vide");
-
         CardList cl1 = CardListCopyString("AZOTE");
 
         TEST_CASE_ASSERT_FALSE(IsEmpty(cl1));
@@ -205,22 +200,22 @@ void TEST_CardList_Empty()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Capacite a 0")
     {
-        TEST_CASE_ENTER("Capacite a 0");
         CardList cl = CardListCreate();
         TEST_CASE_ASSERT_TRUE(IsEmpty(cl));
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Capacite positive")
     {
-        TEST_CASE_ENTER("Capacite positive");
         CardList cl = CardListCreate(10);
         TEST_CASE_ASSERT_TRUE(IsEmpty(cl));
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Ajout d'une carte")
     {
-        TEST_CASE_ENTER("Ajout d'une carte");
         CardList cl = CardListCreate();
         CardListAppend(cl, 'A');
         TEST_CASE_ASSERT_FALSE(IsEmpty(cl));
@@ -234,22 +229,22 @@ void TEST_CardList_Size()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Capacite a 0")
     {
-        TEST_CASE_ENTER("Capacite a 0");
         CardList cl = CardListCreate();
         TEST_CASE_ASSERT_EQUAL(ListSize(cl), 0);
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Capacite positive")
     {
-        TEST_CASE_ENTER("Capacite positive");
         CardList cl = CardListCreate(10);
         TEST_CASE_ASSERT_EQUAL(ListSize(cl), 0);
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Ajout d'une carte")
     {
-        TEST_CASE_ENTER("Ajout d'une carte");
         CardList cl = CardListCreate();
         CardListAppend(cl, 'A');
         TEST_CASE_ASSERT_EQUAL(ListSize(cl), 1);
@@ -263,9 +258,8 @@ void TEST_CardList_Copy()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Collection vide")
     {
-        TEST_CASE_ENTER("Collection vide");
-
         CardList copied = CardListCreate();
         CardList copy = CardListCopy(copied);
 
@@ -276,9 +270,8 @@ void TEST_CardList_Copy()
         CardListDestroy(copy);
     }
 
+	TEST_CASE_DEFINE("Collection non-vide")
     {
-        TEST_CASE_ENTER("Collection non-vide");
-
         CardList copied = CardListCopyString("ABCDEFGHIJ");
         CardList copy = CardListCopy(copied);
 
@@ -298,9 +291,8 @@ void TEST_CardList_IndexOf()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Liste vide")
     {
-        TEST_CASE_ENTER("Liste vide");
-
         CardList cl = CardListCreate();
         size_t index;
 
@@ -308,9 +300,8 @@ void TEST_CardList_IndexOf()
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Element existant")
     {
-        TEST_CASE_ENTER("Element existant");
-
         CardList cl = CardListCopyString("AKJLT");
         size_t index;
 
@@ -320,8 +311,8 @@ void TEST_CardList_IndexOf()
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Element inexistant")
     {
-        TEST_CASE_ENTER("Element inexistant");
         CardList cl = CardListCopyString("AKBLT");
         size_t index;
 
@@ -337,9 +328,8 @@ void TEST_CardList_At()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("CardAt")
     {
-        TEST_CASE_ENTER("CardAt");
-
         const char* str = "DEHLDZEFKGAZ";
         CardList cl = CardListCopyString(str);
 
@@ -358,9 +348,8 @@ void TEST_CardList_Append()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Ajout quand la capacite est nulle")
     {
-        TEST_CASE_ENTER("Ajout quand la capacite est nulle");
-
         CardList cl = CardListCreate();
 
         TEST_CASE_ASSERT_EQUAL(cl.capacity, 0);
@@ -374,9 +363,8 @@ void TEST_CardList_Append()
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Reallocation")
     {
-        TEST_CASE_ENTER("Reallocation");
-
         CardList cl = CardListCreate(5);
 
         for (size_t i = 0; i < 5; ++i)
@@ -399,9 +387,8 @@ void TEST_CardList_Remove()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Collection vide")
     {
-        TEST_CASE_ENTER("Collection vide");
-
         CardList cl = CardListCreate();
 
         size_t size_before_removal = ListSize(cl);
@@ -412,9 +399,8 @@ void TEST_CardList_Remove()
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Collection non vide element non existant")
     {
-        TEST_CASE_ENTER("Collection non vide element non existant");
-
         CardList cl(CardListCopyString("MALISTEDECARTE"));
 
         size_t size_before_removal = ListSize(cl);
@@ -426,9 +412,8 @@ void TEST_CardList_Remove()
         CardListDestroy(cl);
     }
 
+	TEST_CASE_DEFINE("Collection non vide element existant une fois")
     {
-        TEST_CASE_ENTER("Collection non vide element existant une fois");
-
         CardList cl1 = CardListCopyString("MALISTEDECARTE");
 
         size_t size_before_removal = ListSize(cl1);
@@ -445,9 +430,8 @@ void TEST_CardList_Remove()
         CardListDestroy(cl2);
     }
 
+	TEST_CASE_DEFINE("Collection non vide element existant plusieurs fois")
     {
-        TEST_CASE_ENTER("Collection non vide element existant plusieurs fois");
-
         CardList cl = CardListCopyString("MALISTEDECARTE");
 
         CardListRemove(cl, 'E');
@@ -472,9 +456,8 @@ void TEST_CardList_RemoveAt()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Simple")
     {
-        TEST_CASE_ENTER("Simple");
-
         CardList cl = CardListCopyString("ABCDEF");
 
         CardListRemoveAt(cl, 0);
@@ -500,8 +483,8 @@ void TEST_CardList_RemoveLast()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Suppression depuis l'arrière")
     {
-        TEST_CASE_ENTER("Suppression depuis l'arrière");
         CardList cl = CardListCopyString("TESTBUFFER");
 
         TEST_CASE_ASSERT_EQUAL(CardListRemoveLast(cl), 'R');
@@ -526,9 +509,8 @@ void TEST_CardList_Difference()
 {
     TEST_FUNCTION_ENTER();
 
+	TEST_CASE_DEFINE("Listes vides")
     {
-        TEST_CASE_ENTER("Listes vides");
-
         CardList cl1 = CardListCreate();
         CardList cl2 = CardListCreate();
 
@@ -541,9 +523,8 @@ void TEST_CardList_Difference()
         CardListDestroy(diff);
     }
 
+	TEST_CASE_DEFINE("Listes egales")
     {
-        TEST_CASE_ENTER("Listes egales");
-
         CardList cl1 = CardListCopyString("DIFFERENCES");
         CardList cl2 = CardListCopyString("DIFFERENCES");
         CardList cl3 = CardListDifference(cl1, cl2);
@@ -555,9 +536,8 @@ void TEST_CardList_Difference()
         CardListDestroy(cl3);
     }
 
+	TEST_CASE_DEFINE("Listes differentes meme tailles")
     {
-        TEST_CASE_ENTER("Listes differentes meme tailles");
-
         CardList cl1 = CardListCopyString("DITFERENSES");
         CardList cl2 = CardListCopyString("DIFFRRYNCES");
 
@@ -585,9 +565,8 @@ void TEST_CardList_Difference()
         CardListDestroy(diff2);
     }
 
+	TEST_CASE_DEFINE("Listes differentes tailles differentes")
     {
-        TEST_CASE_ENTER("Listes differentes tailles differentes");
-
         CardList cl1 = CardListCopyString("DROITES");
         CardList cl2 = CardListCopyString("DOS");
 

@@ -77,4 +77,3 @@ void WordListAppend(WordList& wordList, const CardList& word)
     wordList.words[wordList.count] = word;
     ++wordList.count;
 }
-

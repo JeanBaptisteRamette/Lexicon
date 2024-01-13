@@ -106,6 +106,7 @@ void UpdateLosers(PlayerList& players)
     {
         // Dans le cas où tous les joueurs ont 100 points ou plus,
         // les seuls joueurs gagnants sont ceux qui ont le score le plus bas
+		// Si plusieurs joueurs ont le score le plus bas, ils continuent à jouer entre pour déterminer un seul vainqueur
         for (size_t i = 0; i < ListSize(players); ++i)
         {
             Player& player = PlayerAt(players, i);
